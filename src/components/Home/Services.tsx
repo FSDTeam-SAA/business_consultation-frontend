@@ -54,7 +54,7 @@ export default function Services() {
               </div>
 
               {/* Card Content */}
-              <div className=" flex flex-col flex-grow z-50 bg-white max-w-[303px] mx-auto rounded-md">
+              <div className=" flex flex-col flex-grow z-20 bg-white max-w-[303px] mx-auto rounded-md">
               <div className="p-6 border-b-2">
                   {/* Icon */}
                   <div className="w-16 h-16 rounded-full mx-auto mt-[-40px] bg-white shadow-lg flex items-center justify-center mb-4">

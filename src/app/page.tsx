@@ -1,9 +1,11 @@
 
+import BlogSection from "@/components/blog/BlogSection";
 import AboutUsSection from "@/components/Home/AboutUsSection";
 import HeroSection from "@/components/Home/hero-section";
 import Services from "@/components/Home/Services";
 import ServiceSection from "@/components/Home/ServiceSection";
 import WhyChooseUsSection from "@/components/Home/whyChooseUs";
+import NewsletterSection from "@/components/newsletter-section";
 export default function Home() {
   return (
     <main>
@@ -12,6 +14,10 @@ export default function Home() {
       <AboutUsSection/>
       <Services/>
       <WhyChooseUsSection/>
+
+    <BlogSection/>
+
+    <NewsletterSection/>
       
     </main>
   );

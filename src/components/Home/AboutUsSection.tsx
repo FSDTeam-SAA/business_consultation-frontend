@@ -1,0 +1,142 @@
+"use client";
+
+import { useState} from "react";
+import Image from "next/image";
+import { Network } from "lucide-react";
+
+interface StrategyData {
+  name: string;
+  percentage: number;
+}
+
+export default function AboutUsSection() {
+  // This would be fetched from an API in a real application
+  const strategyData: StrategyData[] = [
+    { name: "Business Strategy", percentage: 60 },
+  ];
+
+  // const tabs = ["Discover", "Planning", "Marketing"]
+  // const [activeTab, setActiveTab] = useState("Discover")
+
+  const tabs: Array<keyof typeof tabContent> = [
+    "Overview",
+    "Details",
+    "Reviews",
+  ];
+  const tabContent = {
+    Overview:
+      "We see our clients as strategic partners. This means in close cooperation. We see our Clients as strategic partners. This means in close cooperation..",
+    Details: "Here are the details of our amazing product...",
+    Reviews: "See what our customers have to say...",
+  };
+
+  const [activeTab, setActiveTab] = useState<keyof typeof tabContent>(tabs[0]);
+
+  return (
+    <section className="w-full overflow-hidden py-12 md:py-16 lg:py-20">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
+          {/* Left side - Images */}
+          <div className="relative w-full max-w-[800px] mx-auto overflow-hidden rounded-lg">
+  <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+    <Image
+      src="/asset/aboutperson.png"
+      alt="Business professionals discussing strategy"
+      className="w-full h-full rounded-lg object-cover"
+      fill
+      sizes="(max-width: 768px) 100vw, 50vw"
+      priority
+    />
+  </div>
+
+            {/* Experience Card */}
+            <div
+          
+            className="relative mt-[-30px] mx-auto  z-20 flex w-full max-w-[330px] lg:max-w-[450px] items-center gap-4 rounded-lg bg-white shadow-lg">
+              <Image  width={200} height={100} src="/asset/expcard.png" alt="Experience" className="" />
+              <div className="flex-shrink-0 text-green-500">
+                <Network size={32} />
+              </div>
+              <div>
+                <h4 className="text-xl font-bold">01 Years</h4>
+                <p className="text-gray-600">Working Experience</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right side - Content */}
+          <div className="space-y-6">
+            <div className="inline-block">
+              <span className="inline-flex items-center rounded-full border border-green-500 px-4 py-1 font-medium text-green-500">
+                • ABOUT US
+              </span>
+            </div>
+
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+              Your Partner in
+              <br />
+              corporate strategy
+            </h2>
+
+            {/* Tabs */}
+            <div className="flex flex-wrap gap-6 ">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`pb-2 text-lg font-medium ${
+                    activeTab === tab
+                      ? "border-b-[1px] border-green-500 text-green-500"
+                      : "text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {/* Dynamic Tab Content */}
+            <div className="py-4">
+              <p className="text-gray-700">{tabContent[activeTab]}</p>
+            </div>
+
+            {/* Progress bars */}
+            <div className="space-y-6">
+              {strategyData.map((item, index) => (
+                <div key={index} className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="font-medium">{item.name}</span>
+                    <span className="font-medium">{item.percentage}%</span>
+                  </div>
+                  <div className="h-2.5 w-full rounded-full bg-gray-200">
+                    <div
+                      className="h-2.5 rounded-full bg-green-500 transition-all duration-700 ease-in-out"
+                      style={{ width: `${item.percentage}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Team member */}
+            <div className="flex items-center gap-4 pt-4">
+              <div className="relative h-16 w-16 overflow-hidden rounded-full">
+                <Image
+                  src="/asset/profile.png"
+                  alt="Martony Mehari"
+                  className="object-cover"
+                  fill
+                  sizes="64px"
+                />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold">Martony Mehari</h4>
+                <p className="text-gray-600">Head of Corporate</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

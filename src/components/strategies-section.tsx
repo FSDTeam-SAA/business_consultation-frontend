@@ -1,5 +1,5 @@
-import NextImage from "next/image"
-import Link from "next/link"
+import NextImage from "next/image";
+import Link from "next/link";
 
 const strategies = [
   {
@@ -26,44 +26,47 @@ const strategies = [
     image: "/placeholder.svg?height=300&width=300",
     rating: 4.9,
   },
-]
+];
 
 export default function StrategiesSection() {
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="bg-gray-50 py-16">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
+        <div className="mb-12 flex flex-col items-start justify-between md:flex-row md:items-center">
           <div>
-            <div className="inline-block bg-white px-4 py-1 rounded-full border border-[#09B850] mb-6">
-              <span className="text-[#09B850] text-sm font-medium">STRATEGIES</span>
+            <div className="mb-6 inline-block rounded-full border border-[#09B850] bg-white px-4 py-1">
+              <span className="text-sm font-medium text-[#09B850]">
+                PORTFOLIO
+              </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#033618]">
-              Proven Strategies for
-              <br />
-              Business Growth
+            <h2 className="text-2xl font-bold text-[#033618] md:text-3xl">
+              Proven Strategies for <br /> Business Growth
             </h2>
           </div>
           <Link
-            href="/strategies"
-            className="bg-[#09B850] hover:bg-[#09B850]/90 text-white px-6 py-3 rounded-md font-medium transition-colors mt-4 md:mt-0"
+            href="/portfolio"
+            className="mt-4 rounded-md bg-[#09B850] px-6 py-3 font-medium text-white transition-colors hover:bg-[#09B850]/90 md:mt-0"
           >
-            View All Strategies
+            View Portfolio
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {strategies.map((strategy) => (
-            <div key={strategy.id} className="group relative overflow-hidden rounded-lg">
+            <div
+              key={strategy.id}
+              className="group relative overflow-hidden rounded-lg"
+            >
               <NextImage
                 src={strategy.image || "/placeholder.svg"}
                 alt={strategy.title}
                 width={300}
                 height={300}
-                className="w-full h-80 object-cover transition-transform duration-300 group-hover:scale-110"
+                className="h-80 w-full object-cover transition-transform duration-300 group-hover:scale-110"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <h3 className="text-white font-semibold">{strategy.title}</h3>
-                <div className="flex items-center mt-2">
+                <h3 className="font-semibold text-white">{strategy.title}</h3>
+                <div className="mt-2 flex items-center">
                   <div className="flex">
                     {[...Array(5)].map((_, i) => (
                       <svg
@@ -77,7 +80,9 @@ export default function StrategiesSection() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-white text-sm ml-2">{strategy.rating}</span>
+                  <span className="ml-2 text-sm text-white">
+                    {strategy.rating}
+                  </span>
                 </div>
               </div>
             </div>
@@ -85,6 +90,5 @@ export default function StrategiesSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
-

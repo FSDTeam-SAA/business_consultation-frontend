@@ -1,5 +1,4 @@
 import PageHero from "@/components/page-hero";
-import Footer from "@/components/footer";
 
 export default function AccountPage() {
   return (
@@ -11,7 +10,6 @@ export default function AccountPage() {
           <p>Account information and settings go here...</p>
         </div>
       </div>
-      <Footer />
     </main>
   );
 }

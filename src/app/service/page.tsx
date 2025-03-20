@@ -1,6 +1,7 @@
 import Services from "@/components/Home/Services";
 import PageHero from "@/components/page-hero";
 import AboutBusiness from "@/components/service/AboutBusiness";
+import ChoosePlan from "@/components/service/ChoosePlan";
 
 export default function ServicePage() {
   return (
@@ -11,8 +12,9 @@ export default function ServicePage() {
         currentRoute="service"
       />
       <AboutBusiness/>
+   
   <Services/>
-      
+  <ChoosePlan/>
     </main>
   );
 }

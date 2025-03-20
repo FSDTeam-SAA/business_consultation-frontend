@@ -2,7 +2,7 @@ import OurServices from '@/components/ourServices/OurServices'
 import PageHero from '@/components/page-hero'
 import React from 'react'
 
-const page = () => {
+const page = ({params}: {params: {slug: string}}) => {
   return (
     <div>
        <PageHero
@@ -11,7 +11,7 @@ const page = () => {
               currentRoute="service"
             />
 
-            <OurServices/>
+            <OurServices activeTab={params.slug} />
     </div>
   )
 }

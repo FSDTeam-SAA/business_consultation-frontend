@@ -214,7 +214,7 @@ export function getPostBySlug(slug: string): Post | undefined {
 }
 
 export function getPostsByTag(tag: string): Post[] {
-  return posts.filter((post) => post.tags.includes(tag));
+  return posts.filter((post) => (post.tags ?? []).includes(tag));
 }
 
 export function searchPosts(query: string): Post[] {
@@ -223,6 +223,6 @@ export function searchPosts(query: string): Post[] {
     (post) =>
       post.title.toLowerCase().includes(lowercaseQuery) ||
       post.excerpt.toLowerCase().includes(lowercaseQuery) ||
-      post.content.toLowerCase().includes(lowercaseQuery),
+      (post.content ?? "").toLowerCase().includes(lowercaseQuery),
   );
 }

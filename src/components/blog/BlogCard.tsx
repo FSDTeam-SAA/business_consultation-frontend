@@ -5,6 +5,9 @@ import type { Post } from "@/lib/types";
 
 interface BlogCardProps {
   post: Post;
+  // slug: string;
+  // tags: string;
+  // comments: string;
 }
 
 export default function BlogCard({ post }: BlogCardProps) {

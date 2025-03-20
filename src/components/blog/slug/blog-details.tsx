@@ -91,13 +91,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
             <div
               className="prose mb-8 max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: post.content || "" }}
             />
 
             <div className="my-8 flex items-center justify-between border-b border-t border-gray-200 py-4">
               <div>
                 <span className="mr-2 font-medium">Tag:</span>
-                {post.tags.map((tag) => (
+                {(post.tags ?? []).map((tag) => (
                   <Link
                     key={tag}
                     href={`/blog?tag=${encodeURIComponent(tag)}`}
@@ -151,7 +151,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             <div id="comments">
               <CommentList comments={comments} />
               <CommentForm
-                postSlug={post.slug}
+                postSlug={post.slug || ""}
                 onCommentSubmit={handleCommentSubmit}
               />
             </div>

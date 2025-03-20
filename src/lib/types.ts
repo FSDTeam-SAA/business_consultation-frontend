@@ -1,14 +1,14 @@
 export interface Post {
-  id: string;
+  id: string | number;
   title: string;
   excerpt: string;
-  content: string;
-  slug: string;
+  content?: string;
+  slug?: string;
   date: string;
   author: string;
-  tags: string[];
+  tags?: string[];
   image: string;
-  comments: Comment[];
+  comments?: Comment[];
 }
 
 export interface Comment {

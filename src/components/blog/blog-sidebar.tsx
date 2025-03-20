@@ -3,6 +3,7 @@ import RecentPosts from "./recent-posts";
 import PopularTags from "./popular-tags";
 import SocialLinks from "./social-links";
 import ContactCard from "./contact-card";
+import { Suspense } from "react";
 
 export default function Sidebar() {
   return (
@@ -11,7 +12,9 @@ export default function Sidebar() {
         <SearchBar />
       </div>
       <RecentPosts />
-      <PopularTags />
+      <Suspense fallback={<div>Loading...</div>}>
+        <PopularTags />
+      </Suspense>
       <SocialLinks />
       <ContactCard />
     </div>

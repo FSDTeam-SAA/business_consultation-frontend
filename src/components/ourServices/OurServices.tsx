@@ -288,9 +288,9 @@ export default function OurServices({activeTab}: Props) {
                   router.push(`?service=${value}`, { scroll: false })
                 }}
               >
-                <TabsList className="w-full flex-nowrap justify-start overflow-x-auto">
+                <TabsList className="w-full h-14 flex-nowrap justify-start overflow-x-auto">
                   {services.map((service) => (
-                    <TabsTrigger key={service.id} value={service.id} className="whitespace-nowrap">
+                    <TabsTrigger key={service.id} value={service.id} className="whitespace-nowrap  data-[state=active]:bg-green-500 data-[state=active]:text-white">
                       {service.title}
                     </TabsTrigger>
                   ))}

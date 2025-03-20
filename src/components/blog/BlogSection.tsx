@@ -1,21 +1,21 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from "react"
-import BlogCard from "./BlogCard"
+import { useEffect, useState } from "react";
+import BlogCard from "./BlogCard";
 
 export interface BlogPost {
-    id: number
-    title: string
-    excerpt: string
-    date: string
-    author: string
-    category: string
-    image: string
-  }
+  id: number;
+  title: string;
+  excerpt: string;
+  date: string;
+  author: string;
+  category: string;
+  image: string;
+}
 
 export default function BlogSection() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // In a real application, you would fetch from an API
@@ -23,14 +23,15 @@ export default function BlogSection() {
     const fetchPosts = async () => {
       try {
         // Simulate API call delay
-        await new Promise((resolve) => setTimeout(resolve, 500))
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
         // Mock data based on the screenshot
         const mockPosts = [
           {
             id: 1,
             title: "How to improve employees skill",
-            excerpt: "The great explore of the truth, the master builder of human happiness. No_",
+            excerpt:
+              "The great explore of the truth, the master builder of human happiness. No_",
             date: "09 Dec",
             author: "Admin",
             category: "Blog 01",
@@ -39,7 +40,8 @@ export default function BlogSection() {
           {
             id: 2,
             title: "How to improve employees skill",
-            excerpt: "The great explore of the truth, the master builder of human happiness. No_",
+            excerpt:
+              "The great explore of the truth, the master builder of human happiness. No_",
             date: "12 Dec",
             author: "Admin",
             category: "Blog 01",
@@ -48,49 +50,52 @@ export default function BlogSection() {
           {
             id: 3,
             title: "How to improve employees skill",
-            excerpt: "The great explore of the truth, the master builder of human happiness. No_",
+            excerpt:
+              "The great explore of the truth, the master builder of human happiness. No_",
             date: "09 Dec",
             author: "Admin",
             category: "Blog 01",
             image: "/asset/blog3.png",
           },
-        ]
+        ];
 
-        setPosts(mockPosts)
+        setPosts(mockPosts);
       } catch (error) {
-        console.error("Error fetching blog posts:", error)
+        console.error("Error fetching blog posts:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchPosts()
-  }, [])
+    fetchPosts();
+  }, []);
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-12 md:py-16 lg:py-20">
-      <div className="flex items-center mb-6">
-        <span className="inline-block px-3 py-1 text-sm font-medium text-green-500 border border-green-500 rounded-md">
-        • BLOG
+    <section className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
+      <div className="mb-6 flex items-center">
+        <span className="inline-block rounded-md border border-green-500 px-3 py-1 text-sm font-medium text-green-500">
+          • BLOG
         </span>
       </div>
 
-      <h2 className="text-2xl md:text-3xl font-bold mb-8">Latest From Blog</h2>
+      <h2 className="mb-8 text-2xl font-bold md:text-3xl">Latest From Blog</h2>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-80 bg-gray-100 animate-pulse rounded-lg"></div>
+            <div
+              key={i}
+              className="h-80 animate-pulse rounded-lg bg-gray-100"
+            ></div>
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex items-center justify-between">
           {posts.map((post) => (
             <BlogCard key={post.id} post={post} />
           ))}
         </div>
       )}
     </section>
-  )
+  );
 }
-

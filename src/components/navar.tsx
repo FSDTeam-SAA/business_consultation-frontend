@@ -173,10 +173,10 @@ export default function Navbar({ currentRoute = "home" }: NavbarProps) {
           </Link>
 
           <Link
-            href="/blogs"
+            href="/blog"
             className={cn(
               "transition-colors",
-              pathName === "/blogs"
+              pathName === "/blog"
                 ? "text-[#09B850]"
                 : isScrolled
                   ? "text-gray-800 hover:text-[#09B850]"

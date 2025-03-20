@@ -1,10 +1,11 @@
 import Image from "next/image"
 import Link from "next/link"
 import { BarChart3, LineChart, PieChart } from "lucide-react"
-
 export default function Services() {
+
   const services = [
     {
+      route: "business-strategy",
       title: "Business Strategy",
       description: "We focus on the best practices for it solutions and services.",
       icon: <BarChart3 className="w-6 h-6 text-primary" />,
@@ -12,6 +13,7 @@ export default function Services() {
       alt: "Business professionals discussing strategy",
     },
     {
+      route: "business-planning",
       title: "Business Planning",
       description: "We focus on the best practices for it solutions and services.",
       icon: <LineChart className="w-6 h-6 text-primary" />,
@@ -19,6 +21,7 @@ export default function Services() {
       alt: "Business team in a planning meeting",
     },
     {
+      route: "finances-guidance",
       title: "Finances Guidance",
       description: "We focus on the best practices for it solutions and services.",
       icon: <PieChart className="w-6 h-6 text-primary" />,
@@ -71,7 +74,7 @@ export default function Services() {
                 {/* Read More Link - pushes to bottom with flex-grow above */}
                 <div className="mt-auto mx-auto py-2 ">
                   <Link
-                    href="#"
+                href={`/service/${service.route}`}
                     className="inline-flex items-center  mx-auto text-center  text-gray-800 font-medium hover:text-green-700 transition-colors"
                   >
                     Read More

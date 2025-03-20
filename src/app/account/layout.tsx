@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import type React from "react";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AccountSidebar } from "./_components/account-sidebar";
@@ -21,4 +22,14 @@ export default function AccountLayout({
       </SidebarProvider>
     </div>
   );
+=======
+import React from "react";
+
+export default function layout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return <div>{children}</div>;
+>>>>>>> 928e76c2e57d7c45a050bba8b60035e6274a6b95
 }

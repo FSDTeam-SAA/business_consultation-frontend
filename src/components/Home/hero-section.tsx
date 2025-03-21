@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import NextImage from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import heroImg from "@/../public/asset/hero.png";
 
@@ -32,7 +32,7 @@ const carouselItems = [
     subtitle: "Optimization & Growth",
     description:
       "Maximize your financial performance with our expert consulting services. We help you identify opportunities and implement strategies for financial success and stability.",
-    buttonText: "DISCOVER",
+    buttonText: "GET STARTED",
     buttonLink: "/services/financial",
   },
 ];
@@ -41,15 +41,11 @@ export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) =>
-      prev === carouselItems.length - 1 ? 0 : prev + 1,
-    );
+    setCurrentSlide((prev) => (prev === carouselItems.length - 1 ? 0 : prev + 1));
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) =>
-      prev === 0 ? carouselItems.length - 1 : prev - 1,
-    );
+    setCurrentSlide((prev) => (prev === 0 ? carouselItems.length - 1 : prev - 1));
   };
 
   useEffect(() => {
@@ -63,13 +59,7 @@ export default function HeroSection() {
     <section className="relative h-screen w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <NextImage
-          src={heroImg}
-          alt="Business meeting"
-          fill
-          className="object-cover"
-          priority
-        />
+        <NextImage src={heroImg} alt="Business meeting" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-black/40"></div>
       </div>
 
@@ -81,7 +71,7 @@ export default function HeroSection() {
               key={item.id}
               className={cn(
                 "max-w-2xl transition-opacity duration-500",
-                currentSlide === index ? "opacity-100" : "absolute opacity-0",
+                currentSlide === index ? "opacity-100" : "absolute opacity-0"
               )}
             >
               <h1 className="mb-6 text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
@@ -89,9 +79,7 @@ export default function HeroSection() {
                 <br />
                 {item.subtitle}
               </h1>
-              <p className="mb-8 max-w-xl text-base text-white/90 md:text-lg">
-                {item.description}
-              </p>
+              <p className="mb-8 max-w-xl text-base text-white/90 md:text-lg">{item.description}</p>
               <Link
                 href={item.buttonLink}
                 className="inline-block rounded-md bg-[#09B850] px-8 py-3 font-medium uppercase text-white transition-colors hover:bg-[#09B850]/90"
@@ -104,39 +92,26 @@ export default function HeroSection() {
       </div>
 
       {/* Carousel Controls */}
-      <div className="absolute bottom-10 left-0 right-0 z-20">
-        <div className="container mx-auto flex items-center justify-between px-4">
-          <div className="flex space-x-2">
-            {carouselItems.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={cn(
-                  "h-3 w-3 rounded-full transition-colors",
-                  currentSlide === index ? "bg-[#09B850]" : "bg-white/50",
-                )}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-          <div className="flex space-x-2">
-            <button
-              onClick={prevSlide}
-              className="rounded-full bg-white/20 p-2 transition-colors hover:bg-white/30"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="h-5 w-5 text-white" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="rounded-full bg-white/20 p-2 transition-colors hover:bg-white/30"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="h-5 w-5 text-white" />
-            </button>
-          </div>
-        </div>
+      <div className="absolute inset-y-0 left-4 z-20 flex items-center">
+        <button
+          onClick={prevSlide}
+          className="rounded-full bg-[#078A3C] p-3 transition-colors hover:bg-[#078A3C]/90"
+          aria-label="Previous slide"
+        >
+          <ArrowLeft className="h-6 w-6 text-white" />
+        </button>
+      </div>
+
+      <div className="absolute inset-y-0 right-4 z-20 flex items-center">
+        <button
+          onClick={nextSlide}
+          className="rounded-full bg-[#078A3C] p-3 transition-colors hover:bg-[#078A3C]/90"
+          aria-label="Next slide"
+        >
+          <ArrowRight className="h-6 w-6 text-white" />
+        </button>
       </div>
     </section>
   );
 }
+

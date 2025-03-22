@@ -21,6 +21,8 @@ export function AccountSidebar() {
   const { setOpenMobile } = useSidebar();
 
   const navItems = [
+    { title: "Dashboard", href: "/account/dashboard" },
+    { title: "Emission Form", href: "/account/emission-form" },
     { title: "Personal Information", href: "/account/personal-information" },
     { title: "Subscription", href: "/account/subscription" },
     { title: "Notification", href: "/account/notification" },

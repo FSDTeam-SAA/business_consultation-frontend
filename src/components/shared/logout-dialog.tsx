@@ -4,7 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { X } from "lucide-react";
+// import { X } from "lucide-react";
 
 import {
   Dialog,
@@ -35,9 +35,9 @@ export function LogoutDialog({ children }: LogoutDialogProps) {
       <DialogTrigger asChild>
         {children || <Button variant="ghost">Log Out</Button>}
       </DialogTrigger>
-      <DialogContent className="border-0 p-0 sm:max-w-md">
+      <DialogContent className="border-0 p-0 outline-none focus:outline-none focus:ring-0 focus-visible:ring-0 sm:max-w-md">
         <div className="rounded-lg bg-[#004d33] p-6 text-white">
-          <div className="absolute right-4 top-4">
+          {/* <div className="absolute right-4 top-4">
             <Button
               variant="ghost"
               size="icon"
@@ -47,8 +47,7 @@ export function LogoutDialog({ children }: LogoutDialogProps) {
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
             </Button>
-          </div>
-
+          </div> */}
           <div className="mb-4 flex justify-center">
             <div className="flex items-center gap-2">
               <svg

@@ -35,7 +35,7 @@ export default function BlogSection() {
             date: "09 Dec",
             author: "Admin",
             category: "Blog 01",
-            image: "/asset/blog1.png",
+            image: "/asset/blog1.jpg",
           },
           {
             id: 2,
@@ -45,7 +45,7 @@ export default function BlogSection() {
             date: "12 Dec",
             author: "Admin",
             category: "Blog 01",
-            image: "/asset/blog2.png",
+            image: "/asset/blog2.jpg",
           },
           {
             id: 3,
@@ -55,7 +55,7 @@ export default function BlogSection() {
             date: "09 Dec",
             author: "Admin",
             category: "Blog 01",
-            image: "/asset/blog3.png",
+            image: "/asset/blog3.jpg",
           },
         ];
 
@@ -90,7 +90,7 @@ export default function BlogSection() {
           ))}
         </div>
       ) : (
-        <div className="flex items-center justify-between">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-1 lg:grid-cols-3">
           {posts.map((post) => (
             <BlogCard key={post.id} post={post} />
           ))}

@@ -11,12 +11,14 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { LogoutDialog } from "@/components/shared/logout-dialog";
 
 export function AccountSidebar() {
   const pathname = usePathname();
   const isMobile = useIsMobile();
+  const { setOpenMobile } = useSidebar();
 
   const navItems = [
     { title: "Personal Information", href: "/account/personal-information" },
@@ -26,11 +28,18 @@ export function AccountSidebar() {
     { title: "Terms & Condition", href: "/account/terms-condition" },
   ];
 
+  // Function to handle navigation and close sidebar on mobile
+  const handleNavigation = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   return (
     <Sidebar
       side="left"
       variant="sidebar"
-      collapsible={isMobile ? "offcanvas" : "none"} // Use offcanvas only on mobile
+      collapsible={isMobile ? "offcanvas" : "none"}
       className="w-[235px] bg-white"
     >
       <SidebarContent>
@@ -55,13 +64,18 @@ export function AccountSidebar() {
                       : undefined
                   }
                 >
-                  <Link href={item.href}>{item.title}</Link>
+                  <Link href={item.href} onClick={handleNavigation}>
+                    {item.title}
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
             <SidebarMenuItem>
               <LogoutDialog>
-                <SidebarMenuButton className="mb-2 h-10 w-full justify-start pl-3 text-[18px] font-[500] text-primary shadow-[0px_0px_6px_0px_#00000040] hover:text-primary/80">
+                <SidebarMenuButton
+                  className="mb-2 h-10 w-full justify-start pl-3 text-[18px] font-[500] text-primary shadow-[0px_0px_6px_0px_#00000040] hover:text-primary/80"
+                  onClick={() => isMobile && setOpenMobile(false)}
+                >
                   Log Out
                 </SidebarMenuButton>
               </LogoutDialog>

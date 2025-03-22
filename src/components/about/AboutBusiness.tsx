@@ -33,7 +33,7 @@ export function AboutBusiness() {
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-        <div className="flex items-start gap-4">
+        <div className="flex gap-4 justify-center">
           <div className="flex h-12 w-12 items-center justify-center rounded-full">
             <span className="text-2xl">01</span>
           </div>
@@ -74,6 +74,8 @@ export function AboutBusiness() {
             </p>
           </div>
         </div>
+
+        
       </div>
     </section>
   );

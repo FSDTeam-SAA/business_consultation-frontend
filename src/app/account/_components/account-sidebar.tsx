@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import {
   Sidebar,
@@ -15,6 +16,7 @@ import { LogoutDialog } from "@/components/shared/logout-dialog";
 
 export function AccountSidebar() {
   const pathname = usePathname();
+  const isMobile = useIsMobile();
 
   const navItems = [
     { title: "Personal Information", href: "/account/personal-information" },
@@ -28,7 +30,7 @@ export function AccountSidebar() {
     <Sidebar
       side="left"
       variant="sidebar"
-      collapsible="none"
+      collapsible={isMobile ? "offcanvas" : "none"} // Use offcanvas only on mobile
       className="w-[235px] bg-white"
     >
       <SidebarContent>

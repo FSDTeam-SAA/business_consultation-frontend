@@ -1,6 +1,6 @@
 "use client";
 
-import { useState} from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Network } from "lucide-react";
 
@@ -19,15 +19,15 @@ export default function AboutUsSection() {
   // const [activeTab, setActiveTab] = useState("Discover")
 
   const tabs: Array<keyof typeof tabContent> = [
-    "Overview",
-    "Details",
-    "Reviews",
+    "Discover",
+    "Planning",
+    "Marketing",
   ];
   const tabContent = {
-    Overview:
+    Discover:
       "We see our clients as strategic partners. This means in close cooperation. We see our Clients as strategic partners. This means in close cooperation..",
-    Details: "Here are the details of our amazing product...",
-    Reviews: "See what our customers have to say...",
+    Planning: "Here are the details of our amazing product...",
+    Marketing: "See what our customers have to say...",
   };
 
   const [activeTab, setActiveTab] = useState<keyof typeof tabContent>(tabs[0]);
@@ -35,25 +35,29 @@ export default function AboutUsSection() {
   return (
     <section className="w-full overflow-hidden py-12 md:py-16 lg:py-20">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2 lg:gap-12">
           {/* Left side - Images */}
-          <div className="relative w-full max-w-[800px] mx-auto overflow-hidden rounded-lg">
-  <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
-    <Image
-      src="/asset/aboutperson.png"
-      alt="Business professionals discussing strategy"
-      className="w-full h-full rounded-lg object-cover"
-      fill
-      sizes="(max-width: 768px) 100vw, 50vw"
-      priority
-    />
-  </div>
+          <div className="relative mx-auto w-full max-w-[800px] overflow-hidden rounded-lg">
+            <div className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]">
+              <Image
+                src="/asset/aboutperson.png"
+                alt="Business professionals discussing strategy"
+                className="h-full w-full rounded-lg object-cover"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
+              />
+            </div>
 
             {/* Experience Card */}
-            <div
-          
-            className="relative mt-[-30px] mx-auto  z-20 flex w-full max-w-[330px] lg:max-w-[450px] items-center gap-4 rounded-lg bg-white shadow-lg">
-              <Image  width={200} height={100} src="/asset/expcard.png" alt="Experience" className="" />
+            <div className="relative z-20 mx-auto mt-[-30px] flex w-full max-w-[330px] items-center gap-4 rounded-lg bg-white shadow-lg lg:max-w-[450px]">
+              <Image
+                width={200}
+                height={100}
+                src="/asset/expcard.png"
+                alt="Experience"
+                className=""
+              />
               <div className="flex-shrink-0 text-green-500">
                 <Network size={32} />
               </div>
@@ -65,9 +69,9 @@ export default function AboutUsSection() {
           </div>
 
           {/* Right side - Content */}
-          <div className="space-y-6">
-            <div className="inline-block">
-              <span className="inline-flex items-center rounded-full border border-green-500 px-4 py-1 font-medium text-green-500">
+          <div className="space-x-6 lg:mb-28 lg:space-y-10">
+            <div className="ml-6 inline-block">
+              <span className="inline-flex items-center rounded-md border border-green-500 px-4 py-1 font-medium text-green-500">
                 • ABOUT US
               </span>
             </div>
@@ -79,7 +83,7 @@ export default function AboutUsSection() {
             </h2>
 
             {/* Tabs */}
-            <div className="flex flex-wrap gap-6 ">
+            <div className="flex flex-wrap gap-6">
               {tabs.map((tab) => (
                 <button
                   key={tab}

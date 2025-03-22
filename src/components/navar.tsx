@@ -2,21 +2,20 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { User } from "lucide-react";
+import { Menu, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-interface NavbarProps {
-  currentRoute?: string;
-}
+// interface NavbarProps {
+//   currentRoute?: string;
+// }
 
-export default function Navbar({ currentRoute = "home" }: NavbarProps) {
+export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  // Add a new state for mobile menu
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const pathName = usePathname();
-  console.log(pathName);
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -52,7 +51,6 @@ export default function Navbar({ currentRoute = "home" }: NavbarProps) {
           : "bg-transparent",
       )}
     >
-      {/* Update the container div to include mobile menu toggle and mobile menu */}
       <div className="container relative mx-auto flex items-center justify-between px-4 py-4">
         {/* Logo */}
         <Link href="/" className="flex items-center">
@@ -86,47 +84,86 @@ export default function Navbar({ currentRoute = "home" }: NavbarProps) {
           </div>
         </Link>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="z-50 text-white md:hidden"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={isScrolled ? "text-gray-800" : "text-white"}
-            >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={isScrolled ? "text-gray-800" : "text-white"}
-            >
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          )}
-        </button>
+        {/* Mobile Menu Toggle with Sheet */}
+        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <SheetTrigger asChild>
+            <button className="z-50 md:hidden" aria-label="Toggle menu">
+              <Menu
+                className={cn(
+                  "h-6 w-6",
+                  isScrolled ? "text-gray-800" : "text-white",
+                )}
+              />
+            </button>
+          </SheetTrigger>
+          <SheetContent
+            side="right"
+            className="w-[80%] border-l border-gray-800 bg-black/95 sm:w-[350px]"
+          >
+            <nav className="flex h-full flex-col items-center justify-center space-y-6">
+              <Link
+                href="/"
+                className={cn(
+                  "text-xl font-medium transition-colors",
+                  pathName === "/"
+                    ? "text-[#09B850]"
+                    : "text-white hover:text-[#09B850]",
+                )}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                HOME
+              </Link>
+              <Link
+                href="/service"
+                className={cn(
+                  "text-xl font-medium transition-colors",
+                  pathName === "/service"
+                    ? "text-[#09B850]"
+                    : "text-white hover:text-[#09B850]",
+                )}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                SERVICE
+              </Link>
+              <Link
+                href="/about"
+                className={cn(
+                  "text-xl font-medium transition-colors",
+                  pathName === "/about"
+                    ? "text-[#09B850]"
+                    : "text-white hover:text-[#09B850]",
+                )}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                ABOUT US
+              </Link>
+              <Link
+                href="/blog"
+                className={cn(
+                  "text-xl font-medium transition-colors",
+                  pathName === "/blog"
+                    ? "text-[#09B850]"
+                    : "text-white hover:text-[#09B850]",
+                )}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                BLOGS
+              </Link>
+              <Link
+                href="/contact"
+                className={cn(
+                  "text-xl font-medium transition-colors",
+                  pathName === "/contact"
+                    ? "text-[#09B850]"
+                    : "text-white hover:text-[#09B850]",
+                )}
+                onClick={() => setIsSheetOpen(false)}
+              >
+                CONTACT US
+              </Link>
+            </nav>
+          </SheetContent>
+        </Sheet>
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center space-x-8 md:flex">
@@ -200,76 +237,6 @@ export default function Navbar({ currentRoute = "home" }: NavbarProps) {
             CONTACT US
           </Link>
         </nav>
-
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-40 bg-black/90 md:hidden">
-            <div className="flex h-full flex-col items-center justify-center">
-              <nav className="flex flex-col items-center space-y-6">
-                <Link
-                  href="/"
-                  className={cn(
-                    "text-xl font-medium transition-colors",
-                    currentRoute === "home"
-                      ? "text-[#09B850]"
-                      : "text-white hover:text-[#09B850]",
-                  )}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  HOME
-                </Link>
-                <Link
-                  href="/service"
-                  className={cn(
-                    "text-xl font-medium transition-colors",
-                    currentRoute === "service"
-                      ? "text-[#09B850]"
-                      : "text-white hover:text-[#09B850]",
-                  )}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  SERVICE
-                </Link>
-                <Link
-                  href="/about"
-                  className={cn(
-                    "text-xl font-medium transition-colors",
-                    currentRoute === "about"
-                      ? "text-[#09B850]"
-                      : "text-white hover:text-[#09B850]",
-                  )}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  ABOUT US
-                </Link>
-                <Link
-                  href="/blogs"
-                  className={cn(
-                    "text-xl font-medium transition-colors",
-                    currentRoute === "blogs"
-                      ? "text-[#09B850]"
-                      : "text-white hover:text-[#09B850]",
-                  )}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  BLOGS
-                </Link>
-                <Link
-                  href="/contact"
-                  className={cn(
-                    "text-xl font-medium transition-colors",
-                    currentRoute === "contact"
-                      ? "text-[#09B850]"
-                      : "text-white hover:text-[#09B850]",
-                  )}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  CONTACT US
-                </Link>
-              </nav>
-            </div>
-          </div>
-        )}
 
         {/* User Profile */}
         <div className="relative" ref={profileRef}>

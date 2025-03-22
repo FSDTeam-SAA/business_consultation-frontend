@@ -41,6 +41,8 @@ export default function CompanyDashboard() {
   >(undefined);
 
   // Function to render the active shape with enhanced appearance
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderActiveShape = (props: any) => {
     const {
       cx,

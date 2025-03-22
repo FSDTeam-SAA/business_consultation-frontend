@@ -198,7 +198,7 @@ export default function EmissionForm() {
   // Navigate to the next step
   const nextStep = async () => {
     const fieldsToValidate = getFieldsForStep(currentStep);
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await form.trigger(fieldsToValidate as any);
     if (result) {
       setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
@@ -764,7 +764,7 @@ export default function EmissionForm() {
                   <FormField
                     control={form.control}
                     name="financialStatements"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem>
                         <FormLabel>Financial Statements</FormLabel>
                         <FormDescription>

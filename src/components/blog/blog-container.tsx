@@ -16,6 +16,14 @@ export default function BlogPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 4;
 
+  function ScrollToTop() {
+    // const pathname = usePathname(); // Get current route path
+      window.scrollTo({
+        behavior: "smooth",
+        top: 0,
+      });
+  }
+
   useEffect(() => {
     if (tagParam) {
       setFilteredPosts(getPostsByTag(tagParam));
@@ -69,9 +77,10 @@ export default function BlogPage() {
             <div className="mt-8 flex justify-center">
               <div className="flex items-center space-x-2">
                 <button
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.max(prev - 1, 1))
-                  }
+                  onClick={() => {
+                    setCurrentPage((prev) => Math.max(prev - 1, 1));
+                    window.scrollTo(0, 0)
+                  }}
                   disabled={currentPage === 1}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 disabled:opacity-50"
                 >
@@ -81,7 +90,10 @@ export default function BlogPage() {
                 {Array.from({ length: totalPages }).map((_, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentPage(index + 1)}
+                    onClick={() => {
+                      setCurrentPage(index + 1);
+                      ScrollToTop();
+                    }}
                     className={`flex h-10 w-10 items-center justify-center rounded-full ${
                       currentPage === index + 1
                         ? "bg-green-500 text-white"
@@ -93,9 +105,7 @@ export default function BlogPage() {
                 ))}
 
                 <button
-                  onClick={() =>
-                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                  }
+                  onClick={() =>{setCurrentPage((prev) => Math.min(prev + 1, totalPages));window.scrollTo(0, 0)}}
                   disabled={currentPage === totalPages}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 disabled:opacity-50"
                 >

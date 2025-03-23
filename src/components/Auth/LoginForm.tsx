@@ -1,25 +1,66 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import Link from "next/link"
-import { Eye, EyeOff } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import Image from "next/image"
+import { useMutation } from "@tanstack/react-query"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+
+interface LoginCredentials {
+  email: string
+  password: string
+}
+
+async function loginUser(credentials: LoginCredentials) {
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(credentials),
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}))
+    throw new Error(errorData.error || "Failed to login")
+  }
+
+  return response.json()
+}
 
 export default function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [rememberMe, setRememberMe] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter()
+
+  const loginMutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      // Store token or user data in localStorage or cookies if needed
+      if (rememberMe && data.token) {
+        localStorage.setItem("authToken", data.token)
+      } else if (data.token) {
+        sessionStorage.setItem("authToken", data.token)
+      }
+
+      toast.success("Login successful!")
+      // Redirect to dashboard or home page
+      router.push("/dashboard")
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || "Login failed. Please try again.")
+    },
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log({
-      email,
-      password,
-      rememberMe,
-    })
+    loginMutation.mutate({ email, password })
   }
 
   return (
@@ -27,8 +68,13 @@ export default function LoginForm() {
       <div className="w-full max-w-md rounded-3xl border border-[#09B850] bg-white p-8">
         <div className="mb-6 flex justify-center">
           <div className="flex items-center">
-            <Image src="/asset/fomrLogo.png" alt="Business Consultation Logo" width={140} height={140} className="mr-2" />
-           
+            <Image
+              src="/asset/fomrLogo.png"
+              alt="Business Consultation Logo"
+              width={140}
+              height={140}
+              className="mr-2"
+            />
           </div>
         </div>
 
@@ -52,6 +98,7 @@ export default function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loginMutation.isPending}
             />
           </div>
 
@@ -68,11 +115,13 @@ export default function LoginForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={loginMutation.isPending}
               />
               <button
                 type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
                 onClick={() => setShowPassword(!showPassword)}
+                disabled={loginMutation.isPending}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -87,6 +136,7 @@ export default function LoginForm() {
                 className="h-4 w-4 rounded border-gray-300 text-green-500 focus:ring-green-500"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
+                disabled={loginMutation.isPending}
               />
               <label htmlFor="remember-me" className="ml-2 text-gray-700">
                 Remember me?
@@ -99,10 +149,24 @@ export default function LoginForm() {
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-green-500 py-3 text-center font-medium text-white hover:bg-green-600 focus:outline-none"
+            className="w-full rounded-lg bg-green-500 py-3 text-center font-medium text-white hover:bg-green-600 focus:outline-none disabled:bg-green-300"
+            disabled={loginMutation.isPending}
           >
-            Log In
+            {loginMutation.isPending ? (
+              <span className="flex items-center justify-center">
+                <Loader2 size={20} className="mr-2 animate-spin" />
+                Logging in...
+              </span>
+            ) : (
+              "Log In"
+            )}
           </button>
+
+          {loginMutation.isError && (
+            <p className="mt-4 text-center text-red-500">
+              {loginMutation.error instanceof Error ? loginMutation.error.message : "Login failed. Please try again."}
+            </p>
+          )}
         </form>
       </div>
     </div>

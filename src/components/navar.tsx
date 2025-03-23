@@ -6,6 +6,7 @@ import { Menu, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Hideon from "@/provider/Hideon";
 
 // interface NavbarProps {
 //   currentRoute?: string;
@@ -43,7 +44,16 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header
+  <Hideon
+  routes={[
+    "/sign-up",
+    "/login",
+    "/reset-password",
+    '/subscription'
+  ]}
+  >
+
+<header
       className={cn(
         "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
         isScrolled
@@ -299,5 +309,6 @@ export default function Navbar() {
         </div>
       </div>
     </header>
+  </Hideon>
   );
 }

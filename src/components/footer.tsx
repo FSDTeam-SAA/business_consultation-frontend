@@ -1,9 +1,20 @@
 import Link from "next/link"
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import Hideon from "@/provider/Hideon"
+import NewsletterSection from "./newsletter-section"
 
 export default function Footer() {
   return (
-    <footer className="bg-[#033618] text-white">
+ <Hideon
+ routes={[
+  "/sign-up",
+  "/login",
+  "/reset-password",
+  '/subscription',
+]}
+ >
+<NewsletterSection/>
+<footer className="bg-[#033618] text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
@@ -110,6 +121,7 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+ </Hideon>
   )
 }
 

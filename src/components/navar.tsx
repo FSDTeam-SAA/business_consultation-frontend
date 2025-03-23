@@ -49,7 +49,8 @@ export default function Navbar() {
     "/sign-up",
     "/login",
     "/reset-password",
-    '/subscription'
+    '/subscription',
+    '/forget-password'
   ]}
   >
 

@@ -11,6 +11,7 @@ export default function Footer() {
   "/login",
   "/reset-password",
   '/subscription',
+    '/forget-password'
 ]}
  >
 <NewsletterSection/>

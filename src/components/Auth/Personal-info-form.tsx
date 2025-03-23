@@ -74,7 +74,7 @@ export default function PersonalInfoForm({ onSubmit }: PersonalInfoFormProps) {
     e.preventDefault()
 
     if (validateForm()) {
-      const { confirmPassword, ...submitData } = formData
+      const { ...submitData } = formData
       onSubmit(submitData)
     }
   }

@@ -8,8 +8,22 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 
+// Define the BusinessFormData interface
+interface BusinessFormData {
+  businessName: string
+  identificationNumber: string
+  businessLicenseNumber: string
+  businessAddress: string
+  businessEntity: string
+  businessDuration: string
+  industryType: string
+  employeeNumber: number
+  primaryProducts: string[]
+  annualRevenue: number
+}
+
 interface BusinessInfoFormProps {
-  onSubmit: (data: any) => void
+  onSubmit: (data: BusinessFormData) => void
   isSubmitting: boolean
   onBack: () => void
 }

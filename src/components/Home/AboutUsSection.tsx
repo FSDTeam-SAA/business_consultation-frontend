@@ -69,14 +69,14 @@ export default function AboutUsSection() {
           </div>
 
           {/* Right side - Content */}
-          <div className="space-x-6 lg:mb-28 lg:space-y-10">
+          <div className="space-x-6 lg:mb-28 lg:space-y-10 ">
             <div className="ml-6 inline-block">
               <span className="inline-flex items-center rounded-md border border-green-500 px-4 py-1 font-medium text-green-500">
                 • ABOUT US
               </span>
             </div>
 
-            <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+            <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl mb-3 mt-3">
               Your Partner in
               <br />
               corporate strategy

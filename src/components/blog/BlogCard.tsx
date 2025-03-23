@@ -22,11 +22,15 @@ export default function BlogCard({ post }: BlogCardProps) {
           className="h-[200px] w-full object-cover"
         />
       </Link>
-      <div className="absolute w-[50px] h-[50px] bg-[#09B850] top-[12px] right-[16px] rounded-[2px]">
-          <p className="text-lg text-white text-center leading-5 mt-1">{post.date}</p>
+      <div className="absolute right-[16px] top-[12px] min-h-[50px] min-w-[50px] rounded-[2px] bg-[#09B850]">
+        <p className="mt-1 text-center text-lg leading-5 text-white p-2">
+          {post.date.split(",")[0]}{<br />} {post.date.split(",")[1]}
+        </p>
       </div>
       <div className="py-6">
-        <p className="text-[#595959] my-2">By <span>{post.author}</span></p>
+        <p className="my-2 text-[#595959]">
+          By <span>{post.author}</span>
+        </p>
         <Link href={`/blog/${post.slug}`}>
           <h2 className="mb-2 text-2xl font-bold transition-colors hover:text-green-500">
             {post.title}
@@ -47,8 +51,8 @@ export default function BlogCard({ post }: BlogCardProps) {
           </Link>
         </div> */}
 
-        <div className="w-[151px] h-[45px] rounded-[8px] border border-[#09B850] mt-4 flex justify-center items-center">
-          <button className="text-[#09B850] mb-1">Read More</button>
+        <div className="mt-4 flex h-[45px] w-[151px] items-center justify-center rounded-[8px] border border-[#09B850]">
+          <button className="mb-1 text-[#09B850]">Read More</button>
         </div>
       </div>
     </div>

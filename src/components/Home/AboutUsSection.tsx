@@ -50,7 +50,7 @@ export default function AboutUsSection() {
             </div>
 
             {/* Experience Card */}
-            <div className="relative z-20 mx-auto mt-[-30px] flex w-full max-w-[330px] items-center gap-4 rounded-lg bg-white shadow-lg lg:max-w-[450px]">
+            <div className="relative z-20 mx-auto mt-[-30px] mb-5  flex w-full max-w-[330px] items-center gap-4 rounded-lg bg-white shadow-lg lg:max-w-[450px]">
               <Image
                 width={200}
                 height={100}

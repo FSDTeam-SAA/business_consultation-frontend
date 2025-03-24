@@ -35,9 +35,14 @@ export default function ServiceSection() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
         {services.map((service, index) => (
           <Card key={index} className="overflow-hidden rounded-none shadow-none border-none flex flex-col h-full">
-            <div className="relative h-64 w-full max-w-[370px] mx-auto">
-              <Image src={service.image || "/placeholder.svg"} alt={service.title} fill className="object-cover" />
-            </div>
+           <div className="relative h-64 w-full max-w-[370px] mx-auto overflow-hidden group">
+      <Image
+        src={service.image || "/placeholder.svg"}
+        alt={service.title}
+        fill
+        className="object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
+      />
+    </div>
            <div className="z-40 border-2 max-w-[340px] mx-auto mt-[-20px] border-t-0">
            <div className="border-t-4 border-green-500 max-w-[340px] mx-auto  z-40 bg-white">
            <CardHeader className="pb-2 ">

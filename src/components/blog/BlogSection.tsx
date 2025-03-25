@@ -52,7 +52,7 @@ export default function BlogSection() {
             title: "How to improve employees skill",
             excerpt:
               "The great explore of the truth, the master builder of human happiness. No_",
-            date: "09 Dec",
+            date: "29 Dec",
             author: "Admin",
             category: "Blog 01",
             image: "/asset/blog3.jpg",

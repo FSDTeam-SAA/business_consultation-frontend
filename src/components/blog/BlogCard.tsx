@@ -12,14 +12,14 @@ interface BlogCardProps {
 
 export default function BlogCard({ post }: BlogCardProps) {
   return (
-    <div className="relative overflow-hidden rounded-md bg-white">
+    <div className="relative w-[360px] overflow-hidden rounded-md ">
       <Link href={`/blog/${post.slug}`}>
         <Image
           src={post.image || "/placeholder.svg"}
           alt={post.title}
           width={600}
           height={400}
-          className="h-[200px] w-full object-cover"
+          className="h-[200px] w-full hover:scale-105 duration-300 object-cover"
         />
       </Link>
       <div className="absolute right-[16px] top-[12px] min-h-[50px] min-w-[50px] rounded-[2px] bg-[#09B850]">

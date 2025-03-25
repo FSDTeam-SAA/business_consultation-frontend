@@ -1,5 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { ArrowRight } from "lucide-react"
+
 
 export default function FlexiblePricing() {
   return (
@@ -19,7 +19,7 @@ export default function FlexiblePricing() {
         </div>
 
         <div className="w-full lg:w-1/2 space-y-4">
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full space-y-4">
             <AccordionItem value="basic-plan" className="border border-gray-200 rounded-lg overflow-hidden">
               <AccordionTrigger className="bg-green-900 text-white hover:bg-green-800 px-6 py-4 flex justify-between">
                 <span className="text-xl font-medium">Basic Plan</span>

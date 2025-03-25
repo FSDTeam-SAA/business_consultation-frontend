@@ -12,7 +12,8 @@ interface BlogCardProps {
 
 export default function BlogCard({ post }: BlogCardProps) {
   return (
-    <div className="relative w-[360px] overflow-hidden rounded-md ">
+  <div>
+      <div className="relative w-full overflow-hidden rounded-md ">
       <Link href={`/blog/${post.slug}`}>
         <Image
           src={post.image || "/placeholder.svg"}
@@ -56,5 +57,6 @@ export default function BlogCard({ post }: BlogCardProps) {
         </div>
       </div>
     </div>
+  </div>
   );
 }

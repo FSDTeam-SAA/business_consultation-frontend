@@ -1,7 +1,7 @@
 import Services from "@/components/Home/Services";
 import PageHero from "@/components/page-hero";
 import AboutBusiness from "@/components/service/AboutBusiness";
-import ChoosePlan from "@/components/service/ChoosePlan";
+import Pricing from "@/components/service/Pricing";
 
 export default function ServicePage() {
   return (
@@ -14,7 +14,7 @@ export default function ServicePage() {
       <AboutBusiness/>
    
   <Services/>
-  <ChoosePlan/>
+  <Pricing/>
     </main>
   );
 }

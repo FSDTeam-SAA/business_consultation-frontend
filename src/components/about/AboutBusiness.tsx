@@ -118,9 +118,9 @@ export function AboutBusiness() {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
 
         <div className="">
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <div className="text-2xl w-16 h-16">
-              <Image width={64} height={64} src="/asset/number.png" alt="number image"/>
+              <Image width={64} height={64} src="/asset/number1.png" alt="number image"/>
             </div>
             <h3 className="mb-2 text-xl font-bold">Business Planning</h3>
           </div>
@@ -134,11 +134,11 @@ export function AboutBusiness() {
         </div>
 
         <div className="">
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <div className="text-2xl w-16 h-16">
-              <Image width={64} height={64} src="/asset/number.png" alt="number image"/>
+              <Image width={64} height={64} src="/asset/numbere2.png" className="" alt="number image"/>
             </div>
-            <h3 className="mb-2 text-xl font-bold">Business Planning</h3>
+            <h3 className="mb-2 text-xl font-bold mr-6">Business Planning</h3>
           </div>
           <div>
             <p className="text-gray-600">
@@ -150,7 +150,7 @@ export function AboutBusiness() {
         </div>
 
         <div className="">
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <div className="text-2xl w-16 h-16">
               <Image width={64} height={64} src="/asset/number.png" alt="number image"/>
             </div>

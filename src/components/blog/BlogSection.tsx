@@ -52,7 +52,7 @@ export default function BlogSection() {
             title: "How to improve employees skill",
             excerpt:
               "The great explore of the truth, the master builder of human happiness. No_",
-            date: "09 Dec",
+            date: "29 Dec",
             author: "Admin",
             category: "Blog 01",
             image: "/asset/blog3.jpg",
@@ -90,7 +90,7 @@ export default function BlogSection() {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-1 lg:grid-cols-3">
+        <div className="grid  grid-cols-1 gap-10 md:grid-cols-1 lg:grid-cols-3">
           {posts.map((post) => (
             <BlogCard key={post.id} post={post} />
           ))}

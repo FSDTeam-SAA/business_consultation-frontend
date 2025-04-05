@@ -25,10 +25,9 @@ export default function ServiceSection() {
   return (
     <section className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4">Welcome to the Consultive</h1>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-          We are experts in this industry with over 100 years experience. What that means is you are going to get right
-          solution. Please find our services.
+        <h1 className="text-4xl font-bold mb-4">About Us</h1>
+        <p className="text-lg text-gray-600 max-w-5xl mx-auto">
+        At Going2Zero, we help businesses take real action toward achieving net zero. Through our innovative AI-powered platform, we provide businesses with the tools to measure, track, and reduce their carbon footprint. Our three-step approach—emissions tracking, personalized consulting, and carbon offsetting—makes sustainability simple, accessible, and effective.
         </p>
       </div>
 

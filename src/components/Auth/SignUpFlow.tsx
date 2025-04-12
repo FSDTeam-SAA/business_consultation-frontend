@@ -95,7 +95,7 @@ export default function SignUpFlow() {
   const userMutation = useMutation({
     mutationFn: registerUserFn,
     onSuccess: (response) => {
-      toast.success( "User registered successfully!");
+      toast.success(response.message || "User registered successfully!");
       router.push("/subscription")
       const userId = response?.data?.id;
     

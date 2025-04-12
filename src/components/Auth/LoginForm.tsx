@@ -14,8 +14,15 @@ interface LoginCredentials {
   password: string
 }
 
-async function loginUser(credentials: LoginCredentials) {
+interface LoginResponse {
+  status: boolean
+  message: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any 
+  token?: string
+}
 
+async function loginUser(credentials: LoginCredentials) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`, {
     method: "POST",
     headers: {
@@ -24,12 +31,14 @@ async function loginUser(credentials: LoginCredentials) {
     body: JSON.stringify(credentials),
   })
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}))
-    throw new Error(errorData.error || "Failed to login")
+  const data: LoginResponse = await response.json()
+
+  // Check both HTTP status and API response status
+  if (!response.ok || !data.status) {
+    throw new Error(data.message || "Failed to login")
   }
 
-  return response.json()
+  return data
 }
 
 export default function LoginForm() {
@@ -42,7 +51,6 @@ export default function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      // Store token or user data in localStorage or cookies if needed
       if (rememberMe && data.token) {
         localStorage.setItem("authToken", data.token)
       } else if (data.token) {
@@ -50,11 +58,11 @@ export default function LoginForm() {
       }
 
       toast.success("Login successful!")
-      // Redirect to dashboard or home page
-      router.push("/dashboard")
+      router.push("/")
     },
     onError: (error: Error) => {
       toast.error(error.message || "Login failed. Please try again.")
+      router.push("/subscription")
     },
   })
 
@@ -172,4 +180,3 @@ export default function LoginForm() {
     </div>
   )
 }
-

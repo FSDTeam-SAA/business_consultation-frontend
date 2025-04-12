@@ -94,38 +94,38 @@ export default function SignUpFlow() {
   // User registration mutation
   const userMutation = useMutation({
     mutationFn: registerUserFn,
-    onSuccess: (data) => {
-      // This will be called when user registration is successful
-      // We'll handle the company creation in the onSuccess callback
-      if (data && data.id) {
-        if (businessData.current) {
-          const {
-            businessName = "",
-            identificationNumber = "",
-            businessLicenseNumber = "",
-            businessAddress = "",
-            businessEntity = "",
-            businessDuration = "",
-            industryType = "",
-            employeeNumber = 0,
-            primaryProducts = [],
-            annualRevenue = 0,
-          } = businessData.current;
-
-          companyMutation.mutate({
-            businessName,
-            identificationNumber,
-            businessLicenseNumber,
-            businessAddress,
-            businessEntity,
-            businessDuration,
-            industryType,
-            employeeNumber,
-            primaryProducts,
-            annualRevenue,
-            userId: data.id,
-          });
-        }
+    onSuccess: (response) => {
+      toast.success( "User registered successfully!");
+      router.push("/subscription")
+      const userId = response?.data?.id;
+    
+      if (userId && businessData.current) {
+        const {
+          businessName = "",
+          identificationNumber = "",
+          businessLicenseNumber = "",
+          businessAddress = "",
+          businessEntity = "",
+          businessDuration = "",
+          industryType = "",
+          employeeNumber = 0,
+          primaryProducts = [],
+          annualRevenue = 0,
+        } = businessData.current;
+    
+        companyMutation.mutate({
+          businessName,
+          identificationNumber,
+          businessLicenseNumber,
+          businessAddress,
+          businessEntity,
+          businessDuration,
+          industryType,
+          employeeNumber,
+          primaryProducts,
+          annualRevenue,
+          userId,
+        });
       }
     },
     onError: (error) => {
@@ -134,22 +134,18 @@ export default function SignUpFlow() {
   })
 
   // Company creation mutation
-  const businessData = React.useRef<BusinessInfoData | null>(null)
-  const companyMutation = useMutation({
-    mutationFn: createCompanyFn,
-    onSuccess: () => {
-      toast.success("Registration completed successfully!")
-
-      // Redirect to subscription page after a short delay
-      setTimeout(() => {
-        router.push("/subscription")
-      }, 1500)
-    },
-    onError: (error) => {
-      toast.error(`Company creation failed: ${error.message}`)
-    },
-  })
-
+// Company creation mutation
+const businessData = React.useRef<BusinessInfoData | null>(null)
+const companyMutation = useMutation({
+  mutationFn: createCompanyFn,
+  onSuccess: () => {
+    toast.success("Registration completed successfully!")
+    router.push("/subscription") // <-- Redirect after success
+  },
+  onError: (error) => {
+    toast.error(`Company creation failed: ${error.message}`)
+  },
+})
   const handlePersonalInfoSubmit = (data: typeof personalInfo) => {
     setPersonalInfo(data)
     setStep(2)

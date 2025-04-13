@@ -61,9 +61,17 @@ export default function LoginForm() {
       router.push("/")
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Login failed. Please try again.")
-      router.push("/subscription")
-    },
+      const message = error.message || "Login failed. Please try again.";
+    
+      toast.error(message);
+    
+      if (message === "Please complete your entry payment before logging in.") {
+        router.push("/subscription");
+      }
+    
+      // If message is "Invalid credentials", do nothing (stay on current page)
+    }
+    
   })
 
   const handleSubmit = (e: React.FormEvent) => {

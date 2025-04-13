@@ -27,20 +27,24 @@ export function VerifyEmailForm({  email, onSuccess, onBack }: VerifyEmailFormPr
         },
         body: JSON.stringify({ email, verificationCode }),
       })
-
-      if (!response.ok) {
-        throw new Error("Invalid verification code")
+  
+      const data = await response.json()
+  
+      // Check for logical success
+      if (!response.ok || !data.status) {
+        throw new Error(data.message || "Invalid verification code")
       }
-
-      return response.json()
+  
+      return data
     },
     onSuccess: () => {
       onSuccess()
     },
-    onError: () => {
-      setError("Your OTP is Wrong!")
+    onError: (error) => {
+      setError(error.message || "Something went wrong")
     },
   })
+  
 
   const resendOtpMutation = useMutation({
     mutationFn: async () => {

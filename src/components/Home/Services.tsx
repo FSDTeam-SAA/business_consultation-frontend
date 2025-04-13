@@ -62,9 +62,11 @@ export default function Services() {
                   src={service.image || "/placeholder.svg"}
                   alt={service.alt}
                   fill
-                  className="min-h-[363px] max-w-[370px] object-cover"
+                  className="min-h-[363px] hover:scale-105 duration-300 max-w-[370px] object-cover"
                 />
               </div>
+
+              
 
               {/* Card Content */}
               <div className="z-20 mx-auto flex max-w-[303px] flex-grow flex-col rounded-md bg-white">

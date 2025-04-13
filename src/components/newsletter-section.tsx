@@ -1,20 +1,47 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import NextImage from "next/image"
+import { QueryClient, QueryClientProvider, useMutation } from "@tanstack/react-query"
+import { toast } from "sonner"
+import { Toaster } from "sonner"
 
-export default function NewsletterSection() {
+// Create a client
+const queryClient = new QueryClient()
+
+function NewsletterForm() {
   const [email, setEmail] = useState("")
-  const [isSubmitted, setIsSubmitted] = useState(false)
+
+  // Create a mutation for the newsletter subscription
+  const { mutate, isPending, isSuccess } = useMutation({
+    mutationFn: async (email: string) => {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/newsletter`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Your email is already subscribed.")
+      }
+
+      return response.json()
+    },
+    onSuccess: () => {
+      setEmail("")
+      toast.success("Thank you for subscribing!")
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to subscribe. Please try again.")
+    },
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically send the email to your API
-    setIsSubmitted(true)
-    setEmail("")
-    setTimeout(() => setIsSubmitted(false), 3000)
+    mutate(email)
   }
 
   return (
@@ -22,13 +49,7 @@ export default function NewsletterSection() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="relative">
-            <NextImage
-              src="/asset/newslater.png"
-              alt="Newsletter"
-              width={600}
-              height={400}
-              className="rounded-lg"
-            />
+            <NextImage src="/asset/newslater.png" alt="Newsletter" width={600} height={400} className="rounded-lg" />
           </div>
 
           <div>
@@ -51,16 +72,18 @@ export default function NewsletterSection() {
                   placeholder="Your email"
                   className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#09B850] focus:border-transparent"
                   required
+                  disabled={isPending}
                 />
               </div>
               <button
                 type="submit"
                 className="w-full bg-[#09B850] hover:bg-[#09B850]/90 text-white px-6 py-3 rounded-md font-medium transition-colors"
+                disabled={isPending}
               >
-                Subscribe
+                {isPending ? "Subscribing..." : "Subscribe"}
               </button>
 
-              {isSubmitted && <div className="text-[#09B850] font-medium">Thank you for subscribing!</div>}
+              {isSuccess && <div className="text-[#09B850] font-medium">Thank you for subscribing!</div>}
             </form>
           </div>
         </div>
@@ -69,3 +92,12 @@ export default function NewsletterSection() {
   )
 }
 
+// Wrap the component with the provider
+export default function NewsletterSection() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <NewsletterForm />
+      <Toaster position="top-right" />
+    </QueryClientProvider>
+  )
+}

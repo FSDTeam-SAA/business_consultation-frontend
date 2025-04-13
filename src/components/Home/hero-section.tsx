@@ -10,8 +10,8 @@ import heroImg from "@/../public/asset/hero.jpg";
 const carouselItems = [
   {
     id: 1,
-    title: "Expert Business Consulting",
-    subtitle: "Strategy, Growth & Success",
+    title: "Going 2 Zero",
+    subtitle: "Future Proofing Your Business",
     description:
       "Unlock your business's full potential with expert consulting tailored to your needs. From strategic planning to growth acceleration, we provide the insights and solutions to help you thrive in a competitive market. Let's build your success together!",
     buttonText: "GET STARTED",

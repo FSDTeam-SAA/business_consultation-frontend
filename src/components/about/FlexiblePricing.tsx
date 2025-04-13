@@ -1,43 +1,127 @@
-import { ChevronRight } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 
-export function FlexiblePricing() {
+
+export default function FlexiblePricing() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-16">
-      <div className="mb-12 flex flex-col gap-8 lg:flex-row">
-        <div className="lg:w-1/2">
-          <div className="mb-6 inline-block rounded-full border border-green-500 px-3 py-1 text-sm font-medium text-green-500">
-            • Flexible Pricing
+    <section className="w-full max-w-7xl mx-auto px-4 py-16 md:py-24">
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start">
+        <div className="w-full lg:w-1/2 space-y-6">
+          <div className="inline-flex  items-center px-3 py-1  text-md font-medium border  rounded-md  border-green-600  text-green-600">
+            <span className="mr-1">•</span> Flexible Pricing
           </div>
 
-          <h2 className="mb-6 text-4xl font-bold text-black">
-            Tailored Pricing
-            <br />
-            Plans for everyone
-          </h2>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Tailored Pricing Plans for everyone</h2>
 
-          <p className="leading-relaxed text-gray-600">
-            Tremendous involvement with power departure, land master
-            <br />
-            curement, liaisoning and working with state. An ideal mix of
-            <br />
-            woldwide experience and skill to additional.
+          <p className="text-gray-600 max-w-lg">
+            Tremendous involvement with power departure, land master curement, liaisoning and working with state. An
+            ideal mix of worldwide experience and skill to additional.
           </p>
         </div>
 
-        <div className="space-y-4 lg:w-1/2">
-          {[1, 2, 3].map((item) => (
-            <div
-              key={item}
-              className="flex items-center justify-between overflow-hidden rounded-md bg-[#004225] text-white"
-            >
-              <span className="px-6 py-4 text-xl font-medium">Basic Plan</span>
-              <button className="flex h-full items-center justify-center px-6 py-4 text-white">
-                <ChevronRight size={24} />
-              </button>
-            </div>
-          ))}
+        <div className="w-full lg:w-1/2 space-y-4">
+          <Accordion type="single" collapsible className="w-full space-y-4">
+            <AccordionItem value="basic-plan" className="border border-gray-200 rounded-lg overflow-hidden">
+              <AccordionTrigger className="bg-green-900 text-white hover:bg-green-800 px-6 py-4 flex justify-between">
+                <span className="text-xl font-medium">Basic Plan</span>
+               
+              </AccordionTrigger>
+              <AccordionContent className="px-6 py-4 bg-green-900 text-white">
+                <div className="space-y-4">
+                  <p className="font-medium text-lg">$19/month</p>
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>Essential features for small businesses</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>Up to 5 team members</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>Basic support</span>
+                    </li>
+                  </ul>
+                  <button className="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+                    Get Started
+                  </button>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="pro-plan" className="border border-gray-200 rounded-lg overflow-hidden">
+              <AccordionTrigger className="bg-green-900 text-white hover:bg-green-800 px-6 py-4 flex justify-between">
+                <span className="text-xl font-medium">Pro Plan</span>
+                
+              </AccordionTrigger>
+              <AccordionContent className="px-6 py-4 bg-green-900 text-white">
+                <div className="space-y-4">
+                  <p className="font-medium text-lg">$49/month</p>
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>All Basic features</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>Up to 20 team members</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>Priority support</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>Advanced analytics</span>
+                    </li>
+                  </ul>
+                  <button className="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+                    Get Started
+                  </button>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="enterprise-plan" className="border border-gray-200 rounded-lg overflow-hidden">
+              <AccordionTrigger className="bg-green-900 text-white hover:bg-green-800 px-6 py-4 flex justify-between">
+                <span className="text-xl font-medium">Enterprise Plan</span>
+               
+              </AccordionTrigger>
+              <AccordionContent className="px-6 py-4 bg-green-900 text-white">
+                <div className="space-y-4">
+                  <p className="font-medium text-lg">Custom pricing</p>
+                  <ul className="space-y-2">
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>All Pro features</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>Unlimited team members</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>24/7 dedicated support</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>Custom integrations</span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className="text-green-600 mr-2">✓</span>
+                      <span>On-premise deployment options</span>
+                    </li>
+                  </ul>
+                  <button className="w-full py-2 px-4 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors">
+                    Get Started
+                  </button>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
       </div>
     </section>
-  );
+  )
 }
+

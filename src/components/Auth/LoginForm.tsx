@@ -1,71 +1,73 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import Link from "next/link"
-import { Eye, EyeOff, Loader2 } from "lucide-react"
-import Image from "next/image"
-import { useMutation } from "@tanstack/react-query"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner"
+import type React from "react";
+import { useState } from "react";
+import Link from "next/link";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import Image from "next/image";
+import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface LoginCredentials {
-  email: string
-  password: string
+  email: string;
+  password: string;
 }
 
 async function loginUser(credentials: LoginCredentials) {
-
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(credentials),
     },
-    body: JSON.stringify(credentials),
-  })
+  );
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}))
-    throw new Error(errorData.error || "Failed to login")
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || "Failed to login");
   }
 
-  return response.json()
+  return response.json();
 }
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [rememberMe, setRememberMe] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const router = useRouter()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
       // Store token or user data in localStorage or cookies if needed
       if (rememberMe && data.token) {
-        localStorage.setItem("authToken", data.token)
+        localStorage.setItem("authToken", data.token);
       } else if (data.token) {
-        sessionStorage.setItem("authToken", data.token)
+        sessionStorage.setItem("authToken", data.token);
       }
 
-      toast.success("Login successful!")
+      toast.success("Login successful!");
       // Redirect to dashboard or home page
-      router.push("/dashboard")
+      router.push("/dashboard");
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Login failed. Please try again.")
+      toast.error(error.message || "Login failed. Please try again.");
     },
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    loginMutation.mutate({ email, password })
-  }
+    e.preventDefault();
+    loginMutation.mutate({ email, password });
+  };
 
   return (
-    <div className="flex min-h-screen items-center pt-[70px] justify-center bg-gray-50 p-4">
-      <div className="w-full max-w-md rounded-3xl border border-[#09B850] bg-white p-8">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4 pt-[70px]">
+      <div className="w-full max-w-xl rounded-3xl border border-[#09B850] bg-white p-8 pb-[79px]">
         <div className="mb-6 flex justify-center">
           <div className="flex items-center">
             <Image
@@ -84,7 +86,9 @@ export default function LoginForm() {
         </p>
 
         <form onSubmit={handleSubmit}>
-          <h2 className="mb-6 text-xl font-semibold text-gray-800">Enter your Personal Information</h2>
+          <h2 className="mb-6 text-xl font-semibold text-gray-800">
+            Enter your Personal Information
+          </h2>
 
           <div className="mb-4">
             <label htmlFor="email" className="mb-2 block text-gray-400">
@@ -142,7 +146,10 @@ export default function LoginForm() {
                 Remember me?
               </label>
             </div>
-            <Link href="/forget-password" className="text-green-500 hover:underline">
+            <Link
+              href="/forget-password"
+              className="text-green-500 hover:underline"
+            >
               Forgot Password?
             </Link>
           </div>
@@ -164,12 +171,13 @@ export default function LoginForm() {
 
           {loginMutation.isError && (
             <p className="mt-4 text-center text-red-500">
-              {loginMutation.error instanceof Error ? loginMutation.error.message : "Login failed. Please try again."}
+              {loginMutation.error instanceof Error
+                ? loginMutation.error.message
+                : "Login failed. Please try again."}
             </p>
           )}
         </form>
       </div>
     </div>
-  )
+  );
 }
-

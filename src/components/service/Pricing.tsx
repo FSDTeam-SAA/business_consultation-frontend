@@ -8,9 +8,8 @@ export default function Pricing() {
           </span>
         </div>
   
-        <h2 className="text-2xl font-bold mb-2">Subscribe</h2>
-        <p className="text-gray-600 mb-6 max-w-lg">
-          An ideal mix of worldwide experience and skill to additional our attention on innovation.
+        <h2 className="text-2xl font-bold mb-2">Sign up now</h2>
+        <p className="text-gray-600 mb-6 max-w-lg">Are you ready to show your commitment towards net zero? Sign up now and let us assist you on your journey to becoming carbon-neutral.
         </p>
   
         <div className="border rounded-md overflow-hidden shadow-sm">

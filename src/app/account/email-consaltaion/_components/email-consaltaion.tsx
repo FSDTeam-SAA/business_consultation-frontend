@@ -161,7 +161,7 @@ export default function ConsultationPage() {
             {/* Business Nature Field */}
             <div>
               <label htmlFor="business" className="mb-1 block text-white">
-              What&apos;s the nature of your business?
+                What&apos;s the nature of your business?
               </label>
               <input
                 type="text"
@@ -180,7 +180,7 @@ export default function ConsultationPage() {
             {/* Challenge Field */}
             <div>
               <label htmlFor="challenge" className="mb-1 block text-white">
-              What&apos;s your biggest challenge now?
+                What&apos;s your biggest challenge now?
               </label>
               <input
                 type="text"
@@ -199,7 +199,7 @@ export default function ConsultationPage() {
             {/* Call Time Field */}
             <div>
               <label htmlFor="callTime" className="mb-1 block text-white">
-              What&apos;s the best time to call you?
+                What&apos;s the best time to call you?
               </label>
               <input
                 type="text"

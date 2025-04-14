@@ -1,14 +1,123 @@
+import { Check } from "lucide-react";
+
 export default function Pricing() {
-    return (
-      <div className="w-full max-w-4xl mx-auto px-4 py-8">
-        <div className="inline-block mb-4">
-          <span className="text-green-500 px-3 py-1 rounded-full text-sm font-medium border border-green-500 flex items-center">
-            <span className="w-2 h-2 bg-green-500 rounded-full mr-1"></span>
-            Flexible Pricing
-          </span>
+  return (
+    <div className="mx-auto w-full max-w-4xl px-4 py-8">
+      <div className="mb-4 inline-block">
+        <span className="flex items-center rounded-full border border-green-500 px-3 py-1 text-sm font-medium text-green-500">
+          <span className="mr-1 h-2 w-2 rounded-full bg-green-500"></span>
+          Flexible Pricing
+        </span>
+      </div>
+
+      <div className="grid gap-8 md:grid-cols-2">
+        {/* Monthly Plan */}
+        <div className="flex flex-col">
+          <h2 className="mb-4 text-2xl font-bold">Monthly Plan</h2>
+          <p className="mb-6 text-gray-700">
+            Are you ready to show your commitment towards net zero? Sign up now
+            and let us assist you on your journey to becoming carbon-neutral.
+          </p>
+
+          <div className="mt-auto flex-1 rounded-lg bg-gray-100 p-6">
+            <div className="mb-4 text-lg font-medium">Feature</div>
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-200 py-2">
+                <span>Constant new climate updates</span>
+                <Check className="h-5 w-5 text-green-500" />
+              </div>
+
+              <div className="flex items-center justify-between border-b border-gray-200 py-2">
+                <span>Infinite personal email consulting</span>
+                <Check className="h-5 w-5 text-green-500" />
+              </div>
+
+              <div className="flex items-center justify-between border-b border-gray-200 py-2">
+                <span>Custom commitment badge</span>
+                <Check className="h-5 w-5 text-green-500" />
+              </div>
+
+              <div className="flex items-center justify-between border-b border-gray-200 py-2">
+                <span>Access to book video call consulting</span>
+                <Check className="h-5 w-5 text-green-500" />
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <div className="flex items-center">
+                <div className="text-sm text-green-500">Price</div>
+                <div className="ml-auto">
+                  <span className="align-top text-xs">$</span>
+                  <span className="text-2xl font-bold">110.00</span>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center">
+                <div className="text-sm text-green-500">Package</div>
+                <button className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600">
+                  Buy Plan
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-  
-        <h2 className="text-2xl font-bold mb-2">Sign up now</h2>
+
+        {/* Annually Plan */}
+        <div className="flex flex-col">
+          <h2 className="mb-4 text-2xl font-bold">Annually Plan</h2>
+          <p className="mb-6 text-gray-700">
+            Are you ready to show your commitment towards net zero? Sign up now
+            and let us assist you on your journey to becoming carbon-neutral.
+          </p>
+
+          <div className="mt-auto flex-1 rounded-lg bg-gray-100 p-6">
+            <div className="mb-4 text-lg font-medium">Feature</div>
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-200 py-2">
+                <span>Constant new climate updates</span>
+                <Check className="h-5 w-5 text-green-500" />
+              </div>
+
+              <div className="flex items-center justify-between border-b border-gray-200 py-2">
+                <span>Infinite personal email consulting</span>
+                <Check className="h-5 w-5 text-green-500" />
+              </div>
+
+              <div className="flex items-center justify-between border-b border-gray-200 py-2">
+                <span>Custom commitment badge</span>
+                <Check className="h-5 w-5 text-green-500" />
+              </div>
+
+              <div className="flex items-center justify-between border-b border-gray-200 py-2">
+                <span>Access to book video call consulting</span>
+                <Check className="h-5 w-5 text-green-500" />
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <div className="flex items-center">
+                <div className="text-sm text-green-500">Price</div>
+                <div className="ml-auto">
+                  <span className="align-top text-xs">$</span>
+                  <span className="text-2xl font-bold">96.00</span>
+                  <span className="text-sm">*12</span>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center">
+                <div className="text-sm text-green-500">Package</div>
+                <button className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600">
+                  Buy Plan
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* <h2 className="text-2xl font-bold mb-2">Sign up now</h2>
         <p className="text-gray-600 mb-6 max-w-lg">Are you ready to show your commitment towards net zero? Sign up now and let us assist you on your journey to becoming carbon-neutral.
         </p>
   
@@ -59,9 +168,7 @@ export default function Pricing() {
             </div>
          
           </div>
-        </div>
-      </div>
-    )
-  }
-  
-  
+        </div> */}
+    </div>
+  );
+}

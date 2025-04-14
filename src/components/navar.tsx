@@ -260,12 +260,18 @@ export default function Navbar() {
             </Link>
           </nav>
           {/* search bar  */}
-          <div className="relative flex items-center">
-            <Search className="absolute w-5 text-white left-2" />
+          <div className="relative hidden items-center lg:flex">
+            <Search
+              className={`absolute left-2 w-5 ${
+                isScrolled ? "text-gray-800" : "text-white"
+              }`}
+            />
             <Input
               type="text"
               placeholder="Search"
-              className="rounded-xl px-8 placeholder:text-white"
+              className={`rounded-xl px-8 ${
+                isScrolled ? "border border-black text-gray-800" : "text-white"
+              }`}
             />
           </div>
           {/* User Profile */}

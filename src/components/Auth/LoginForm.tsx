@@ -14,6 +14,7 @@ interface LoginCredentials {
   password: string;
 }
 
+<<<<<<< HEAD
 async function loginUser(credentials: LoginCredentials) {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`,
@@ -23,15 +24,41 @@ async function loginUser(credentials: LoginCredentials) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(credentials),
+=======
+interface LoginResponse {
+  status: boolean
+  message: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any 
+  token?: string
+}
+
+async function loginUser(credentials: LoginCredentials) {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+>>>>>>> 6acee5d5d733e770c8ccbae519ec218b1a2f10d0
     },
   );
 
+<<<<<<< HEAD
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     throw new Error(errorData.error || "Failed to login");
   }
 
   return response.json();
+=======
+  const data: LoginResponse = await response.json()
+
+  // Check both HTTP status and API response status
+  if (!response.ok || !data.status) {
+    throw new Error(data.message || "Failed to login")
+  }
+
+  return data
+>>>>>>> 6acee5d5d733e770c8ccbae519ec218b1a2f10d0
 }
 
 export default function LoginForm() {
@@ -44,19 +71,27 @@ export default function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      // Store token or user data in localStorage or cookies if needed
       if (rememberMe && data.token) {
         localStorage.setItem("authToken", data.token);
       } else if (data.token) {
         sessionStorage.setItem("authToken", data.token);
       }
 
+<<<<<<< HEAD
       toast.success("Login successful!");
       // Redirect to dashboard or home page
       router.push("/dashboard");
     },
     onError: (error: Error) => {
       toast.error(error.message || "Login failed. Please try again.");
+=======
+      toast.success("Login successful!")
+      router.push("/")
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || "Login failed. Please try again.")
+      router.push("/subscription")
+>>>>>>> 6acee5d5d733e770c8ccbae519ec218b1a2f10d0
     },
   });
 

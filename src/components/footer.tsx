@@ -17,103 +17,131 @@ export default function Footer() {
 <NewsletterSection/>
 <footer className="bg-[#033618] text-white">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div>
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="h-8 w-8 bg-[#09B850] rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">C</span>
+      
+      {/* top sec  */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Company Info Column */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-green-500 flex items-center justify-center rounded">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-6 h-6"
+                >
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                </svg>
               </div>
-              <span className="text-white font-bold">CONSULTIVE</span>
+              <div>
+                <div className="text-green-400 font-bold">BUSINESS</div>
+                <div className="font-bold">CONSULTATION</div>
+              </div>
             </div>
-            <p className="text-gray-300 mb-6">
-              We help our clients to achieve business goals, from strategy to execution. Our team of experts is
-              dedicated to your success.
+
+            <p className="text-[16px] font-normal">
+              We see our clients as strategic partners. This means in close cooperation. We see our Clients as strategic
+              partners. This means in close cooperation.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-[#09B850] transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-white hover:text-[#09B850] transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-white hover:text-[#09B850] transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-white hover:text-[#09B850] transition-colors">
-                <Linkedin className="h-5 w-5" />
-              </a>
+
+            <div className="space-y-2">
+              <p>Follow us on</p>
+              <div className="flex space-x-2">
+                <Link
+                  href="#"
+                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#004225]"
+                >
+                  <Facebook size={16} />
+                </Link>
+                <Link
+                  href="#"
+                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#004225]"
+                >
+                  <Twitter size={16} />
+                </Link>
+                <Link
+                  href="#"
+                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#004225]"
+                >
+                  <Linkedin size={16} />
+                </Link>
+                <Link
+                  href="#"
+                  className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#004225]"
+                >
+                  <Instagram size={16} />
+                </Link>
+              </div>
             </div>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
-            <ul className="space-y-3">
+          {/* Quick Links Column */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold">Quick Links</h3>
+            <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-gray-300 hover:text-[#09B850] transition-colors">
-                  ↳ Home
+                <Link href="#" className="flex items-center hover:text-green-300 transition-colors">
+                  <span className="mr-2 text-[16px] font-normal">»</span> Make Appointment
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-gray-300 hover:text-[#09B850] transition-colors">
-                  ↳ About Us
+                <Link href="#" className="flex items-center hover:text-green-300 transition-colors">
+                  <span className="mr-2">»</span> Customer Services
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="text-gray-300 hover:text-[#09B850] transition-colors">
-                  ↳ Our Services
+                <Link href="#" className="flex items-center hover:text-green-300 transition-colors">
+                  <span className="mr-2">»</span> Department Services
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-gray-300 hover:text-[#09B850] transition-colors">
-                  ↳ Latest Blog
+                <Link href="#" className="flex items-center hover:text-green-300 transition-colors">
+                  <span className="mr-2">»</span> About Company
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-gray-300 hover:text-[#09B850] transition-colors">
-                  ↳ Contact Us
+                <Link href="#" className="flex items-center hover:text-green-300 transition-colors">
+                  <span className="mr-2">»</span> Our Case Studies
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="flex items-center hover:text-green-300 transition-colors">
+                  <span className="mr-2">»</span> Free Consultation
+                </Link>
+              </li>
+              <li>
+                <Link href="#" className="flex items-center hover:text-green-300 transition-colors">
+                  <span className="mr-2">»</span> Meet Our Experts
                 </Link>
               </li>
             </ul>
           </div>
 
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Contact Us</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start space-x-3">
-                <span className="text-[#09B850]">Address:</span>
-                <span className="text-gray-300">123 Fifth Street, NY 10160, New York, USA</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <span className="text-[#09B850]">Phone:</span>
-                <span className="text-gray-300">+1 (123) 456 7890</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <span className="text-[#09B850]">Email:</span>
-                <span className="text-gray-300">info@consultive.com</span>
-              </li>
-              <li className="flex items-center space-x-3">
-                <span className="text-[#09B850]">Fax:</span>
-                <span className="text-gray-300">+1 (123) 456 7891</span>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Working Hours</h3>
-            <ul className="space-y-3">
-              <li className="flex justify-between">
-                <span className="text-gray-300">Monday - Friday:</span>
-                <span className="text-[#09B850]">9am - 5pm</span>
-              </li>
-              <li className="flex justify-between">
-                <span className="text-gray-300">Saturday:</span>
-                <span className="text-[#09B850]">10am - 4pm</span>
-              </li>
-              <li className="flex justify-between">
-                <span className="text-gray-300">Sunday:</span>
-                <span className="text-[#09B850]">Closed</span>
-              </li>
-            </ul>
+          {/* Contact Us Column */}
+          <div className="space-y-4">
+            <h3 className="text-xl font-bold">Contact Us</h3>
+            <div className="space-y-3">
+              <div className="flex ">
+                <p className="font-bold">Address:</p>
+                <p className="ml-2">124 Gua Street 41 A, United State</p>
+              </div>
+              <div className="flex ">
+                <p className="font-bold">Mail:</p>
+                <p className="text-green-300 ml-2">example@gmail.com</p>
+              </div>
+              <div className="flex ">
+                <p className="font-bold">Phone:</p>
+                <p className="ml-2">(+422) 145 448 458</p>
+              </div>
+              <div className="flex ">
+                <p className="font-bold">Fax ID:</p>
+                <p className="ml-2">(+1) 475 475 854</p>
+              </div>
+            </div>
           </div>
         </div>
 

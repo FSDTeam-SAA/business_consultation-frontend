@@ -104,10 +104,8 @@ export function AboutBusiness() {
           <h2 className="mb-4 text-4xl font-bold">
             Creative agency and their best solution
           </h2>
-          <p className="mb-6 text-gray-600">
-            We strive to develop concrete web solution ideal forsmall and large
-            projects with customized project requirements. We focus on the best
-            practices for IT solutions and services.
+          <p className="mb-6 text-gray-600 text-justify">
+          At Going2Zero, we help businesses take real action toward achieving net zero. Through our innovative AI-powered platform, we provide businesses with the tools to measure, track, and reduce their carbon footprint. Our three-step approach—emissions tracking, personalized consulting, and carbon offsetting—makes sustainability simple, accessible, and effective. We believe that every business, no matter its size, can play a role in fighting climate change. By staying ahead of green regulations and offering tailored solutions, we empower companies to make meaningful progress while unlocking opportunities for growth and compliance.
           </p>
           <Button className="rounded-md bg-emerald-500 px-6 text-white hover:bg-emerald-600">
             Read More
@@ -118,9 +116,9 @@ export function AboutBusiness() {
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
 
         <div className="">
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <div className="text-2xl w-16 h-16">
-              <Image width={64} height={64} src="/asset/number.png" alt="number image"/>
+              <Image width={64} height={64} src="/asset/number1.png" alt="number image"/>
             </div>
             <h3 className="mb-2 text-xl font-bold">Business Planning</h3>
           </div>
@@ -134,11 +132,11 @@ export function AboutBusiness() {
         </div>
 
         <div className="">
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <div className="text-2xl w-16 h-16">
-              <Image width={64} height={64} src="/asset/number.png" alt="number image"/>
+              <Image width={64} height={64} src="/asset/numbere2.png" className="" alt="number image"/>
             </div>
-            <h3 className="mb-2 text-xl font-bold">Business Planning</h3>
+            <h3 className="mb-2 text-xl font-bold mr-6">Business Planning</h3>
           </div>
           <div>
             <p className="text-gray-600">
@@ -150,7 +148,7 @@ export function AboutBusiness() {
         </div>
 
         <div className="">
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             <div className="text-2xl w-16 h-16">
               <Image width={64} height={64} src="/asset/number.png" alt="number image"/>
             </div>

@@ -6,19 +6,19 @@ import { useState } from "react";
 
 interface CommentFormProps {
   postSlug: string;
-  onCommentSubmit: (name: string, email: string, content: string) => void;
+  onCommentSubmit: ( content: string) => void;
 }
 
 export default function CommentForm({ onCommentSubmit }: CommentFormProps) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
   const [content, setContent] = useState("");
-  const [saveInfo, setSaveInfo] = useState(false);
+  // const [saveInfo, setSaveInfo] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name && email && content) {
-      onCommentSubmit(name, email, content);
+    if (content) {
+      onCommentSubmit( content);
       setContent("");
     }
   };
@@ -34,7 +34,7 @@ export default function CommentForm({ onCommentSubmit }: CommentFormProps) {
           onChange={(e) => setContent(e.target.value)}
           required
         />
-        <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {/* <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
           <input
             type="text"
             placeholder="Your Name"
@@ -64,7 +64,7 @@ export default function CommentForm({ onCommentSubmit }: CommentFormProps) {
             Save my name, email, and website in this browser for the next time I
             comment.
           </label>
-        </div>
+        </div> */}
         <button
           type="submit"
           className="rounded-md bg-green-500 px-6 py-3 text-white transition-colors hover:bg-green-600"

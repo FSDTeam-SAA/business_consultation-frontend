@@ -5,27 +5,27 @@ export default function Services() {
   const services = [
     {
       route: "business-strategy",
-      title: "Business Strategy",
+      title: "Certification",
       description:
-        "We focus on the best practices for it solutions and services.",
+        "Certification is a mark of commitment to sustainability, awarded to businesses actively working towards net zero emissions. Our certification recognizes companies that track, reduce, and offset their carbon footprint.",
       icon: <BarChart3 className="h-6 w-6 text-primary" />,
       image: "/asset/service1.png",
       alt: "Business professionals discussing strategy",
     },
     {
-      route: "business-planning",
+      route: "Consulting",
       title: "Business Planning",
       description:
-        "We focus on the best practices for it solutions and services.",
+        "Consulting service provides expert, data-driven guidance to help businesses identify and reduce their carbon emissions. Through personalized analysis, we pinpoint key emission sources and develop actionable strategies tailored to your operations.",
       icon: <LineChart className="h-6 w-6 text-primary" />,
       image: "/asset/service2.png",
       alt: "Business team in a planning meeting",
     },
     {
       route: "finances-guidance",
-      title: "Finances Guidance",
+      title: "Constant Climate Updates",
       description:
-        "We focus on the best practices for it solutions and services.",
+        "Keep members informed with the latest verified climate news and environmental policy updates from around the world.",
       icon: <PieChart className="h-6 w-6 text-primary" />,
       image: "/asset/service3.png",
       alt: "Business professionals discussing finances",
@@ -77,10 +77,10 @@ export default function Services() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="mb-3 text-xl font-bold">{service.title}</h3>
+                  <h3 className="mb-3 text-center text-xl font-semibold">{service.title}</h3>
 
                   {/* Description */}
-                  <p className="mb-6 text-gray-600">{service.description}</p>
+                  <p className="mb-6 text-gray-600 text-[12px] font-normal text-center">{service.description}</p>
                 </div>
                 {/* Read More Link - pushes to bottom with flex-grow above */}
                 <div className="mx-auto mt-auto py-2">

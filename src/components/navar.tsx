@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Menu, User } from "lucide-react";
+import { Menu, Search, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Hideon from "@/provider/Hideon";
+import { Input } from "./ui/input";
 
 // interface NavbarProps {
 //   currentRoute?: string;
@@ -37,7 +38,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -259,7 +259,15 @@ export default function Navbar() {
               CONTACT US
             </Link>
           </nav>
-
+          {/* search bar  */}
+          <div className="relative flex items-center">
+            <Search className="absolute w-5 text-white left-2" />
+            <Input
+              type="text"
+              placeholder="Search"
+              className="rounded-xl px-8 placeholder:text-white"
+            />
+          </div>
           {/* User Profile */}
           <div className="relative" ref={profileRef}>
             <div

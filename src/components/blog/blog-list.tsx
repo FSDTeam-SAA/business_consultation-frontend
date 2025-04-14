@@ -20,7 +20,7 @@ export default function CommentList({ comments }: CommentListProps) {
               <div className="w-12 h-12 bg-gray-200 rounded-full overflow-hidden flex-shrink-0">
                 <Image
                   src="/placeholder.svg?height=48&width=48"
-                  alt={comment.name}
+                  alt={comment.id}
                   width={48}
                   height={48}
                   className="w-full h-full object-cover"

@@ -29,7 +29,7 @@ export default function WhyChooseUsSection() {
         <div className="relative order-first h-[300px] w-full overflow-hidden rounded-lg md:h-[400px] lg:order-last lg:h-[350px]">
           <video className="h-full w-full object-cover" muted autoPlay>
             <source
-              src="https://s3-figma-videos-production-sig.figma.com/video/TEAM/1461204755658353120/2720cb9358fdcd4909cebcb97d5ccbb1aa85378d?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=KD1gIYMDmGN1ENYvebkB7GjV7beiruC7x~dzLuiW1-bSDivY0KS1Z~Hs9rBouK4Y6HghB9dRXBX4k1wC0HuxUMM-OOF4Ve1yhy~YzL0gd44tq0WoheLS~Cu~AYy5ry8xbnQBhzLSkmPGfzSren3YseI1qfQFveUKZRkxsXaK-XYr4C5z5jhcRRmev~DjBzMcC-uPAoj7pqy4a5mJFqc3H8Lx-qxPWC1deAVmmlOLW4OnyYuvNmTyUCs~sPGTXTXwt7vu1KZkt8R6XOLQ0oyVhvWE-yneINEYdBvMlTkP3VTlEqyYhthqm5xYa2HTTg4Sr7qk558j2suK5zGy82267Q__"
+              src="https://s3-figma-videos-production-sig.figma.com/video/TEAM/1461204755658353120/2720cb9358fdcd4909cebcb97d5ccbb1aa85378d?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=g5693EXf-WKw6pCsrwmEcWpSepIsIEa0H3Jexq~0iYcnZ52HRZ74gGU1YIEU1qsjc0MHpxFZqStXTP-2YmZboeC7TXtfIlyVCRNpQfhh76juJRwuZTTqKbFDE~dLimbrORSrm52fu9432o4V9drX4t~hyNeYEhoXf6ZQrgfG7iDnemvjd1-6tBPz53j~EAUOHkkQjCinLm1JT454n7ZWrjaz~xTCkzrE2PNi9RF~b~W-rqNPIGlGPiMxDeeuCuRcPqe2nZ56BWgs8UhXexCj3pRItraGm3muljSxAw9FRecAKJOZ~wXKhsHrg3-GGio48YoyFuh2atEC3og7UkmOmg__"
               type="video/mp4"
             />
             Your browser does not support the video tag.

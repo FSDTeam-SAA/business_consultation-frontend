@@ -7,7 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 
 export default function SubscriptionPage() {
   // Sample data
@@ -93,9 +93,9 @@ export default function SubscriptionPage() {
         <Table>
           <TableHeader className="h-[70px] bg-[#CECECECC]">
             <TableRow>
-              <TableHead className="pl-[30px] text-[16px] font-[600] text-[#000000]">
+              {/* <TableHead className="pl-[30px] text-[16px] font-[600] text-[#000000]">
                 Type
-              </TableHead>
+              </TableHead> */}
               <TableHead className="text-[16px] font-[600] text-[#000000]">
                 Renewal Date
               </TableHead>
@@ -116,11 +116,11 @@ export default function SubscriptionPage() {
           <TableBody>
             {subscriptions.map((subscription, index) => (
               <TableRow key={index}>
-                <TableCell>
+                {/* <TableCell>
                   <Badge className="flex h-[30px] w-[87px] items-center justify-center bg-green-500 text-[12px] hover:bg-green-600">
                     {subscription.type}
                   </Badge>
-                </TableCell>
+                </TableCell> */}
                 <TableCell>{subscription.renewalDate}</TableCell>
                 <TableCell>{subscription.expiredDate}</TableCell>
                 <TableCell>{subscription.total}</TableCell>

@@ -26,6 +26,7 @@ export function AccountSidebar() {
     { title: "Personal Information", href: "/account/personal-information" },
     { title: "Subscription", href: "/account/subscription" },
     { title: "Notification", href: "/account/notification" },
+    { title: "Email Consultation", href: "/account/email-consaltaion" },
     { title: "Privacy Policy", href: "/account/privacy-policy" },
     { title: "Terms & Condition", href: "/account/terms-condition" },
   ];

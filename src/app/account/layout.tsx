@@ -1,27 +1,33 @@
-import "@/app/globals.css";
-import type { Metadata } from "next";
-import Navbar from "@/components/navar";
-import Footer from "@/components/footer";
-import NewsletterSection from "@/components/newsletter-section";
+import type React from "react";
+import {
+  SidebarProvider,
+  SidebarInset,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+import { AccountSidebar } from "./_components/account-sidebar";
+import PageHero from "@/components/page-hero";
 
-export const metadata: Metadata = {
-  title: "Account",
-  description: "Account",
-};
-
-export default function RootLayout({
+export default function AccountLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className={``}>
-        <Navbar />
-        {children}
-        <NewsletterSection />
-        <Footer />
-      </body>
-    </html>
+    <div>
+      <PageHero title="Account" breadcrumb="Account" currentRoute="account" />
+      <SidebarProvider>
+        <div className="container mx-auto mt-[40px] flex min-h-screen">
+          <AccountSidebar />
+          <SidebarInset className="flex-1">
+            <main className="flex-1 p-6">
+              <div className="mb-4 md:hidden">
+                <SidebarTrigger className="h-10 w-10 bg-[#09b850] text-white" />
+              </div>
+              {children}
+            </main>
+          </SidebarInset>
+        </div>
+      </SidebarProvider>
+    </div>
   );
 }

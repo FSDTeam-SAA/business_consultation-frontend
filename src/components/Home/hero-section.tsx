@@ -3,15 +3,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import NextImage from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import heroImg from "@/../public/asset/hero.png";
+import heroImg from "@/../public/asset/hero.jpg";
 
 const carouselItems = [
   {
     id: 1,
-    title: "Expert Business Consulting",
-    subtitle: "Strategy, Growth & Success",
+    title: "Going 2 Zero",
+    subtitle: "Future Proofing Your Business",
     description:
       "Unlock your business's full potential with expert consulting tailored to your needs. From strategic planning to growth acceleration, we provide the insights and solutions to help you thrive in a competitive market. Let's build your success together!",
     buttonText: "GET STARTED",
@@ -32,7 +32,7 @@ const carouselItems = [
     subtitle: "Optimization & Growth",
     description:
       "Maximize your financial performance with our expert consulting services. We help you identify opportunities and implement strategies for financial success and stability.",
-    buttonText: "DISCOVER",
+    buttonText: "GET STARTED",
     buttonLink: "/services/financial",
   },
 ];
@@ -104,38 +104,43 @@ export default function HeroSection() {
       </div>
 
       {/* Carousel Controls */}
-      <div className="absolute bottom-10 left-0 right-0 z-20">
-        <div className="container mx-auto flex items-center justify-between px-4">
-          <div className="flex space-x-2">
-            {carouselItems.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={cn(
-                  "h-3 w-3 rounded-full transition-colors",
-                  currentSlide === index ? "bg-[#09B850]" : "bg-white/50",
-                )}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-          <div className="flex space-x-2">
-            <button
-              onClick={prevSlide}
-              className="rounded-full bg-white/20 p-2 transition-colors hover:bg-white/30"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="h-5 w-5 text-white" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="rounded-full bg-white/20 p-2 transition-colors hover:bg-white/30"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="h-5 w-5 text-white" />
-            </button>
-          </div>
-        </div>
+      {/* Carousel Controls - Large Screens (lg) */}
+      <div className="absolute inset-y-0 left-4 z-20 flex hidden items-center md:hidden lg:flex">
+        <button
+          onClick={prevSlide}
+          className="rounded-full bg-[#078A3C] p-3 transition-colors hover:bg-[#078A3C]/90"
+          aria-label="Previous slide"
+        >
+          <ArrowLeft className="h-6 w-6 text-white" />
+        </button>
+      </div>
+
+      <div className="absolute inset-y-0 right-4 z-20 flex hidden items-center md:hidden lg:flex">
+        <button
+          onClick={nextSlide}
+          className="rounded-full bg-[#078A3C] p-3 transition-colors hover:bg-[#078A3C]/90"
+          aria-label="Next slide"
+        >
+          <ArrowRight className="h-6 w-6 text-white" />
+        </button>
+      </div>
+
+      {/* Carousel Controls - Medium and Small Screens (md and below) */}
+      <div className="absolute bottom-[120px] right-4 z-20 flex items-center md:flex lg:hidden">
+        <button
+          onClick={nextSlide}
+          className="rounded-full bg-[#078A3C] p-3 transition-colors hover:bg-[#078A3C]/90"
+          aria-label="Next slide"
+        >
+          <ArrowLeft className="h-6 w-6 text-white" />
+        </button>
+        <button
+          onClick={prevSlide}
+          className="ml-2 rounded-full bg-[#078A3C] p-3 transition-colors hover:bg-[#078A3C]/90"
+          aria-label="Previous slide"
+        >
+          <ArrowRight className="h-6 w-6 text-white" />
+        </button>
       </div>
     </section>
   );

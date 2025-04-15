@@ -22,14 +22,8 @@ interface LoginResponse {
     accessToken: string;
     refreshToken: string;
     role: string;
-    userId: string;
+    user: User;
   };
-}
-
-interface ProfileResponse {
-  status: boolean;
-  message: string;
-  data: User;
 }
 
 interface LoginCredentials {
@@ -46,6 +40,9 @@ export function useAuth() {
 
   // Get auth info in a consistent way across the hook
   const getAuthInfo = useCallback(() => {
+    if (typeof window === "undefined")
+      return { token: null, userId: null, refreshToken: null };
+
     // Check localStorage first, then sessionStorage as fallback
     const token =
       localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
@@ -62,6 +59,7 @@ export function useAuth() {
       userId: string,
       refreshToken: string,
       rememberMe: boolean,
+      userData?: User,
     ) => {
       // If rememberMe, store in localStorage, else sessionStorage
       if (rememberMe) {
@@ -77,11 +75,19 @@ export function useAuth() {
 
       // Set cookie for middleware if needed
       document.cookie = `authToken=${accessToken}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
+
+      // Immediately update the state with user data if provided
+      if (userData) {
+        setUser(userData);
+        setIsLoggedIn(true);
+      }
     },
-    [],
+    [setUser, setIsLoggedIn],
   );
 
   const clearAuthInfo = useCallback(() => {
+    if (typeof window === "undefined") return;
+
     localStorage.removeItem("authToken");
     sessionStorage.removeItem("authToken");
     localStorage.removeItem("userId");
@@ -120,6 +126,7 @@ export function useAuth() {
           userId,
           data.data.refreshToken || refreshToken,
           rememberMe,
+          data.data.user, // Pass user data if available in refresh response
         );
         return true;
       }
@@ -156,8 +163,13 @@ export function useAuth() {
         }
 
         if (response.ok) {
-          const responseData: ProfileResponse = await response.json();
-          return responseData.status ? responseData.data : null;
+          const responseData = await response.json();
+          if (responseData.status) {
+            // Immediately update the user state when profile is fetched successfully
+            setUser(responseData.data);
+            return responseData.data;
+          }
+          return null;
         }
 
         return null;
@@ -185,7 +197,7 @@ export function useAuth() {
       const userData = await fetchUserProfile(userId, token);
 
       if (userData) {
-        setUser(userData);
+        // fetchUserProfile now handles setting the user state
         setIsLoggedIn(true);
         return true;
       } else {
@@ -196,7 +208,7 @@ export function useAuth() {
           if (newToken) {
             const refreshedUserData = await fetchUserProfile(userId, newToken);
             if (refreshedUserData) {
-              setUser(refreshedUserData);
+              // fetchUserProfile now handles setting the user state
               setIsLoggedIn(true);
               return true;
             }
@@ -222,7 +234,10 @@ export function useAuth() {
 
   // Initialize on mount
   useEffect(() => {
-    checkSession();
+    // Don't run during SSR
+    if (typeof window !== "undefined") {
+      checkSession();
+    }
   }, [checkSession]);
 
   const login = async (
@@ -250,26 +265,24 @@ export function useAuth() {
       }
 
       if (data.status && data.data.accessToken) {
-        storeAuthInfo(
-          data.data.accessToken,
-          data.data.userId,
-          data.data.refreshToken,
-          rememberMe,
-        );
+        // Store user ID from the user object
+        const userId = data.data.user._id;
 
+        // First update the state to ensure immediate access to user data
+        setUser(data.data.user);
         setIsLoggedIn(true);
 
-        // Fetch user profile after successful login
-        const userData = await fetchUserProfile(
-          data.data.userId,
+        // Then store the auth info
+        storeAuthInfo(
           data.data.accessToken,
+          userId,
+          data.data.refreshToken,
+          rememberMe,
+          data.data.user, // Pass user data to storeAuthInfo
         );
-        if (userData) {
-          setUser(userData);
-          return true;
-        }
 
-        return false;
+        router.push("/");
+        return true;
       }
       return false;
     } catch (error) {
@@ -284,7 +297,7 @@ export function useAuth() {
     clearAuthInfo();
     setIsLoggedIn(false);
     setUser(null);
-    router.push("/login");
+    router.push("/");
   };
 
   // Update user data (for profile updates)
@@ -293,10 +306,7 @@ export function useAuth() {
       const { token, userId } = getAuthInfo();
       if (token && userId) {
         const userData = await fetchUserProfile(userId, token);
-        if (userData) {
-          setUser(userData);
-          return true;
-        }
+        return !!userData;
       }
     }
     return false;

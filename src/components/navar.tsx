@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Hideon from "@/provider/Hideon";
 import { Input } from "./ui/input";
+import { useAuth } from "@/hooks/useAuth";
 
 // interface NavbarProps {
 //   currentRoute?: string;
@@ -19,6 +20,10 @@ export default function Navbar() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const pathName = usePathname();
   const profileRef = useRef<HTMLDivElement>(null);
+
+  const { user, logout } = useAuth();
+
+  console.log(user);
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -274,65 +279,69 @@ export default function Navbar() {
               }`}
             />
           </div>
-          {/* User Profile */}
-          <div className="relative" ref={profileRef}>
-            <div
-              className="flex cursor-pointer items-center"
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
-            >
-              <div className="mr-2 hidden text-right sm:block">
-                <div
-                  className={cn(
-                    "text-sm",
-                    isScrolled ? "text-gray-800" : "text-white",
-                  )}
-                >
-                  Jaman
-                </div>
-                <div
-                  className={cn(
-                    "text-xs",
-                    isScrolled ? "text-gray-600" : "text-white/70",
-                  )}
-                >
-                  User
-                </div>
-              </div>
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#09B850]">
-                <User className="h-6 w-6 text-white" />
-              </div>
-            </div>
 
-            {/* Profile Dropdown */}
-            {isProfileOpen && (
-              <div className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
-                <Link
-                  href="/account"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  onClick={() => setIsProfileOpen(false)}
-                >
-                  Your Profile
-                </Link>
-                <Link
-                  href="/account/settings"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                  onClick={() => setIsProfileOpen(false)}
-                >
-                  Settings
-                </Link>
-                <div className="my-1 border-t border-gray-100"></div>
-                <button
-                  className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
-                  onClick={() => {
-                    // Add logout logic here
-                    setIsProfileOpen(false);
-                  }}
-                >
-                  Logout
-                </button>
+          {/* User Profile */}
+          {user ? (
+            <div className="relative" ref={profileRef}>
+              <div
+                className="flex cursor-pointer items-center"
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+              >
+                <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#09B850]">
+                  <User className="h-6 w-6 text-white" />
+                </div>
+                <div className="ml-2 hidden sm:block">
+                  <div
+                    className={cn(
+                      "text-sm",
+                      isScrolled ? "text-gray-800" : "text-white",
+                    )}
+                  >
+                    {user?.fullName}
+                  </div>
+                  <div
+                    className={cn(
+                      "text-xs",
+                      isScrolled ? "text-gray-600" : "text-white/70",
+                    )}
+                  >
+                    {user?.email}
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
+
+              {/* Profile Dropdown */}
+              {isProfileOpen && (
+                <div className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
+                  <Link
+                    href="/account"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setIsProfileOpen(false)}
+                  >
+                    Settings
+                  </Link>
+                  <div className="my-1 border-t border-gray-100"></div>
+                  <button
+                    className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+                    onClick={() => {
+                      // Add logout logic here
+                      setIsProfileOpen(false);
+                      logout();
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className={`rounded-lg bg-primary px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90`}
+            >
+              Login
+            </Link>
+          )}
         </div>
       </header>
     </Hideon>

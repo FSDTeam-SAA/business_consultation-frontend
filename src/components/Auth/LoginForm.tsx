@@ -1,38 +1,14 @@
 "use client";
 
 import type React from "react";
+
 import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-
-interface LoginCredentials {
-  email: string;
-  password: string;
-}
-
-async function loginUser(credentials: LoginCredentials) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-    },
-  );
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.error || "Failed to login");
-  }
-
-  return response.json();
-}
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -41,27 +17,25 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const loginMutation = useMutation({
-    mutationFn: loginUser,
-    onSuccess: (data) => {
-      if (rememberMe && data.token) {
-        localStorage.setItem("authToken", data.token);
-      } else if (data.token) {
-        sessionStorage.setItem("authToken", data.token);
-      }
+  // Use the auth hook
+  const { login, loginPending } = useAuth();
 
-      toast.success("Login successful!")
-      router.push("/")
-    },
-    onError: (error: Error) => {
-      toast.error(error.message || "Login failed. Please try again.")
-      router.push("/subscription")
-    },
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation.mutate({ email, password });
+
+    try {
+      const success = await login({ email, password }, rememberMe);
+
+      if (success) {
+        toast.success("Login successful!");
+        router.push("/");
+      } else {
+        toast.error("Login failed. Please check your credentials.");
+      }
+    } catch {
+      toast.error("Login failed. Please try again.");
+      router.push("/subscription");
+    }
   };
 
   return (
@@ -101,7 +75,7 @@ export default function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              disabled={loginMutation.isPending}
+              disabled={loginPending}
             />
           </div>
 
@@ -118,13 +92,13 @@ export default function LoginForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                disabled={loginMutation.isPending}
+                disabled={loginPending}
               />
               <button
                 type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
                 onClick={() => setShowPassword(!showPassword)}
-                disabled={loginMutation.isPending}
+                disabled={loginPending}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -139,7 +113,7 @@ export default function LoginForm() {
                 className="h-4 w-4 rounded border-gray-300 text-green-500 focus:ring-green-500"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                disabled={loginMutation.isPending}
+                disabled={loginPending}
               />
               <label htmlFor="remember-me" className="ml-2 text-gray-700">
                 Remember me?
@@ -156,9 +130,9 @@ export default function LoginForm() {
           <button
             type="submit"
             className="w-full rounded-lg bg-green-500 py-3 text-center font-medium text-white hover:bg-green-600 focus:outline-none disabled:bg-green-300"
-            disabled={loginMutation.isPending}
+            disabled={loginPending}
           >
-            {loginMutation.isPending ? (
+            {loginPending ? (
               <span className="flex items-center justify-center">
                 <Loader2 size={20} className="mr-2 animate-spin" />
                 Logging in...
@@ -167,15 +141,15 @@ export default function LoginForm() {
               "Log In"
             )}
           </button>
-
-          {loginMutation.isError && (
-            <p className="mt-4 text-center text-red-500">
-              {loginMutation.error instanceof Error
-                ? loginMutation.error.message
-                : "Login failed. Please try again."}
-            </p>
-          )}
         </form>
+        <div>
+          <p className="mt-6 text-center text-gray-400">
+            Don&apos;t have an account?{" "}
+            <Link href="/sign-up" className="text-green-500 hover:underline">
+              Register
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

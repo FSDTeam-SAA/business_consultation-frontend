@@ -4,7 +4,7 @@ import HeroSection from "@/components/Home/hero-section";
 import Services from "@/components/Home/Services";
 import ServiceSection from "@/components/Home/ServiceSection";
 import WhyChooseUsSection from "@/components/Home/whyChooseUs";
-import { PortfolioCarouselResponsive } from "@/components/portfolio/PortfolioCarouselResponsive";
+// import { PortfolioCarouselResponsive } from "@/components/portfolio/PortfolioCarouselResponsive";
 export default function Home() {
   return (
     <main>
@@ -13,7 +13,7 @@ export default function Home() {
       <AboutUsSection />
       <Services />
       <WhyChooseUsSection />
-      <PortfolioCarouselResponsive />
+      {/* <PortfolioCarouselResponsive /> */}
       <BlogSection />
       
     </main>

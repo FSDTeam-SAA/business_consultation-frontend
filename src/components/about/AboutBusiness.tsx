@@ -82,12 +82,14 @@
 // }
 
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import AboutUsSection from "../Home/AboutUsSection";
+import ServiceSection from "../Home/ServiceSection";
+// import { Button } from "@/components/ui/button";
 
 export function AboutBusiness() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-16">
-      <div className="mb-16 flex flex-col gap-8 lg:flex-row">
+      {/* <div className="mb-16 flex flex-col gap-8 lg:flex-row">
         <div className="lg:w-1/2">
           <Image
             src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2020-avmv2FIrFBEiYyL7l3EtY7EQ0eg7Dq.png"
@@ -111,14 +113,23 @@ export function AboutBusiness() {
             Read More
           </Button>
         </div>
+      </div> */}
+      <div>
+      <ServiceSection/>
       </div>
-
+       <div>
+       <AboutUsSection/>
+       </div>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-
         <div className="">
           <div className="flex items-center gap-4">
-            <div className="text-2xl w-16 h-16">
-              <Image width={64} height={64} src="/asset/number1.png" alt="number image"/>
+            <div className="h-16 w-16 text-2xl">
+              <Image
+                width={64}
+                height={64}
+                src="/asset/number1.png"
+                alt="number image"
+              />
             </div>
             <h3 className="mb-2 text-xl font-bold">Business Planning</h3>
           </div>
@@ -133,10 +144,16 @@ export function AboutBusiness() {
 
         <div className="">
           <div className="flex items-center gap-4">
-            <div className="text-2xl w-16 h-16">
-              <Image width={64} height={64} src="/asset/numbere2.png" className="" alt="number image"/>
+            <div className="h-16 w-16 text-2xl">
+              <Image
+                width={64}
+                height={64}
+                src="/asset/numbere2.png"
+                className=""
+                alt="number image"
+              />
             </div>
-            <h3 className="mb-2 text-xl font-bold mr-6">Business Planning</h3>
+            <h3 className="mb-2 mr-6 text-xl font-bold">Business Planning</h3>
           </div>
           <div>
             <p className="text-gray-600">
@@ -149,8 +166,13 @@ export function AboutBusiness() {
 
         <div className="">
           <div className="flex items-center gap-4">
-            <div className="text-2xl w-16 h-16">
-              <Image width={64} height={64} src="/asset/number.png" alt="number image"/>
+            <div className="h-16 w-16 text-2xl">
+              <Image
+                width={64}
+                height={64}
+                src="/asset/number.png"
+                alt="number image"
+              />
             </div>
             <h3 className="mb-2 text-xl font-bold">Business Planning</h3>
           </div>

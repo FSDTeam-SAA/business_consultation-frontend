@@ -45,13 +45,10 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   const handleCommentSubmit = (
-    name: string,
-    email: string,
     content: string,
   ) => {
     const newComment: Comment = {
       id: `comment-${Date.now()}`,
-      name,
       content,
       date: new Date().toLocaleDateString("en-US", {
         year: "numeric",

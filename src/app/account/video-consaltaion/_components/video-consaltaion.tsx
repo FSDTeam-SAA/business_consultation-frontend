@@ -13,23 +13,17 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Email is required" })
     .email({ message: "Invalid email address" }),
-  phone: z.string().min(1, { message: "Phone number is required" }),
-  challenge: z.string().min(1, { message: "This field is required" }),
-  business: z.string().min(1, { message: "This field is required" }),
-  callTime: z.string().min(1, { message: "This field is required" }),
+  date: z.string().min(1, { message: "This field is required" }),
 });
 
 // Type inference from the schema
 type FormData = z.infer<typeof formSchema>;
 
-export default function ConsultationPage() {
+export default function VideoConsultationPage() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
-    phone: "",
-    challenge: "",
-    business: "",
-    callTime: "",
+    date: "",
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
@@ -82,10 +76,7 @@ export default function ConsultationPage() {
       setFormData({
         name: "",
         email: "",
-        phone: "",
-        challenge: "",
-        business: "",
-        callTime: "",
+        date: "",
       });
     }
   };
@@ -95,15 +86,15 @@ export default function ConsultationPage() {
       {/* Main Content */}
       <div className="w-full">
         <h1 className="mb-4 text-center text-2xl font-bold">
-          Get Free Consultation
+          Consultation Fee Per Hour $350
         </h1>
 
         {/* Consultation Form */}
         <form onSubmit={handleSubmit} className="rounded-lg bg-green-500 p-4">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4">
             {/* Name Field */}
             <div>
-              <label htmlFor="name" className="mb-1 block text-white">
+              <label htmlFor="name" className="mb-[10px] block text-white">
                 Name
               </label>
               <input
@@ -113,16 +104,16 @@ export default function ConsultationPage() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Your Name"
-                className={`w-full rounded-md p-2 ${errors.name ? "border-2 border-red-300" : ""}`}
+                className={`w-full rounded-md p-2 ${errors.name ? "border-2 border-red-500" : ""}`}
               />
               {errors.name && (
-                <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+                <p className="mt-1 text-sm text-red-200">{errors.name}</p>
               )}
             </div>
 
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="mb-1 block text-white">
+              <label htmlFor="email" className="mb-[10px] block text-white">
                 Email
               </label>
               <input
@@ -132,14 +123,33 @@ export default function ConsultationPage() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Your email"
-                className={`w-full rounded-md p-2 ${errors.email ? "border-2 border-red-300" : ""}`}
+                className={`w-full rounded-md p-2 ${errors.email ? "border-2 border-red-500" : ""}`}
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                <p className="mt-1 text-sm text-red-200">{errors.email}</p>
               )}
             </div>
 
-            {/* Phone Number Field */}
+            {/*  */}
+            <div>
+              <label htmlFor="date" className="mb-[10px] block text-white">
+                Booking Time
+              </label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                placeholder="Your email"
+                className={`w-full rounded-md p-2 text-green-600 ${errors.date ? "border-2 border-red-500" : ""}`}
+              />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-200">{errors.date}</p>
+              )}
+            </div>
+
+            {/* Phone Number Field
             <div>
               <label htmlFor="phone" className="mb-1 block text-white">
                 Phone Number
@@ -151,14 +161,14 @@ export default function ConsultationPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Your Number"
-                className={`w-full rounded-md p-2 ${errors.phone ? "border-2 border-red-300" : ""}`}
+                className={`w-full rounded-md p-2 ${errors.phone ? "border-2 border-red-500" : ""}`}
               />
               {errors.phone && (
-                <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+                <p className="mt-1 text-sm text-red-200">{errors.phone}</p>
               )}
-            </div>
+            </div> */}
 
-            {/* Business Nature Field */}
+            {/* Business Nature Field
             <div>
               <label htmlFor="business" className="mb-1 block text-white">
                 What&apos;s the nature of your business?
@@ -170,14 +180,14 @@ export default function ConsultationPage() {
                 value={formData.business}
                 onChange={handleChange}
                 placeholder="Enter business"
-                className={`w-full rounded-md p-2 ${errors.business ? "border-2 border-red-300" : ""}`}
+                className={`w-full rounded-md p-2 ${errors.business ? "border-2 border-red-500" : ""}`}
               />
               {errors.business && (
-                <p className="mt-1 text-sm text-red-500">{errors.business}</p>
+                <p className="mt-1 text-sm text-red-200">{errors.business}</p>
               )}
-            </div>
+            </div> */}
 
-            {/* Challenge Field */}
+            {/* Challenge Field
             <div>
               <label htmlFor="challenge" className="mb-1 block text-white">
                 What&apos;s your biggest challenge now?
@@ -189,31 +199,31 @@ export default function ConsultationPage() {
                 value={formData.challenge}
                 onChange={handleChange}
                 placeholder="Your Number"
-                className={`w-full rounded-md p-2 ${errors.challenge ? "border-2 border-red-300" : ""}`}
+                className={`w-full rounded-md p-2 ${errors.challenge ? "border-2 border-red-500" : ""}`}
               />
               {errors.challenge && (
-                <p className="mt-1 text-sm text-red-500">{errors.challenge}</p>
+                <p className="mt-1 text-sm text-red-200">{errors.challenge}</p>
               )}
-            </div>
+            </div> */}
 
             {/* Call Time Field */}
-            <div>
+            {/* <div>
               <label htmlFor="callTime" className="mb-1 block text-white">
                 What&apos;s the best time to call you?
               </label>
               <input
-                type="date"
-                id="date"
-                name="date"
+                type="text"
+                id="callTime"
+                name="callTime"
                 value={formData.callTime}
                 onChange={handleChange}
-                placeholder="Your email"
-                className={`w-full rounded-md p-2 text-green-600 ${errors.callTime ? "border-2 border-red-300" : ""}`}
+                placeholder="Enter business"
+                className={`w-full rounded-md p-2 ${errors.callTime ? "border-2 border-red-500" : ""}`}
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-500">{errors.callTime}</p>
+              {errors.callTime && (
+                <p className="mt-1 text-sm text-red-200">{errors.callTime}</p>
               )}
-            </div>
+            </div> */}
           </div>
 
           {/* Submit Button */}
@@ -221,7 +231,7 @@ export default function ConsultationPage() {
             type="submit"
             className="mt-6 w-full rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100"
           >
-            BOOK A CONSULTATION
+            Pay
           </button>
         </form>
 

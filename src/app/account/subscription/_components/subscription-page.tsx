@@ -96,19 +96,19 @@ export default function SubscriptionPage() {
               {/* <TableHead className="pl-[30px] text-[16px] font-[600] text-[#000000]">
                 Type
               </TableHead> */}
-              <TableHead className="text-[16px] font-[600] text-[#000000]">
+              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
                 Renewal Date
               </TableHead>
-              <TableHead className="text-[16px] font-[600] text-[#000000]">
+              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
                 Expired Date
               </TableHead>
-              <TableHead className="text-[16px] font-[600] text-[#000000]">
+              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
                 Total
               </TableHead>
-              <TableHead className="text-[16px] font-[600] text-[#000000]">
+              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
                 Status
               </TableHead>
-              <TableHead className="text-[16px] font-[600] text-[#000000]">
+              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
                 Action
               </TableHead>
             </TableRow>
@@ -121,11 +121,11 @@ export default function SubscriptionPage() {
                     {subscription.type}
                   </Badge>
                 </TableCell> */}
-                <TableCell>{subscription.renewalDate}</TableCell>
-                <TableCell>{subscription.expiredDate}</TableCell>
-                <TableCell>{subscription.total}</TableCell>
-                <TableCell>{subscription.status}</TableCell>
-                <TableCell>
+                <TableCell className="px-10">{subscription.renewalDate}</TableCell>
+                <TableCell className="px-10">{subscription.expiredDate}</TableCell>
+                <TableCell className="px-10">{subscription.total}</TableCell>
+                <TableCell className="px-10">{subscription.status}</TableCell>
+                <TableCell className="px-10">
                   <Button
                     variant="ghost"
                     className="h-6 p-2 text-[16px] font-[500] text-red-500 hover:bg-red-50 hover:text-red-700"

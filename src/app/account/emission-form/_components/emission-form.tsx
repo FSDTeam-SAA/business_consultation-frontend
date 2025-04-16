@@ -276,7 +276,7 @@ export default function EmissionForm() {
                       <FormItem>
                         <FormLabel>Full Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your name" {...field} />
+                          <Input  className="py-6" placeholder="Enter your name" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -291,6 +291,7 @@ export default function EmissionForm() {
                         <FormLabel>E-mail</FormLabel>
                         <FormControl>
                           <Input
+                          className="py-6"
                             placeholder="Enter your email"
                             type="email"
                             {...field}
@@ -309,6 +310,7 @@ export default function EmissionForm() {
                         <FormLabel>Phone Number</FormLabel>
                         <FormControl>
                           <Input
+                           className="py-6"
                             placeholder="Enter your phone number"
                             {...field}
                           />
@@ -326,6 +328,7 @@ export default function EmissionForm() {
                         <FormLabel>Company Legal Name</FormLabel>
                         <FormControl>
                           <Input
+                           className="py-6"
                             placeholder="Enter company legal name"
                             {...field}
                           />
@@ -343,6 +346,7 @@ export default function EmissionForm() {
                         <FormLabel>Company Operating Name</FormLabel>
                         <FormControl>
                           <Input
+                           className="py-6"
                             placeholder="Enter company operating name"
                             {...field}
                           />
@@ -359,7 +363,8 @@ export default function EmissionForm() {
                       <FormItem>
                         <FormLabel>Website</FormLabel>
                         <FormControl>
-                          <Input placeholder="URL" {...field} />
+                          
+                          <Input  className="py-6" placeholder="URL" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -374,6 +379,7 @@ export default function EmissionForm() {
                         <FormLabel>Headquarter Location</FormLabel>
                         <FormControl>
                           <Input
+                           className="py-6"
                             placeholder="Enter headquarter location"
                             {...field}
                           />
@@ -423,7 +429,7 @@ export default function EmissionForm() {
                       <FormItem>
                         <FormLabel>Business Sector</FormLabel>
                         <FormControl>
-                          <Input placeholder="Choose type" {...field} />
+                          <Input  className="py-6" placeholder="Choose type" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -438,6 +444,7 @@ export default function EmissionForm() {
                         <FormLabel>Number of Employees</FormLabel>
                         <FormControl>
                           <Input
+                           className="py-6"
                             placeholder="Enter number of employees"
                             {...field}
                           />
@@ -491,7 +498,7 @@ export default function EmissionForm() {
                           Total electrical consumption (kWh) annually
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter total" {...field} />
+                          <Input  className="py-6" placeholder="Enter total" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -538,7 +545,7 @@ export default function EmissionForm() {
                           Percentage of Energy Renewable (If Applicable)
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Percentage" {...field} />
+                          <Input  className="py-6" placeholder="Percentage" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -552,7 +559,7 @@ export default function EmissionForm() {
                       <FormItem>
                         <FormLabel>Number of Company Owned Vehicles</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter Number" {...field} />
+                          <Input  className="py-6" placeholder="Enter Number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -636,7 +643,7 @@ export default function EmissionForm() {
                           your answer
                         </FormDescription>
                         <FormControl>
-                          <Input placeholder="Enter Number" {...field} />
+                          <Input  className="py-6" placeholder="Enter Number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -655,7 +662,7 @@ export default function EmissionForm() {
                       <FormItem>
                         <FormLabel>Supply Chain & Logistics</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter Number" {...field} />
+                          <Input  className="py-6" placeholder="Enter Number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -671,7 +678,7 @@ export default function EmissionForm() {
                           Volume of Goods Transportation Method (Tons)
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter Number" {...field} />
+                          <Input   className="py-6" placeholder="Enter Number" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -690,7 +697,7 @@ export default function EmissionForm() {
                         >
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Choose type" />
+                              <SelectValue  placeholder="Choose type" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -737,7 +744,7 @@ export default function EmissionForm() {
                           Total Annual Turnover in the Last Financial Year
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Total amount" {...field} />
+                          <Input  className="py-6" placeholder="Total amount" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -754,7 +761,7 @@ export default function EmissionForm() {
                           Year
                         </FormLabel>
                         <FormControl>
-                          <Input placeholder="Total value" {...field} />
+                          <Input  className="py-6" placeholder="Total value" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

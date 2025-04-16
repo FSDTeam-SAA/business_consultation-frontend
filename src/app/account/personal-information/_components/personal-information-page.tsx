@@ -82,7 +82,7 @@ export default function PersonalInformationPage() {
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input  className="py-6" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -96,7 +96,7 @@ export default function PersonalInformationPage() {
                   <FormItem>
                     <FormLabel>Username</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input  className="py-6"  {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -110,7 +110,7 @@ export default function PersonalInformationPage() {
                   <FormItem>
                     <FormLabel>Email address</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input  className="py-6" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -124,7 +124,7 @@ export default function PersonalInformationPage() {
                   <FormItem>
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input  className="py-6" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -138,7 +138,7 @@ export default function PersonalInformationPage() {
                   <FormItem>
                     <FormLabel>Address</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input  className="py-6" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -185,6 +185,7 @@ export default function PersonalInformationPage() {
                 <Label htmlFor="current-password">Current Password</Label>
                 <div className="relative">
                   <Input
+                   className="py-6"
                     id="current-password"
                     type={showCurrentPassword ? "text" : "password"}
                     placeholder="Enter your current password"
@@ -210,6 +211,7 @@ export default function PersonalInformationPage() {
                   <Label htmlFor="new-password">New Password</Label>
                   <div className="relative">
                     <Input
+                     className="py-6"
                       id="new-password"
                       type={showNewPassword ? "text" : "password"}
                       placeholder="Enter your new password"
@@ -234,6 +236,7 @@ export default function PersonalInformationPage() {
                   <Label htmlFor="confirm-password">Confirm New Password</Label>
                   <div className="relative">
                     <Input
+                     className="py-6"
                       id="confirm-password"
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Enter your confirm new password"

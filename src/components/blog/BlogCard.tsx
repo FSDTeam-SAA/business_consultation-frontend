@@ -11,12 +11,13 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post }: BlogCardProps) {
+  console.log(post);
   return (
     <div>
       <div className="relative w-full overflow-hidden rounded-md">
-        <Link href={`/blog/${post.slug}`}>
+        <Link href={`/blog/${post?.slug}`}>
           <Image
-            src={post.image || "/placeholder.svg"}
+            src={post.image || ""}
             alt={post.title}
             width={600}
             height={400}
@@ -25,8 +26,9 @@ export default function BlogCard({ post }: BlogCardProps) {
         </Link>
         <div className="absolute right-[16px] top-[12px] min-h-[50px] min-w-[50px] rounded-[2px] bg-[#09B850]">
           <p className="mt-1 p-2 text-center text-lg leading-5 text-white">
-            {post.date.split(",")[0]}
-            {<br />} {post.date.split(",")[1]}
+            {post.date?.split(",")[0] ?? ""}
+            <br />
+            {post.date?.split(",")[1] ?? ""}
           </p>
         </div>
         <div className="py-6">

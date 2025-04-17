@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { Mail, Phone, } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Textarea } from "../ui/textarea";
+import { toast } from "sonner";
+import { useMutation } from "@tanstack/react-query";
 // Define the form schema with Zod
+//ame user ke ke information pathabo 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -21,8 +23,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  // Initialize React Hook Form with Zod validation
+  
   const {
     register,
     handleSubmit,
@@ -39,22 +40,38 @@ export default function ContactForm() {
     },
   });
 
-  // Form submission handler
-  const onSubmit = async (data: FormValues) => {
-    setIsSubmitting(true);
 
-    try {
-      // Log the form data to console
-      console.log("Form submitted with data:", data);
+  const { mutate: submitContact, isPending } = useMutation({
+    mutationFn: async (data: FormValues) => {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-      // Reset the form
+      if (!response.ok) {
+        throw new Error("Failed to send message. Please try again.");
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      toast.success("Message sent successfully!");
       reset();
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      toast.error(error.message || "Something went wrong.");
+    },
+  });
+
+
+  const onSubmit = (data:FormValues) => {
+    submitContact(data);
+  }
+
 
   return (
     <div>
@@ -153,17 +170,17 @@ export default function ContactForm() {
                     id="message"
                     placeholder="Write here..."
                     className={`w-full rounded-md border p-3 ${errors.message ? "border-red-500" : "border-gray-300"}`}
-                    {...register("name")}
+                    {...register("message")}
                   />
                 </div>
               </div>
 
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isPending}
                 className="rounded-md bg-emerald-500 px-6 py-3 font-medium text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-70"
               >
-                {isSubmitting ? "Sending..." : "Send Message"}
+                {isPending ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>

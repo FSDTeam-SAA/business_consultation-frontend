@@ -114,7 +114,7 @@ export default function NewsletterSection() {
   return (
     <QueryClientProvider client={queryClient}>
       <NewsletterForm />
-      <Toaster position="top-right" />
+      <Toaster richColors position="top-right" />
     </QueryClientProvider>
   );
 }

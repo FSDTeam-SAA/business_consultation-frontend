@@ -1,66 +1,79 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import NextImage from "next/image"
-import { QueryClient, QueryClientProvider, useMutation } from "@tanstack/react-query"
-import { toast } from "sonner"
-import { Toaster } from "sonner"
+import type React from "react";
+import { useState } from "react";
+import NextImage from "next/image";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+} from "@tanstack/react-query";
+import { toast } from "sonner";
+import { Toaster } from "sonner";
 
 // Create a client
-const queryClient = new QueryClient()
+const queryClient = new QueryClient();
 
 function NewsletterForm() {
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
 
   // Create a mutation for the newsletter subscription
   const { mutate, isPending, isSuccess } = useMutation({
     mutationFn: async (email: string) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/newsletter`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/newsletter`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
         },
-        body: JSON.stringify({ email }),
-      })
+      );
 
       if (!response.ok) {
-        throw new Error("Your email is already subscribed.")
+        throw new Error("Your email is already subscribed.");
       }
 
-      return response.json()
+      return response.json();
     },
     onSuccess: () => {
-      setEmail("")
-      toast.success("Thank you for subscribing!")
+      setEmail("");
+      toast.success("Thank you for subscribing!");
     },
     onError: (error) => {
-      toast.error(error.message || "Failed to subscribe. Please try again.")
+      toast.error(error.message || "Failed to subscribe. Please try again.");
     },
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    mutate(email)
-  }
+    e.preventDefault();
+    mutate(email);
+  };
 
   return (
-    <section className="py-16 bg-[#DAD7D8]">
+    <section className="bg-[#DAD7D8] py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div className="relative">
-            <NextImage src="/asset/newslater.png" alt="Newsletter" width={600} height={400} className="rounded-lg" />
+            <NextImage
+              src="/asset/newslater.png"
+              alt="Newsletter"
+              width={600}
+              height={400}
+              className="rounded-lg"
+            />
           </div>
 
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#033618] mb-4">
+            <h2 className="mb-4 text-2xl font-bold text-[#033618] md:text-3xl">
               Subscribe to our
               <br />
               Newsletter!
             </h2>
-            <p className="text-gray-600 mb-6">
-              Stay updated with our latest insights, industry trends, and expert advice delivered directly to your
-              inbox.
+            <p className="mb-6 text-gray-600">
+              Stay updated with our latest insights, industry trends, and expert
+              advice delivered directly to your inbox.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -70,26 +83,30 @@ function NewsletterForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#09B850] focus:border-transparent"
+                  className="w-full rounded-md border border-gray-300 px-4 py-3 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-[#09B850]"
                   required
                   disabled={isPending}
                 />
               </div>
               <button
                 type="submit"
-                className="w-full bg-[#09B850] hover:bg-[#09B850]/90 text-white px-6 py-3 rounded-md font-medium transition-colors"
+                className="w-full rounded-md bg-[#09B850] px-6 py-3 font-medium text-white transition-colors hover:bg-[#09B850]/90"
                 disabled={isPending}
               >
                 {isPending ? "Subscribing..." : "Subscribe"}
               </button>
 
-              {isSuccess && <div className="text-[#09B850] font-medium">Thank you for subscribing!</div>}
+              {isSuccess && (
+                <div className="font-medium text-[#09B850]">
+                  Thank you for subscribing!
+                </div>
+              )}
             </form>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 // Wrap the component with the provider
@@ -99,5 +116,5 @@ export default function NewsletterSection() {
       <NewsletterForm />
       <Toaster position="top-right" />
     </QueryClientProvider>
-  )
+  );
 }

@@ -118,6 +118,114 @@ export default function CompanyDashboard() {
         </CardContent>
       </Card>
 
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        {/* Energy Sources Chart */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium text-emerald-500">
+              Energy Sources
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Chart className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={energySourcesData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={0}
+                    outerRadius={80}
+                    paddingAngle={1}
+                    dataKey="value"
+                    activeIndex={activeEnergyIndex}
+                    activeShape={renderActiveShape}
+                    onMouseEnter={(_, index) => setActiveEnergyIndex(index)}
+                    label={({ value }) => `${value}%`}
+                    labelLine={false}
+                  >
+                    {energySourcesData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </Chart>
+            <ChartLegend className="mt-4 grid grid-cols-2 gap-2">
+              {energySourcesData.map((entry, index) => (
+                <ChartLegendItem
+                  key={index}
+                  color={entry.color}
+                  label={entry.name}
+                />
+              ))}
+            </ChartLegend>
+          </CardContent>
+        </Card>
+
+        {/* Type of Fuel Used in Vehicles */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium text-emerald-500">
+              Type of Fuel Used in Vehicles
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Chart className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={fuelTypesData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={0}
+                    outerRadius={80}
+                    paddingAngle={1}
+                    dataKey="value"
+                    activeIndex={activeFuelIndex}
+                    activeShape={renderActiveShape}
+                    onMouseEnter={(_, index) => setActiveFuelIndex(index)}
+                    label={({ value }) => `${value}%`}
+                    labelLine={false}
+                  >
+                    {fuelTypesData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </Chart>
+            <ChartLegend className="mt-4 grid grid-cols-2 gap-2">
+              {fuelTypesData.map((entry, index) => (
+                <ChartLegendItem
+                  key={index}
+                  color={entry.color}
+                  label={entry.name}
+                />
+              ))}
+            </ChartLegend>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Percentage of Energy Renewable */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base font-medium text-emerald-500">
+            Percentage of Energy Renewable
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-10">
+          <CustomProgress value={90} color="#10b981" label="90%" />
+          <CustomProgress value={70} color="#3b82f6" label="70%" />
+          <CustomProgress value={80} color="#818cf8" label="80%" />
+          <CustomProgress value={50} color="#a855f7" label="50%" />
+          <CustomProgress value={65} color="#ec4899" label="65%" />
+          <CustomProgress value={60} color="#22c55e" label="60%" />
+          <CustomProgress value={70} color="#f97316" label="70%" />
+          <CustomProgress value={40} color="#064e3b" label="40%" />
+        </CardContent>
+      </Card>
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Business Sector */}
@@ -311,114 +419,7 @@ export default function CompanyDashboard() {
             </div>
           </CardContent>
         </Card> */}
-
-        {/* Energy Sources Chart */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-emerald-500">
-              Energy Sources
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Chart className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={energySourcesData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={0}
-                    outerRadius={80}
-                    paddingAngle={1}
-                    dataKey="value"
-                    activeIndex={activeEnergyIndex}
-                    activeShape={renderActiveShape}
-                    onMouseEnter={(_, index) => setActiveEnergyIndex(index)}
-                    label={({ value }) => `${value}%`}
-                    labelLine={false}
-                  >
-                    {energySourcesData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </Chart>
-            <ChartLegend className="mt-4 grid grid-cols-2 gap-2">
-              {energySourcesData.map((entry, index) => (
-                <ChartLegendItem
-                  key={index}
-                  color={entry.color}
-                  label={entry.name}
-                />
-              ))}
-            </ChartLegend>
-          </CardContent>
-        </Card>
-
-        {/* Type of Fuel Used in Vehicles */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-emerald-500">
-              Type of Fuel Used in Vehicles
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Chart className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={fuelTypesData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={0}
-                    outerRadius={80}
-                    paddingAngle={1}
-                    dataKey="value"
-                    activeIndex={activeFuelIndex}
-                    activeShape={renderActiveShape}
-                    onMouseEnter={(_, index) => setActiveFuelIndex(index)}
-                    label={({ value }) => `${value}%`}
-                    labelLine={false}
-                  >
-                    {fuelTypesData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </Chart>
-            <ChartLegend className="mt-4 grid grid-cols-2 gap-2">
-              {fuelTypesData.map((entry, index) => (
-                <ChartLegendItem
-                  key={index}
-                  color={entry.color}
-                  label={entry.name}
-                />
-              ))}
-            </ChartLegend>
-          </CardContent>
-        </Card>
       </div>
-
-      {/* Percentage of Energy Renewable */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base font-medium text-emerald-500">
-            Percentage of Energy Renewable
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <CustomProgress value={90} color="#10b981" label="90%" />
-          <CustomProgress value={70} color="#3b82f6" label="70%" />
-          <CustomProgress value={80} color="#818cf8" label="80%" />
-          <CustomProgress value={50} color="#a855f7" label="50%" />
-          <CustomProgress value={65} color="#ec4899" label="65%" />
-          <CustomProgress value={60} color="#22c55e" label="60%" />
-          <CustomProgress value={70} color="#f97316" label="70%" />
-          <CustomProgress value={40} color="#064e3b" label="40%" />
-        </CardContent>
-      </Card>
     </div>
   );
 }

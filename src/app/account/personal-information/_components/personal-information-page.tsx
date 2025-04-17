@@ -17,35 +17,25 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Eye, EyeOff } from "lucide-react";
+
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import ChangePasswordForm from "@/components/Auth/ChangePasswordForm";
 
-const accountFormSchema = z
-  .object({
-    fullName: z
-      .string()
-      .min(2, { message: "Full name must be at least 2 characters." }),
-    email: z.string().email({ message: "Please enter a valid email address." }),
-    phone: z
-      .string()
-      .min(10, { message: "Phone number must be at least 10 characters." }),
-    address: z
-      .string()
-      .min(5, { message: "Address must be at least 5 characters." }),
-    about: z.string().optional(),
-    currentPassword: z.string().optional(),
-    newPassword: z.string().optional(),
-    confirmPassword: z.string().optional(),
-  })
-  .refine(
-    (data) => !data.newPassword || data.newPassword === data.confirmPassword,
-    {
-      message: "New password and confirm password do not match",
-      path: ["confirmPassword"],
-    },
-  );
+const accountFormSchema = z.object({
+  fullName: z
+    .string()
+    .min(2, { message: "Full name must be at least 2 characters." }),
+  email: z.string().email({ message: "Please enter a valid email address." }),
+  phone: z
+    .string()
+    .min(10, { message: "Phone number must be at least 10 characters." }),
+  address: z
+    .string()
+    .min(5, { message: "Address must be at least 5 characters." }),
+  about: z.string().optional(),
+});
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
@@ -57,13 +47,12 @@ export default function PersonalInformationPage() {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   useEffect(() => {
     const storedToken = sessionStorage.getItem("authToken");
-    if (storedToken) setToken(storedToken);
+    const lstoredToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      setToken(storedToken);
+    } else setToken(lstoredToken);
   }, []);
 
   const form = useForm<AccountFormValues>({
@@ -72,31 +61,28 @@ export default function PersonalInformationPage() {
       fullName: user?.fullName || "",
       email: user?.email || "",
       phone: user?.phoneNumber || "",
-      address: "Bangladesh",
-      about: "",
+      address: user?.address || "",
+      about: user?.about || "",
     },
   });
 
   useEffect(() => {
     if (user) {
       form.reset({
-        fullName: user.fullName,
-        email: user.email,
-        phone: user.phoneNumber,
-        address: "Bangladesh",
-        about: "",
+        fullName: user.fullName || "",
+        email: user.email || "",
+        phone: user.phoneNumber || "",
+        address: user.address || "",
+        about: user.about || "",
       });
     }
-    console.log(form)
   }, [form, user]);
 
   const updateProfileMutation = useMutation({
     mutationFn: async (data: AccountFormValues) => {
-      if (!user?._id || !token)
-        throw new Error("User ID or token not available");
-
+      if (token === null) throw new Error("Token not available");
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/update/${user._id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile`,
         {
           method: "PUT",
           headers: {
@@ -129,57 +115,18 @@ export default function PersonalInformationPage() {
     },
   });
 
-  const updatePasswordMutation = useMutation({
-    mutationFn: async (passwordData: {
-      currentPassword: string;
-      newPassword: string;
-    }) => {
-      if (!user?._id || !token)
-        throw new Error("User ID or token not available");
-
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/change-password/${user._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(passwordData),
-        },
-      );
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || "Failed to update password");
-      }
-
-      return res.json();
-    },
-    onSuccess: () => {
-      toast.success("Your password has been updated successfully.");
-      form.setValue("currentPassword", "");
-      form.setValue("newPassword", "");
-      form.setValue("confirmPassword", "");
-    },
-    onError: () => {
-      toast.error("Failed to update password");
-    },
-  });
-
   const uploadImageMutation = useMutation({
     mutationFn: async () => {
-      if (!selectedImage || !user?._id || !token) {
-        throw new Error("Image, user ID, or token not available");
+      if (!selectedImage || token === null) {
+        throw new Error("Image or token not available");
       }
-
       const formData = new FormData();
       formData.append("profileImage", selectedImage);
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/upload-profile-image/${user._id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/image`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -198,7 +145,8 @@ export default function PersonalInformationPage() {
       toast.success("Your profile image has been updated successfully.");
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
-    onError: () => {
+    onError: (errr) => {
+      console.log(errr);
       toast.error("Failed to upload image");
     },
   });
@@ -213,13 +161,6 @@ export default function PersonalInformationPage() {
 
   const onSubmit = (data: AccountFormValues) => {
     updateProfileMutation.mutate(data);
- console.log(data)
-    if (data.currentPassword && data.newPassword) {
-      updatePasswordMutation.mutate({
-        currentPassword: data.currentPassword,
-        newPassword: data.newPassword,
-      });
-    }
   };
 
   return (
@@ -229,9 +170,10 @@ export default function PersonalInformationPage() {
       </h1>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mb-7 space-y-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr_200px]">
             <div className="space-y-6">
+              {/* Full name */}
               <FormField
                 control={form.control}
                 name="fullName"
@@ -245,7 +187,7 @@ export default function PersonalInformationPage() {
                   </FormItem>
                 )}
               />
-
+              {/* Email */}
               <FormField
                 control={form.control}
                 name="email"
@@ -259,7 +201,7 @@ export default function PersonalInformationPage() {
                   </FormItem>
                 )}
               />
-
+              {/* Phone */}
               <FormField
                 control={form.control}
                 name="phone"
@@ -273,7 +215,7 @@ export default function PersonalInformationPage() {
                   </FormItem>
                 )}
               />
-
+              {/* Address */}
               <FormField
                 control={form.control}
                 name="address"
@@ -287,7 +229,7 @@ export default function PersonalInformationPage() {
                   </FormItem>
                 )}
               />
-
+              {/* About */}
               <FormField
                 control={form.control}
                 name="about"
@@ -307,6 +249,7 @@ export default function PersonalInformationPage() {
               </Button>
             </div>
 
+            {/* Avatar section */}
             <div className="flex flex-col items-center gap-4">
               <label htmlFor="image">
                 <Avatar className="h-24 w-24 border-4 border-green-500">
@@ -322,9 +265,6 @@ export default function PersonalInformationPage() {
                     {user?.fullName?.charAt(0) || "U"}
                   </AvatarFallback>
                 </Avatar>
-                <Button variant="outline" className="w-full">
-                  Upload Image
-                </Button>
               </label>
               <input
                 type="file"
@@ -344,115 +284,11 @@ export default function PersonalInformationPage() {
               )}
             </div>
           </div>
-
-          <div className="border-t pt-6">
-            <h2 className="mb-6 text-xl font-bold">Change Password</h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="currentPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Current Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          type={showCurrentPassword ? "text" : "password"}
-                          className="py-6"
-                          placeholder="Enter current password"
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-0 top-0 h-full px-3"
-                          onClick={() => setShowCurrentPassword((v) => !v)}
-                        >
-                          {showCurrentPassword ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="newPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>New Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          type={showNewPassword ? "text" : "password"}
-                          className="py-6"
-                          placeholder="Enter new password"
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-0 top-0 h-full px-3"
-                          onClick={() => setShowNewPassword((v) => !v)}
-                        >
-                          {showNewPassword ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="confirmPassword"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Confirm New Password</FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Input
-                          {...field}
-                          type={showConfirmPassword ? "text" : "password"}
-                          className="py-6"
-                          placeholder="Confirm new password"
-                        />
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="icon"
-                          className="absolute right-0 top-0 h-full px-3"
-                          onClick={() => setShowConfirmPassword((v) => !v)}
-                        >
-                          {showConfirmPassword ? (
-                            <EyeOff className="h-4 w-4" />
-                          ) : (
-                            <Eye className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
         </form>
       </Form>
+
+      {/* Password section is modular now */}
+      <ChangePasswordForm />
     </div>
   );
 }

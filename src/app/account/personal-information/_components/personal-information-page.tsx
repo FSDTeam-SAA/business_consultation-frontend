@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import type React from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
@@ -17,15 +17,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Eye, EyeOff } from "lucide-react";
+
+import { useAuth } from "@/hooks/useAuth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import ChangePasswordForm from "@/components/Auth/ChangePasswordForm";
 
 const accountFormSchema = z.object({
   fullName: z
     .string()
     .min(2, { message: "Full name must be at least 2 characters." }),
-  username: z
-    .string()
-    .min(2, { message: "Username must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   phone: z
     .string()
@@ -34,36 +35,133 @@ const accountFormSchema = z.object({
     .string()
     .min(5, { message: "Address must be at least 5 characters." }),
   about: z.string().optional(),
-  currentPassword: z.string().optional(),
-  newPassword: z.string().optional(),
-  confirmPassword: z.string().optional(),
 });
 
 type AccountFormValues = z.infer<typeof accountFormSchema>;
 
 export default function PersonalInformationPage() {
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
 
-  const defaultValues: Partial<AccountFormValues> = {
-    fullName: "Jaman",
-    username: "@jaman",
-    email: "Jaman14@example.com",
-    phone: "(+337) 75 55 65 33",
-    address: "New York City,USA street 5,home 255/8",
-    about:
-      "I am a consulter for a small hotel business. I currently working with team based work.",
-  };
+  const [token, setToken] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("authToken");
+    const lstoredToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      setToken(storedToken);
+    } else setToken(lstoredToken);
+  }, []);
 
   const form = useForm<AccountFormValues>({
     resolver: zodResolver(accountFormSchema),
-    defaultValues,
+    defaultValues: {
+      fullName: user?.fullName || "",
+      email: user?.email || "",
+      phone: user?.phoneNumber || "",
+      address: user?.address || "",
+      about: user?.about || "",
+    },
   });
 
-  function onSubmit(data: AccountFormValues) {
-    console.log(data);
-  }
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        fullName: user.fullName || "",
+        email: user.email || "",
+        phone: user.phoneNumber || "",
+        address: user.address || "",
+        about: user.about || "",
+      });
+    }
+  }, [form, user]);
+
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data: AccountFormValues) => {
+      if (token === null) throw new Error("Token not available");
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            fullName: data.fullName,
+            email: data.email,
+            phoneNumber: data.phone,
+            address: data.address,
+            about: data.about,
+          }),
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to update profile");
+      }
+
+      return res.json();
+    },
+    onSuccess: () => {
+      toast.success("Your profile has been updated successfully.");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
+    onError: () => {
+      toast.error("Failed to update profile");
+    },
+  });
+
+  const uploadImageMutation = useMutation({
+    mutationFn: async () => {
+      if (!selectedImage || token === null) {
+        throw new Error("Image or token not available");
+      }
+      const formData = new FormData();
+      formData.append("profileImage", selectedImage);
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/image`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        },
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to upload image");
+      }
+
+      return res.json();
+    },
+    onSuccess: () => {
+      toast.success("Your profile image has been updated successfully.");
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+    },
+    onError: (errr) => {
+      console.log(errr);
+      toast.error("Failed to upload image");
+    },
+  });
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setSelectedImage(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const onSubmit = (data: AccountFormValues) => {
+    updateProfileMutation.mutate(data);
+  };
 
   return (
     <div>
@@ -72,9 +170,10 @@ export default function PersonalInformationPage() {
       </h1>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="mb-7 space-y-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-[1fr_200px]">
             <div className="space-y-6">
+              {/* Full name */}
               <FormField
                 control={form.control}
                 name="fullName"
@@ -82,27 +181,13 @@ export default function PersonalInformationPage() {
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input className="py-6" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
+              {/* Email */}
               <FormField
                 control={form.control}
                 name="email"
@@ -110,13 +195,13 @@ export default function PersonalInformationPage() {
                   <FormItem>
                     <FormLabel>Email address</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input className="py-6" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
+              {/* Phone */}
               <FormField
                 control={form.control}
                 name="phone"
@@ -124,13 +209,13 @@ export default function PersonalInformationPage() {
                   <FormItem>
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input className="py-6" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
+              {/* Address */}
               <FormField
                 control={form.control}
                 name="address"
@@ -138,13 +223,13 @@ export default function PersonalInformationPage() {
                   <FormItem>
                     <FormLabel>Address</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input className="py-6" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
+              {/* About */}
               <FormField
                 control={form.control}
                 name="about"
@@ -160,110 +245,50 @@ export default function PersonalInformationPage() {
               />
 
               <Button type="submit" className="bg-green-500 hover:bg-green-600">
-                Save Changes
+                {updateProfileMutation.isPending ? "Saving..." : "Save Changes"}
               </Button>
             </div>
 
+            {/* Avatar section */}
             <div className="flex flex-col items-center gap-4">
-              <Avatar className="h-24 w-24 border-4 border-green-500">
-                <AvatarImage
-                  src="/placeholder.svg?height=96&width=96"
-                  alt="Profile"
-                />
-                <AvatarFallback>JP</AvatarFallback>
-              </Avatar>
-              <Button variant="outline" className="w-full">
-                Upload Image
-              </Button>
-            </div>
-          </div>
-
-          <div className="border-t pt-6">
-            <h2 className="mb-6 text-xl font-bold">Change Password</h2>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="current-password">Current Password</Label>
-                <div className="relative">
-                  <Input
-                    id="current-password"
-                    type={showCurrentPassword ? "text" : "password"}
-                    placeholder="Enter your current password"
+              <label htmlFor="image">
+                <Avatar className="h-24 w-24 border-4 border-green-500">
+                  <AvatarImage
+                    src={
+                      previewUrl ||
+                      user?.profileImage ||
+                      "/placeholder.svg?height=96&width=96"
+                    }
+                    alt="Profile"
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    className="absolute right-0 top-0 h-full px-3"
-                    onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  >
-                    {showCurrentPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <div className="space-y-2">
-                  <Label htmlFor="new-password">New Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="new-password"
-                      type={showNewPassword ? "text" : "password"}
-                      placeholder="Enter your new password"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3"
-                      onClick={() => setShowNewPassword(!showNewPassword)}
-                    >
-                      {showNewPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="confirm-password">Confirm New Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="confirm-password"
-                      type={showConfirmPassword ? "text" : "password"}
-                      placeholder="Enter your confirm new password"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-0 top-0 h-full px-3"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-              <Button type="button" className="bg-green-500 hover:bg-green-600">
-                Save Change
-              </Button>
+                  <AvatarFallback>
+                    {user?.fullName?.charAt(0) || "U"}
+                  </AvatarFallback>
+                </Avatar>
+              </label>
+              <input
+                type="file"
+                id="image"
+                hidden
+                onChange={handleImageChange}
+                accept="image/*"
+              />
+              {selectedImage && (
+                <Button
+                  type="button"
+                  className="w-full bg-green-500 hover:bg-green-600"
+                  onClick={() => uploadImageMutation.mutate()}
+                >
+                  Upload Now
+                </Button>
+              )}
             </div>
           </div>
         </form>
       </Form>
+
+      {/* Password section is modular now */}
+      <ChangePasswordForm />
     </div>
   );
 }

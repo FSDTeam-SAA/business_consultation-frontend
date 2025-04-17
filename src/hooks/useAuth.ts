@@ -9,6 +9,8 @@ interface User {
   fullName?: string;
   phoneNumber?: string;
   role: string;
+  address?: string;
+  about?: string;
   profileImage: string;
   hasActiveSubscription: boolean;
   subscriptionExpireDate: string | null;

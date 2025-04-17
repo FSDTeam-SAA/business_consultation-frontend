@@ -27,6 +27,7 @@ export function AccountSidebar() {
     { title: "Subscription", href: "/account/subscription" },
     { title: "Notification", href: "/account/notification" },
     { title: "Email Consultation", href: "/account/email-consaltaion" },
+    { title: "video Consultation", href: "/account/video-consaltaion" },
     { title: "Privacy Policy", href: "/account/privacy-policy" },
     { title: "Terms & Condition", href: "/account/terms-condition" },
   ];

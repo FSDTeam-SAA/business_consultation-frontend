@@ -1,22 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+// import { useState } from "react";
 // import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Calendar,
-  MessageSquare,
-  Facebook,
-  Twitter,
-  Linkedin,
-} from "lucide-react";
+// import {
+//   Calendar,
+//   MessageSquare,
+//   Facebook,
+//   Twitter,
+//   Linkedin,
+// } from "lucide-react";
 import Sidebar from "@/components/blog/blog-sidebar";
-import CommentList from "@/components/blog/blog-list";
-import CommentForm from "@/components/blog/blog-form";
-import { getPostBySlug } from "@/lib/data";
-import type { Comment } from "@/lib/types";
-
+// import CommentList from "@/components/blog/blog-list";
+// import CommentForm from "@/components/blog/blog-form";
+// import { getPostBySlug } from "@/lib/data";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+// import type { Comment } from "@/lib/types";
 interface BlogPostPageProps {
   params: {
     slug: string;
@@ -25,11 +28,46 @@ interface BlogPostPageProps {
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
   // const router = useRouter();
-  const post = getPostBySlug(params.slug);
+  const [token, setToken] = useState<string | null>(null);
+  // const post = getPostBySlug(params.slug);
+  const pathName = useParams();
+  console.log(pathName);
+  console.log(params)
 
-  const [comments, setComments] = useState<Comment[]>(post?.comments || []);
+  const { slug } = useParams() as { slug: string };
 
-  if (!post) {
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("authToken");
+    setToken(storedToken);
+  }, []);
+
+  const {
+    data: postData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["blogPost", slug],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/${slug}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!res.ok) throw new Error("Failed to fetch blog post");
+      const data = await res.json();
+      return data.data; // Adjust this line based on your API response structure
+    },
+    enabled: !!slug, // only run when slug is available
+  });
+
+  console.log(postData);
+
+  if (isLoading) return <p className="py-10 text-center">Loading...</p>;
+  if (isError || !postData) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <h1 className="mb-4 text-3xl font-bold">Post not found</h1>
@@ -44,21 +82,36 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     );
   }
 
-  const handleCommentSubmit = (
-    content: string,
-  ) => {
-    const newComment: Comment = {
-      id: `comment-${Date.now()}`,
-      content,
-      date: new Date().toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-    };
+  if (!postData) {
+    return (
+      <div className="container mx-auto px-4 py-16 text-center">
+        <h1 className="mb-4 text-3xl font-bold">Post not found</h1>
+        <p className="mb-8">The post you are looking for does not exist.</p>
+        <Link
+          href="/blog"
+          className="rounded-md bg-green-500 px-6 py-2 text-white transition-colors hover:bg-green-600"
+        >
+          Back to Blog
+        </Link>
+      </div>
+    );
+  }
 
-    setComments((prevComments) => [newComment, ...prevComments]);
-  };
+  // const handleCommentSubmit = (
+  //   content: string,
+  // ) => {
+  //   const newComment: Comment = {
+  //     id: `comment-${Date.now()}`,
+  //     content,
+  //     date: new Date().toLocaleDateString("en-US", {
+  //       year: "numeric",
+  //       month: "long",
+  //       day: "numeric",
+  //     }),
+  //   };
+
+  //   setComments((prevComments) => [newComment, ...prevComments]);
+  // };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -66,8 +119,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="order-2 lg:order-1 lg:col-span-2">
           <article>
             <Image
-              src={post.image || "/placeholder.svg"}
-              alt={post.title}
+              src={postData.image || "/placeholder.svg"}
+              alt={postData.title}
               width={800}
               height={500}
               className="mb-6 h-[400px] w-full rounded-lg object-cover"
@@ -75,26 +128,45 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
             <div className="mb-4 flex items-center gap-4">
               <div className="flex items-center gap-1 text-green-500">
-                <Calendar className="h-4 w-4" />
-                <span>{post.date}</span>
+                {/* <Calendar className="h-4 w-4" /> */}
+                <span>{postData.date}</span>
+                <p>{postData?.authorName}</p>
               </div>
               <div className="flex items-center gap-1 text-gray-500">
-                <MessageSquare className="h-4 w-4" />
-                <span>{comments.length} Comments</span>
+                {/* <MessageSquare className="h-4 w-4" /> */}
+                {/* <span>{comments.length} Comments</span> */}
               </div>
             </div>
 
-            <h1 className="mb-6 text-3xl font-bold">{post.title}</h1>
+            <h1 className="mb-6">{postData.description}</h1>
 
             <div
               className="prose mb-8 max-w-none"
-              dangerouslySetInnerHTML={{ __html: post.content || "" }}
+              dangerouslySetInnerHTML={{ __html: postData.content || "" }}
             />
+
+            <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2025-kAeWcpAcNpzVoCzL4q3WjgxJXH5yLM.png"
+                alt="Business consultation"
+                width={600}
+                height={400}
+                className="h-[200px] w-full rounded-md object-cover"
+              />
+              <Image
+                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2026-9nR2sHrWRC9PMbeJFiezgvND1oeN7r.png"
+                alt="Business consultation"
+                width={600}
+                height={400}
+                className="h-[200px] w-full rounded-md object-cover"
+              />
+            </div>
 
             <div className="my-8 flex items-center justify-between border-b border-t border-gray-200 py-4">
               <div>
                 <span className="mr-2 font-medium">Tag:</span>
-                {(post.tags ?? []).map((tag) => (
+                
+                {(postData.tags ?? []).map((tag: any) => (
                   <Link
                     key={tag}
                     href={`/blog?tag=${encodeURIComponent(tag)}`}
@@ -105,7 +177,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 ))}
               </div>
 
-              <div className="flex items-center gap-2">
+              {/* <div className="flex items-center gap-2">
                 <span className="font-medium">Share:</span>
                 <Link
                   href="#"
@@ -125,32 +197,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 >
                   <Linkedin className="h-4 w-4" />
                 </Link>
-              </div>
-            </div>
-
-            <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2025-kAeWcpAcNpzVoCzL4q3WjgxJXH5yLM.png"
-                alt="Business consultation"
-                width={600}
-                height={400}
-                className="h-[200px] w-full rounded-md object-cover"
-              />
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2026-9nR2sHrWRC9PMbeJFiezgvND1oeN7r.png"
-                alt="Business consultation"
-                width={600}
-                height={400}
-                className="h-[200px] w-full rounded-md object-cover"
-              />
-            </div>
-
-            <div id="comments">
-              <CommentList comments={comments} />
-              <CommentForm
-                postSlug={post.slug || ""}
-                onCommentSubmit={handleCommentSubmit}
-              />
+              </div> */}
             </div>
           </article>
         </div>

@@ -98,7 +98,6 @@ export default function PersonalInformationPage() {
           }),
         },
       );
-
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.message || "Failed to update profile");
@@ -244,7 +243,7 @@ export default function PersonalInformationPage() {
                 )}
               />
 
-              <Button type="submit" className="bg-green-500 hover:bg-green-600">
+              <Button type="submit" disabled={updateProfileMutation.isPaused} className="bg-green-500 hover:bg-green-600">
                 {updateProfileMutation.isPending ? "Saving..." : "Save Changes"}
               </Button>
             </div>
@@ -278,8 +277,11 @@ export default function PersonalInformationPage() {
                   type="button"
                   className="w-full bg-green-500 hover:bg-green-600"
                   onClick={() => uploadImageMutation.mutate()}
+                  disabled={uploadImageMutation.isPending}
                 >
-                  Upload Now
+                  {uploadImageMutation.isPending
+                    ? "Uploading..."
+                    : "Upload Now"}
                 </Button>
               )}
             </div>

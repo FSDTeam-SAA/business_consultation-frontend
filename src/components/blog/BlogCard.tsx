@@ -24,16 +24,21 @@ export default function BlogCard({ post }: BlogCardProps) {
             className="h-[200px] w-full object-cover duration-300 hover:scale-105"
           />
         </Link>
-        <div className="absolute right-[16px] top-[12px] min-h-[50px] min-w-[50px] rounded-[2px] bg-[#09B850]">
-          <p className="mt-1 p-2 text-center text-lg leading-5 text-white">
-            {post.date?.split(",")[0] ?? ""}
+        <div className="absolute right-4 top-3 flex min-h-[50px] min-w-[50px] items-center justify-center rounded bg-[#09B850] px-2 py-1">
+          <p className="text-center text-sm leading-tight text-white">
+            {new Date(post.createdAt).toLocaleDateString("en-US", {
+              day: "2-digit",
+              month: "short",
+            })}
             <br />
-            {post.date?.split(",")[1] ?? ""}
+            {new Date(post.createdAt).toLocaleDateString("en-US", {
+              year: "numeric",
+            })}
           </p>
         </div>
         <div className="py-6">
           <p className="my-2 text-[#595959]">
-            By <span>{post.author}</span>
+            By <span>{post.authorName}</span>
           </p>
           <Link href={`/blog/${post.slug}`}>
             <h2 className="mb-2 text-2xl font-bold transition-colors hover:text-green-500">

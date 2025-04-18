@@ -4,8 +4,8 @@ export interface Post {
   excerpt: string;
   content?: string;
   slug?: string;
-  date: string;
-  author: string;
+  createdAt: string;
+  authorName: string;
   tags?: string[];
   image: string;
   comments?: Comment[];

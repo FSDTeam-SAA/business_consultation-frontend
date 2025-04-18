@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -91,7 +92,7 @@ export default function BlogSection() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-10 md:grid-cols-1 lg:grid-cols-3">
-          {posts.map((post) => (
+          {posts.map((post: any) => (
             <BlogCard key={post.id} post={post} />
           ))}
         </div>

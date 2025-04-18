@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -19,6 +20,7 @@ import Sidebar from "@/components/blog/blog-sidebar";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import Loading from "./loading";
 // import type { Comment } from "@/lib/types";
 interface BlogPostPageProps {
   params: {
@@ -30,9 +32,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   // const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   // const post = getPostBySlug(params.slug);
-  const pathName = useParams();
-  console.log(pathName);
-  console.log(params)
+  // const pathName = useParams();
+  // console.log(pathName);
+  // console.log(params);
 
   const { slug } = useParams() as { slug: string };
 
@@ -66,7 +68,10 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
   console.log(postData);
 
-  if (isLoading) return <p className="py-10 text-center">Loading...</p>;
+  if (isLoading) return (
+    <Loading />
+  );
+
   if (isError || !postData) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
@@ -84,7 +89,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
   if (!postData) {
     return (
-      <div className="container mx-auto px-4 py-16 text-center">
+      <div className="container mx-auto px-4 py-16 text-center ">
         <h1 className="mb-4 text-3xl font-bold">Post not found</h1>
         <p className="mb-8">The post you are looking for does not exist.</p>
         <Link
@@ -97,24 +102,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     );
   }
 
-  // const handleCommentSubmit = (
-  //   content: string,
-  // ) => {
-  //   const newComment: Comment = {
-  //     id: `comment-${Date.now()}`,
-  //     content,
-  //     date: new Date().toLocaleDateString("en-US", {
-  //       year: "numeric",
-  //       month: "long",
-  //       day: "numeric",
-  //     }),
-  //   };
-
-  //   setComments((prevComments) => [newComment, ...prevComments]);
-  // };
-
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 mt-20">
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="order-2 lg:order-1 lg:col-span-2">
           <article>
@@ -130,7 +119,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               <div className="flex items-center gap-1 text-green-500">
                 {/* <Calendar className="h-4 w-4" /> */}
                 <span>{postData.date}</span>
-                <p>{postData?.authorName}</p>
+                <p>By {postData?.authorName}</p>
               </div>
               <div className="flex items-center gap-1 text-gray-500">
                 {/* <MessageSquare className="h-4 w-4" /> */}
@@ -145,27 +134,38 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               dangerouslySetInnerHTML={{ __html: postData.content || "" }}
             />
 
-            <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2025-kAeWcpAcNpzVoCzL4q3WjgxJXH5yLM.png"
+                src={postData}
                 alt="Business consultation"
                 width={600}
                 height={400}
                 className="h-[200px] w-full rounded-md object-cover"
               />
-              <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2026-9nR2sHrWRC9PMbeJFiezgvND1oeN7r.png"
-                alt="Business consultation"
-                width={600}
-                height={400}
-                className="h-[200px] w-full rounded-md object-cover"
-              />
-            </div>
+              
+            </div> */}
+
+            {postData?.subImages?.length ? (
+              <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+                {postData.subImages.map((img: string, index: number) => (
+                  <Image
+                    key={index}
+                    src={img}
+                    alt={`Blog image ${index + 1}`}
+                    width={600}
+                    height={400}
+                    className="h-[200px] w-full rounded-md object-cover"
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500">No gallery images available.</p>
+            )}
 
             <div className="my-8 flex items-center justify-between border-b border-t border-gray-200 py-4">
               <div>
                 <span className="mr-2 font-medium">Tag:</span>
-                
+
                 {(postData.tags ?? []).map((tag: any) => (
                   <Link
                     key={tag}

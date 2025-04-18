@@ -56,8 +56,8 @@ export const posts: Post[] = [
       </ul>
     `,
     slug: "how-to-improve-employees-skill",
-    date: "March 20, 2025",
-    author: "Admin",
+    createdAt: "March 20, 2025",
+    authorName: "Admin",
     tags: ["Business", "Strategy"],
     image:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2024-9pBjWCpSZ8hmELAkwfnWne0vdBF9GR.png",
@@ -109,8 +109,8 @@ export const posts: Post[] = [
       </ul>
     `,
     slug: "how-to-improve-employees-skill-2",
-    date: "March 20, 2025",
-    author: "Admin",
+    createdAt: "March 20, 2025",
+    authorName: "Admin",
     tags: ["Business", "Finance"],
     image:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectanglef%2024-zfgOPhvee7hzDNig7I5KoaRFep7hhy.png",
@@ -133,8 +133,8 @@ export const posts: Post[] = [
       </ul>
     `,
     slug: "how-to-improve-employees-skill-3",
-    date: "March 20, 2025",
-    author: "Admin",
+    createdAt: "March 20, 2025",
+    authorName: "Admin",
     tags: ["Marketing", "Success"],
     image:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectanglse%2024-DDBNEg2JIxHnwc3hmO8gkTcHcGk4D4.png",
@@ -157,8 +157,8 @@ export const posts: Post[] = [
       </ul>
     `,
     slug: "how-to-improve-employees-skill-4",
-    date: "March 20, 2025",
-    author: "Admin",
+    createdAt: "March 20, 2025",
+    authorName: "Admin",
     tags: ["Solutions", "Strategy"],
     image:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectanglfase%2024-HwbGX5hRV2mKj084XF85YOfk8ZIcRd.png",
@@ -174,8 +174,8 @@ export const posts: Post[] = [
       <p>The great explore of the truth, the master builder of human happiness No... We have worked with globally & achieved a huge positive vibes. Provide a list of common tax deductions available to small business owners it is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
     `,
     slug: "determine-and-get-in-touch-with-prospects",
-    date: "March 20, 2025",
-    author: "Admin",
+    createdAt: "March 20, 2025",
+    authorName: "Admin",
     tags: ["Business", "Marketing"],
     image:
       "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2023-CAYXdqnIUmi5k8OEwp7Uw7sM2QCQyB.png",

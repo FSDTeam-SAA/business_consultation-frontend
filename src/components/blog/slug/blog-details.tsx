@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -25,7 +26,7 @@ interface BlogPostPageProps {
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
   //   const router = useRouter();
-  const post = getPostBySlug(params.slug);
+  const post:any = getPostBySlug(params.slug);
 
   const [comments, setComments] = useState<Comment[]>(post?.comments || []);
 
@@ -97,7 +98,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="my-8 flex items-center justify-between border-b border-t border-gray-200 py-4">
               <div>
                 <span className="mr-2 font-medium">Tag:</span>
-                {(post.tags ?? []).map((tag) => (
+                {(post.tags ?? []).map((tag:any) => (
                   <Link
                     key={tag}
                     href={`/blog?tag=${encodeURIComponent(tag)}`}

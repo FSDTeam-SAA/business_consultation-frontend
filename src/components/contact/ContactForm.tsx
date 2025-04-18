@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone, } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -8,7 +8,7 @@ import { Textarea } from "../ui/textarea";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 // Define the form schema with Zod
-//ame user ke ke information pathabo 
+//ame user ke ke information pathabo
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -23,7 +23,6 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function ContactForm() {
-  
   const {
     register,
     handleSubmit,
@@ -40,16 +39,18 @@ export default function ContactForm() {
     },
   });
 
-
   const { mutate: submitContact, isPending } = useMutation({
     mutationFn: async (data: FormValues) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contact`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contact`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to send message. Please try again.");
@@ -67,11 +68,9 @@ export default function ContactForm() {
     },
   });
 
-
-  const onSubmit = (data:FormValues) => {
+  const onSubmit = (data: FormValues) => {
     submitContact(data);
-  }
-
+  };
 
   return (
     <div>
@@ -192,7 +191,7 @@ export default function ContactForm() {
                 <Mail className="h-6 w-6 text-emerald-500" />
               </div>
               <h3 className="mb-2 text-xl font-semibold">Email Address</h3>
-              <p className="text-gray-700">example@gmail.com</p>
+              <p className="text-gray-700">info@going2zero</p>
             </div>
 
             <div className="mx-8 my-4 border-t border-gray-400" />

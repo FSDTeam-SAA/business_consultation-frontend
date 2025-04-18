@@ -14,7 +14,9 @@ export default function Home() {
       <Services />
       <WhyChooseUsSection />
       {/* <PortfolioCarouselResponsive /> */}
+      <div className="border">
       <BlogSection />
+      </div>
       
     </main>
   );

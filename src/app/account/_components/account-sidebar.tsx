@@ -77,7 +77,7 @@ export function AccountSidebar() {
             <SidebarMenuItem>
               <LogoutDialog>
                 <SidebarMenuButton
-                  className="mb-2 h-10 w-full justify-start pl-3 text-[18px] font-[500] text-primary shadow-[0px_0px_6px_0px_#00000040] hover:text-primary/80"
+                  className="mb-2 h-10 w-full justify-start pl-3 text-[18px] font-[500] text-red-500 shadow-[0px_0px_6px_0px_#00000040] hover:text-primary/80"
                   onClick={() => isMobile && setOpenMobile(false)}
                 >
                   Log Out

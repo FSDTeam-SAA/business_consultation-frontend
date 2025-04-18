@@ -88,9 +88,14 @@ const ChangePasswordForm = () => {
       return res.json();
     },
     onSuccess: (success) => {
-      if(success.status === false){
+      if (success.status === false) {
         return toast.error(success.message);
       }
+      form.reset({
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
       toast.success("Your profile has been updated successfully.");
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },

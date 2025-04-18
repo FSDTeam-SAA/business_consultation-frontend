@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 // Define the service data structure
 type Service = {
@@ -303,33 +304,32 @@ export default function OurServices({ activeTab }: Props) {
             {/* Sidebar for desktop */}
             <div className="hidden lg:col-span-3 lg:block">
               <div className="sticky top-8">
-               <div className="bg-[#E6E6E6] py-5">
-
-                <h2 className="mb-6 text-center text-2xl font-bold">
-                  Our Services
-                </h2>
-                <div className="flex flex-col space-y-4">
-                  {services.map((service) => (
-                    <button
-                      key={service.id}
-                      onClick={() => {
-                        router.push(`?service=${service.id}`, {
-                          scroll: false,
-                        });
-                      }}
-                      className={cn(
-                        "mx-10 flex items-center justify-between rounded-lg p-4 transition-colors",
-                        activeService.id === service.id
-                          ? "bg-green-500 text-white"
-                          : "border border-gray-200 bg-white hover:bg-gray-50",
-                      )}
-                    >
-                      <span>{service.title}</span>
-                      <ArrowRight className="h-5 w-5" />
-                    </button>
-                  ))}
+                <div className="bg-[#E6E6E6] py-5">
+                  <h2 className="mb-6 text-center text-2xl font-bold">
+                    Our Services
+                  </h2>
+                  <div className="flex flex-col space-y-4">
+                    {services.map((service) => (
+                      <button
+                        key={service.id}
+                        onClick={() => {
+                          router.push(`?service=${service.id}`, {
+                            scroll: false,
+                          });
+                        }}
+                        className={cn(
+                          "mx-10 flex items-center justify-between rounded-lg p-4 transition-colors",
+                          activeService.id === service.id
+                            ? "bg-green-500 text-white"
+                            : "border border-gray-200 bg-white hover:bg-gray-50",
+                        )}
+                      >
+                        <span>{service.title}</span>
+                        <ArrowRight className="h-5 w-5" />
+                      </button>
+                    ))}
+                  </div>
                 </div>
-               </div>
 
                 {/* follow us  */}
                 <div className="my-8 bg-[#E6E6E6] p-4">
@@ -384,7 +384,9 @@ export default function OurServices({ activeTab }: Props) {
                     size="lg"
                     className="mb-6 max-w-[90px] bg-green-500 text-white hover:bg-green-600"
                   >
-                    Contact Us
+                    <Link className="flex items-center" href="/contact">
+                      Contact Us
+                    </Link>
                   </Button>
                 </div>
               </div>

@@ -1,13 +1,14 @@
 "use client";
-import { Mail, MapPin, Phone, Globe } from "lucide-react";
-import React from "react";
+import { MapPin, Lectern, Factory, Clock } from "lucide-react";
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Chart, ChartLegend, ChartLegendItem } from "@/components/ui/chart";
 import { CustomProgress } from "./custom-progress";
+import React, { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 // Energy Sources Data
 const energySourcesData = [
@@ -39,6 +40,38 @@ export default function CompanyDashboard() {
   const [activeFuelIndex, setActiveFuelIndex] = React.useState<
     number | undefined
   >(undefined);
+  const [token, setToken] = React.useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("authToken");
+    const lstoredToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      setToken(storedToken);
+    } else setToken(lstoredToken);
+  }, []);
+
+  const { data } = useQuery({
+    queryKey: ["singelCompany"],
+    // enabled: token !== null, // Only run query when token is available
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/by-user`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch companies");
+      }
+      // setCompanies(res.json())
+      return res.json();
+    },
+  });
 
   // Function to render the active shape with enhanced appearance
 
@@ -79,40 +112,40 @@ export default function CompanyDashboard() {
       </g>
     );
   };
+  console.log(data?.data);
   return (
     <div className="flex w-full flex-col gap-6">
       {/* Company Header */}
       <Card className="bg-[#033618] text-white">
         <CardContent className="flex items-center gap-4 p-6">
-          <Avatar className="h-24 w-24 border-4 border-white">
+          {/* <Avatar className="h-24 w-24 border-4 border-white">
             <AvatarImage
               src="/placeholder.svg?height=96&width=96"
               alt="Company Logo"
             />
             <AvatarFallback className="text-black">CN</AvatarFallback>
-          </Avatar>
-          <div className="space-y-2">
-            <h1 className="text-2xl font-bold md:text-3xl">
-              Company Legal Name
+          </Avatar> */}
+          <div className="space-y-4">
+            <h1 className="mb-4 text-2xl font-bold md:text-3xl">
+              {data?.data.businessName || "Company Name"}
             </h1>
             <div className="flex items-center gap-2 text-sm">
-              <Mail className="h-4 w-4" />
-              <span>alexrocks@gmail.com</span>
+              <Factory className="h-4 w-4" />
+              <span>{data?.data.industryType || "IndustryType..."}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
-              <Phone className="h-4 w-4" />
-              <span>+854 546 857</span>
+              <Clock className="h-4 w-4" />
+              <span>{data?.data.businessDuration || "N/A"}</span>
             </div>
             <div className="flex items-center gap-2 text-sm">
-              <span className="font-semibold">Company Operating Name</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Globe className="h-4 w-4" />
-              <span>Website</span>
+              <Lectern className="h-4 w-4" />
+              <span>
+                {data?.data.businessLicenseNumber || "LicenseNumber..."}
+              </span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <MapPin className="h-4 w-4" />
-              <span>New York City,USA street 5,home 258/B</span>
+              <span> {data?.data.businessAddress || "adresss.."}</span>
             </div>
           </div>
         </CardContent>

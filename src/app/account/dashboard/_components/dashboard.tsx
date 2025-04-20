@@ -1,12 +1,12 @@
 "use client";
-import { MapPin, Factory, Mail, Phone } from "lucide-react";
+import { MapPin, Factory, Mail, Phone, Globe } from "lucide-react";
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Chart, ChartLegend, ChartLegendItem } from "@/components/ui/chart";
-import { CustomProgress } from "./custom-progress";
+// import { CustomProgress } from "./custom-progress";
 import React, { useEffect } from "react";
 
 interface EnergySource {
@@ -18,6 +18,17 @@ import { useAuth } from "@/hooks/useAuth";
 
 // Energy Sources Data
 const energySourcesData = [
+  { name: "Traditional Grid", value: 20, color: "#10b981" },
+  { name: "Geothermal", value: 10, color: "#ec4899" },
+  { name: "Solar", value: 10, color: "#3b82f6" },
+  { name: "Biomass", value: 10, color: "#22c55e" },
+  { name: "Wind", value: 10, color: "#8b5cf6" },
+  { name: "Battery Storage System", value: 10, color: "#f97316" },
+  { name: "Hydroelectricity", value: 10, color: "#6366f1" },
+  { name: "Others", value: 10, color: "#000000" },
+];
+
+const Carbonemission = [
   { name: "Traditional Grid", value: 20, color: "#10b981" },
   { name: "Geothermal", value: 10, color: "#ec4899" },
   { name: "Solar", value: 10, color: "#3b82f6" },
@@ -122,6 +133,7 @@ export default function CompanyDashboard() {
     );
   };
   console.log(data?.data[0]);
+
   return (
     <div className="flex w-full flex-col gap-6">
       {/* Company Header */}
@@ -138,37 +150,58 @@ export default function CompanyDashboard() {
             <h1 className="mb-4 text-2xl font-bold md:text-3xl">
               {data?.data[0]?.basic_information?.full_name || "Company Name"}
             </h1>
-            <div className="flex items-center gap-2 text-sm">
-              <Mail className="h-4 w-4" />
-              <span>
-                {data?.data[0]?.basic_information.email &&
-                  data?.data[0]?.basic_information.email}
-              </span>
-            </div>
+            {data?.data[0]?.basic_information.email && (
+              <div className="flex items-center gap-2 text-sm">
+                <Mail className="h-4 w-4" />
+                <span>
+                  {data?.data[0]?.basic_information.email &&
+                    data?.data[0]?.basic_information.email}
+                </span>
+              </div>
+            )}
 
-            <div className="flex items-center gap-2 text-sm">
-              <Phone className="h-4 w-4" />
-              <span>
-                {" "}
-                {data?.data[0]?.basic_information.phone_number &&
-                  data?.data[0]?.basic_information.phone_number}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Factory className="h-4 w-4" />
-              <span>
-                {data?.data[0]?.basic_information.company_operating_name &&
-                  data?.data[0]?.basic_information.company_operating_name}
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <MapPin className="h-4 w-4" />
-              <span>
-                {" "}
-                {data?.data[0]?.basic_information.headquarter_location &&
-                  data?.data[0]?.basic_information.headquarter_location}
-              </span>
-            </div>
+            {data?.data[0]?.basic_information.company_operating_name && (
+              <div className="flex items-center gap-2 text-sm">
+                <Phone className="h-4 w-4" />
+                <span>
+                  {" "}
+                  {data?.data[0]?.basic_information.phone_number &&
+                    data?.data[0]?.basic_information.phone_number}
+                </span>
+              </div>
+            )}
+
+            {data?.data[0]?.basic_information.company_operating_name && (
+              <div className="flex items-center gap-2 text-sm">
+                <Factory className="h-4 w-4" />
+                <span>
+                  {data?.data[0]?.basic_information.company_operating_name &&
+                    data?.data[0]?.basic_information.company_operating_name}
+                </span>
+              </div>
+            )}
+
+            {data?.data[0]?.basic_information.headquarter_location && (
+              <div className="flex items-center gap-2 text-sm">
+                <MapPin className="h-4 w-4" />
+                <span>
+                  {" "}
+                  {data?.data[0]?.basic_information.headquarter_location &&
+                    data?.data[0]?.basic_information.headquarter_location}
+                </span>
+              </div>
+            )}
+
+            {data?.data[0]?.basic_information.website && (
+              <div className="flex items-center gap-2 text-sm">
+                <Globe className="h-4 w-4" />
+                <span>
+                  {" "}
+                  {data?.data[0]?.basic_information.website &&
+                    data?.data[0]?.basic_information.website}
+                </span>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -181,7 +214,7 @@ export default function CompanyDashboard() {
               Energy Sources
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex justify-between">
             <Chart className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -206,7 +239,7 @@ export default function CompanyDashboard() {
                 </PieChart>
               </ResponsiveContainer>
             </Chart>
-            <ChartLegend className="mt-4 grid grid-cols-2 gap-2">
+            <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
               {energySourcesData.map((entry, index) => (
                 <ChartLegendItem
                   key={index}
@@ -261,10 +294,63 @@ export default function CompanyDashboard() {
             </ChartLegend>
           </CardContent>
         </Card>
+
+        {/* Carbon Emission Percentage */}
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium text-emerald-500">
+              Carbon emission Business Sector
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex justify-between">
+            <Chart className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={Carbonemission}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={0}
+                    outerRadius={80}
+                    paddingAngle={1}
+                    dataKey="value"
+                    activeIndex={activeEnergyIndex}
+                    activeShape={renderActiveShape}
+                    onMouseEnter={(_, index) => setActiveEnergyIndex(index)}
+                    label={({ value }) => `${value}%`}
+                    labelLine={false}
+                  >
+                    {Carbonemission.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </Chart>
+            <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
+              {energySourcesData.map((entry, index) => (
+                <ChartLegendItem
+                  key={index}
+                  color={entry.color}
+                  label={entry.name}
+                />
+              ))}
+            </ChartLegend>
+          </CardContent>
+        </Card>
+
+        {/* Primary Transportation Method */}
+        <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-6 shadow-[0px_0px_6px_0px_#00000040]">
+          <h1 className="text-[20px] font-medium">
+            Primary Transportation Method
+          </h1>
+          <p>Traditional Grid</p>
+        </div>
       </div>
 
       {/* Percentage of Energy Renewable */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle className="text-base font-medium text-emerald-500">
             Percentage of Energy Renewable
@@ -280,7 +366,7 @@ export default function CompanyDashboard() {
           <CustomProgress value={70} color="#f97316" label="70%" />
           <CustomProgress value={40} color="#064e3b" label="40%" />
         </CardContent>
-      </Card>
+      </Card> */}
       {/* Metrics Grid */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Business Sector */}
@@ -345,7 +431,13 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">95</p>
+            <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.carbon_footprint
+                  ?.number_of_company_owned_vehicles
+              }
+            </p>
           </CardContent>
         </Card>
 
@@ -357,7 +449,13 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">79%</p>
+            <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.carbon_footprint
+                  ?.total_electrical_consumption_kwh
+              }
+            </p>
           </CardContent>
         </Card>
 
@@ -369,7 +467,10 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">100</p>
+            <p className="text-2xl font-bold">
+              {" "}
+              {data?.data[0]?.basic_information?.number_of_employees}
+            </p>
           </CardContent>
         </Card>
 
@@ -393,7 +494,12 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">40 miles</p>
+            <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.carbon_footprint?.average_distance_travelled_per_vehicle_annually
+              }
+            </p>
           </CardContent>
         </Card>
 
@@ -429,7 +535,16 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">45 miles</p>
+          <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.carbon_footprint?.annual_business_train_distance.distance
+              }
+              {" "}
+              {
+                data?.data[0]?.carbon_footprint?.annual_business_train_distance.unit
+              }
+            </p>
           </CardContent>
         </Card>
 
@@ -441,7 +556,12 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">10</p>
+          <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.supply_chain_logistics.volume_of_goods_transportation_tons
+              }
+            </p>
           </CardContent>
         </Card>
 
@@ -454,8 +574,10 @@ export default function CompanyDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-1">
-              <p>Private Limited Company (Ltd)</p>
-              <p>sole Proprietorship</p>
+            <p className="text-2xl font-bold">
+              {" "}
+              {data?.data[0]?.basic_information?.type_of_organization}
+            </p>
             </div>
           </CardContent>
         </Card>
@@ -468,7 +590,12 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">10</p>
+          <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.finances?.total_value_of_assets
+              }
+            </p>
           </CardContent>
         </Card>
 

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CheckIcon } from "lucide-react";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -96,6 +97,7 @@ export default function ConsultationPage() {
     },
     onSuccess: (data) => {
       console.log("Form submitted successfully:", data);
+      toast.success(data.message);
       setFormData({
         name: "",
         email: "",
@@ -241,10 +243,11 @@ export default function ConsultationPage() {
           </div>
 
           <button
+            disabled={mutation.isPending}
             type="submit"
             className="mt-6 w-full rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100"
           >
-            BOOK A CONSULTATION
+            {mutation.isPending ? "Please Wite" : "BOOK A CONSULTATION"}
           </button>
         </form>
 

@@ -127,25 +127,25 @@ export default function CompanyDashboard() {
           </Avatar> */}
           <div className="space-y-4">
             <h1 className="mb-4 text-2xl font-bold md:text-3xl">
-              {data?.data.businessName || "Company Name"}
+              {data?.data?.businessName || "Company Name"}
             </h1>
             <div className="flex items-center gap-2 text-sm">
               <Factory className="h-4 w-4" />
-              <span>{data?.data.industryType || "IndustryType..."}</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Clock className="h-4 w-4" />
-              <span>{data?.data.businessDuration || "N/A"}</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Lectern className="h-4 w-4" />
               <span>
-                {data?.data.businessLicenseNumber || "LicenseNumber..."}
+                {data?.data?.industryType && data?.data?.industryType}
               </span>
             </div>
             <div className="flex items-center gap-2 text-sm">
+              <Clock className="h-4 w-4" />
+              <span>{data?.data && data.data.businessDuration}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <Lectern className="h-4 w-4" />
+              <span>{data?.data && data?.data?.businessLicenseNumber}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
               <MapPin className="h-4 w-4" />
-              <span> {data?.data.businessAddress || "adresss.."}</span>
+              <span> {data?.data && data?.data?.businessAddress}</span>
             </div>
           </div>
         </CardContent>

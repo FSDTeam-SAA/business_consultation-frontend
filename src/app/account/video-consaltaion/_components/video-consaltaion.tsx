@@ -1,9 +1,204 @@
+// "use client";
+
+// import type React from "react";
+
+// import { useState } from "react";
+// import { CheckIcon, CreditCard } from "lucide-react";
+// import { z } from "zod";
+
+// // Define the form schema using Zod
+// const formSchema = z.object({
+//   name: z.string().min(1, { message: "Name is required" }),
+//   email: z
+//     .string()
+//     .min(1, { message: "Email is required" })
+//     .email({ message: "Invalid email address" }),
+//   date: z.string().min(1, { message: "This field is required" }),
+// });
+
+// // Type inference from the schema
+// type FormData = z.infer<typeof formSchema>;
+
+// export default function VideoConsultationPage() {
+//   const [formData, setFormData] = useState<FormData>({
+//     name: "",
+//     email: "",
+//     date: "",
+//   });
+
+//   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
+//     {},
+//   );
+
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const { name, value } = e.target;
+//     setFormData({
+//       ...formData,
+//       [name]: value,
+//     });
+
+//     // Clear error when user starts typing
+//     if (errors[name as keyof FormData]) {
+//       setErrors({
+//         ...errors,
+//         [name]: undefined,
+//       });
+//     }
+//   };
+
+//   const validateForm = () => {
+//     try {
+//       // Validate the form data against the schema
+//       formSchema.parse(formData);
+//       setErrors({});
+//       return true;
+//     } catch (error) {
+//       if (error instanceof z.ZodError) {
+//         // Convert Zod errors to a more usable format
+//         const fieldErrors: Partial<Record<keyof FormData, string>> = {};
+//         error.errors.forEach((err) => {
+//           const field = err.path[0] as keyof FormData;
+//           fieldErrors[field] = err.message;
+//         });
+//         setErrors(fieldErrors);
+//       }
+//       return false;
+//     }
+//   };
+
+//   const handleSubmit = (e: React.FormEvent) => {
+//     e.preventDefault();
+
+//     if (validateForm()) {
+//       // Form is valid, proceed with submission
+//       console.log("Form submitted:", formData);
+//       // Reset form after submission
+//       setFormData({
+//         name: "",
+//         email: "",
+//         date: "",
+//       });
+//     }
+//   };
+
+//   return (
+//     <div className="mx-auto mt-4 max-w-3xl rounded-lg border border-gray-200 p-4">
+//       {/* Main Content */}
+//       <div className="w-full">
+//         <h1 className="text-center text-2xl font-bold mb-12">
+//           Consultation Fee Per Hour $350
+//         </h1>
+
+//         <div className="h-[52px] rounded-md bg-[#09B850] flex items-center justify-center mb-10">
+//           <p className="text-white flex gap-3">
+//             <span>
+//               {" "}
+//               <CreditCard />
+//             </span>
+//             Payment Now
+//           </p>
+//         </div>
+
+//         {/* Consultation Form */}
+//         <form onSubmit={handleSubmit} className="rounded-lg bg-green-500 p-4">
+//           <div className="grid grid-cols-1 gap-4">
+//             {/* Name Field */}
+//             <div>
+//               <label htmlFor="name" className="mb-[10px] block text-white">
+//                 Name
+//               </label>
+//               <input
+//                 type="text"
+//                 id="name"
+//                 name="name"
+//                 value={formData.name}
+//                 onChange={handleChange}
+//                 placeholder="Your Name"
+//                 className={`w-full rounded-md p-2 ${errors.name ? "border-2 border-red-500" : ""}`}
+//               />
+//               {errors.name && (
+//                 <p className="mt-1 text-sm text-red-200">{errors.name}</p>
+//               )}
+//             </div>
+
+//             {/* Email Field */}
+//             <div>
+//               <label htmlFor="email" className="mb-[10px] block text-white">
+//                 Email
+//               </label>
+//               <input
+//                 type="email"
+//                 id="email"
+//                 name="email"
+//                 value={formData.email}
+//                 onChange={handleChange}
+//                 placeholder="Your email"
+//                 className={`w-full rounded-md p-2 ${errors.email ? "border-2 border-red-500" : ""}`}
+//               />
+//               {errors.email && (
+//                 <p className="mt-1 text-sm text-red-200">{errors.email}</p>
+//               )}
+//             </div>
+
+//             {/*  */}
+//             <div>
+//               <label htmlFor="date" className="mb-[10px] block text-white">
+//                 Booking Time
+//               </label>
+//               <input
+//                 type="date"
+//                 id="date"
+//                 name="date"
+//                 value={formData.date}
+//                 onChange={handleChange}
+//                 placeholder="Your email"
+//                 className={`w-full rounded-md p-2 text-green-600 ${errors.date ? "border-2 border-red-500" : ""}`}
+//               />
+//               {errors.email && (
+//                 <p className="mt-1 text-sm text-red-200">{errors.date}</p>
+//               )}
+//             </div>
+//           </div>
+
+//           {/* Submit Button */}
+//           <button
+//             type="submit"
+//             className="mt-6 w-full rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100"
+//           >
+//             Pay
+//           </button>
+//         </form>
+
+//         {/* Discussion Points */}
+//         <div className="mt-8">
+//           <h2 className="mb-4 text-center text-xl font-bold">
+//             Here What We Will Discuss:
+//           </h2>
+//           <div className="space-y-4">
+//             {[1, 2, 3].map((item) => (
+//               <div key={item} className="flex items-start gap-2">
+//                 <div className="mt-1 min-w-5">
+//                   <CheckIcon className="h-5 w-5 text-green-500" />
+//                 </div>
+//                 <p className="text-gray-700">
+//                   All the lorem ipsum generators on the internet tend to repeat
+//                   predefined chunks as necessary, making the first true
+//                   generator on internet.
+//                 </p>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 "use client";
 
 import type React from "react";
-
 import { useState } from "react";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, CreditCard } from "lucide-react";
 import { z } from "zod";
 
 // Define the form schema using Zod
@@ -13,17 +208,23 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Email is required" })
     .email({ message: "Invalid email address" }),
-  date: z.string().min(1, { message: "This field is required" }),
+  phone: z.string().min(1, { message: "Phone number is required" }),
+  challenge: z.string().min(1, { message: "This field is required" }),
+  business: z.string().min(1, { message: "This field is required" }),
+  callTime: z.string().min(1, { message: "This field is required" }),
 });
 
 // Type inference from the schema
 type FormData = z.infer<typeof formSchema>;
 
-export default function VideoConsultationPage() {
+export default function ConsultationPage() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
-    date: "",
+    phone: "",
+    challenge: "",
+    business: "",
+    callTime: "",
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
@@ -37,7 +238,6 @@ export default function VideoConsultationPage() {
       [name]: value,
     });
 
-    // Clear error when user starts typing
     if (errors[name as keyof FormData]) {
       setErrors({
         ...errors,
@@ -48,13 +248,11 @@ export default function VideoConsultationPage() {
 
   const validateForm = () => {
     try {
-      // Validate the form data against the schema
       formSchema.parse(formData);
       setErrors({});
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        // Convert Zod errors to a more usable format
         const fieldErrors: Partial<Record<keyof FormData, string>> = {};
         error.errors.forEach((err) => {
           const field = err.path[0] as keyof FormData;
@@ -70,31 +268,40 @@ export default function VideoConsultationPage() {
     e.preventDefault();
 
     if (validateForm()) {
-      // Form is valid, proceed with submission
       console.log("Form submitted:", formData);
-      // Reset form after submission
       setFormData({
         name: "",
         email: "",
-        date: "",
+        phone: "",
+        challenge: "",
+        business: "",
+        callTime: "",
       });
     }
   };
 
   return (
     <div className="mx-auto mt-4 max-w-3xl rounded-lg border border-gray-200 p-4">
-      {/* Main Content */}
       <div className="w-full">
-        <h1 className="mb-4 text-center text-2xl font-bold">
+        <h1 className="mb-10 text-center text-3xl font-bold">
           Consultation Fee Per Hour $350
         </h1>
 
+        <div className="mb-10 flex h-[52px] items-center justify-center rounded-md bg-[#09B850]">
+          <button className="">
+            <p className="flex gap-3 text-white">
+              <CreditCard />
+              <span>Payment Now</span>
+            </p>
+          </button>
+        </div>
+
         {/* Consultation Form */}
         <form onSubmit={handleSubmit} className="rounded-lg bg-green-500 p-4">
-          <div className="grid grid-cols-1 gap-4">
-            {/* Name Field */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {/* Name */}
             <div>
-              <label htmlFor="name" className="mb-[10px] block text-white">
+              <label htmlFor="name" className="mb-1 block text-white">
                 Name
               </label>
               <input
@@ -104,16 +311,18 @@ export default function VideoConsultationPage() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Your Name"
-                className={`w-full rounded-md p-2 ${errors.name ? "border-2 border-red-500" : ""}`}
+                className={`w-full rounded-md p-2 ${
+                  errors.name ? "border-2 border-red-300" : ""
+                }`}
               />
               {errors.name && (
-                <p className="mt-1 text-sm text-red-200">{errors.name}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.name}</p>
               )}
             </div>
 
-            {/* Email Field */}
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="mb-[10px] block text-white">
+              <label htmlFor="email" className="mb-1 block text-white">
                 Email
               </label>
               <input
@@ -122,34 +331,17 @@ export default function VideoConsultationPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Your email"
-                className={`w-full rounded-md p-2 ${errors.email ? "border-2 border-red-500" : ""}`}
+                placeholder="Your Email"
+                className={`w-full rounded-md p-2 ${
+                  errors.email ? "border-2 border-red-300" : ""
+                }`}
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-200">{errors.email}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
               )}
             </div>
 
-            {/*  */}
-            <div>
-              <label htmlFor="date" className="mb-[10px] block text-white">
-                Booking Time
-              </label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                placeholder="Your email"
-                className={`w-full rounded-md p-2 text-green-600 ${errors.date ? "border-2 border-red-500" : ""}`}
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-200">{errors.date}</p>
-              )}
-            </div>
-
-            {/* Phone Number Field
+            {/* Phone */}
             <div>
               <label htmlFor="phone" className="mb-1 block text-white">
                 Phone Number
@@ -161,14 +353,16 @@ export default function VideoConsultationPage() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Your Number"
-                className={`w-full rounded-md p-2 ${errors.phone ? "border-2 border-red-500" : ""}`}
+                className={`w-full rounded-md p-2 ${
+                  errors.phone ? "border-2 border-red-300" : ""
+                }`}
               />
               {errors.phone && (
-                <p className="mt-1 text-sm text-red-200">{errors.phone}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
               )}
-            </div> */}
+            </div>
 
-            {/* Business Nature Field
+            {/* Business */}
             <div>
               <label htmlFor="business" className="mb-1 block text-white">
                 What&apos;s the nature of your business?
@@ -180,14 +374,16 @@ export default function VideoConsultationPage() {
                 value={formData.business}
                 onChange={handleChange}
                 placeholder="Enter business"
-                className={`w-full rounded-md p-2 ${errors.business ? "border-2 border-red-500" : ""}`}
+                className={`w-full rounded-md p-2 ${
+                  errors.business ? "border-2 border-red-300" : ""
+                }`}
               />
               {errors.business && (
-                <p className="mt-1 text-sm text-red-200">{errors.business}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.business}</p>
               )}
-            </div> */}
+            </div>
 
-            {/* Challenge Field
+            {/* Challenge */}
             <div>
               <label htmlFor="challenge" className="mb-1 block text-white">
                 What&apos;s your biggest challenge now?
@@ -198,32 +394,35 @@ export default function VideoConsultationPage() {
                 name="challenge"
                 value={formData.challenge}
                 onChange={handleChange}
-                placeholder="Your Number"
-                className={`w-full rounded-md p-2 ${errors.challenge ? "border-2 border-red-500" : ""}`}
+                placeholder="Your Challenge"
+                className={`w-full rounded-md p-2 ${
+                  errors.challenge ? "border-2 border-red-300" : ""
+                }`}
               />
               {errors.challenge && (
-                <p className="mt-1 text-sm text-red-200">{errors.challenge}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.challenge}</p>
               )}
-            </div> */}
+            </div>
 
-            {/* Call Time Field */}
-            {/* <div>
+            {/* Call Time */}
+            <div>
               <label htmlFor="callTime" className="mb-1 block text-white">
                 What&apos;s the best time to call you?
               </label>
               <input
-                type="text"
+                type="date"
                 id="callTime"
                 name="callTime"
                 value={formData.callTime}
                 onChange={handleChange}
-                placeholder="Enter business"
-                className={`w-full rounded-md p-2 ${errors.callTime ? "border-2 border-red-500" : ""}`}
+                className={`w-full rounded-md p-2 text-green-600 ${
+                  errors.callTime ? "border-2 border-red-300" : ""
+                }`}
               />
               {errors.callTime && (
-                <p className="mt-1 text-sm text-red-200">{errors.callTime}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.callTime}</p>
               )}
-            </div> */}
+            </div>
           </div>
 
           {/* Submit Button */}
@@ -231,7 +430,7 @@ export default function VideoConsultationPage() {
             type="submit"
             className="mt-6 w-full rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100"
           >
-            Pay
+            BOOK A CONSULTATION
           </button>
         </form>
 

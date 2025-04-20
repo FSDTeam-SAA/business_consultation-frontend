@@ -11,10 +11,10 @@ export default function ServicePage() {
         breadcrumb="Our Services"
         currentRoute="service"
       />
-      <AboutBusiness/>
-   
-  <Services/>
-  <Pricing/>
+      <AboutBusiness />
+
+      <Services />
+      <Pricing />
     </main>
   );
 }

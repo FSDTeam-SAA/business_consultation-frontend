@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import SearchBar from "./search-bar";
 import RecentPosts from "./recent-posts";
-import PopularTags from "./popular-tags";
+// import PopularTags from "./popular-tags";
 import SocialLinks from "./social-links";
 import ContactCard from "./contact-card";
 import { Suspense } from "react";
+// import { Post } from "@/lib/types";
+
+
+
 
 export default function Sidebar() {
   return (
@@ -11,9 +16,9 @@ export default function Sidebar() {
       <div className="rounded-md bg-gray-100 p-6">
         <SearchBar />
       </div>
-      <RecentPosts />
+      <RecentPosts/>
       <Suspense fallback={<div>Loading...</div>}>
-        <PopularTags />
+        {/* <PopularTags /> */}
       </Suspense>
       <SocialLinks />
       <ContactCard />

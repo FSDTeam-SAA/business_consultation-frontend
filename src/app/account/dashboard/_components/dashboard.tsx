@@ -1,5 +1,5 @@
 "use client";
-import { MapPin, Lectern, Factory, Clock } from "lucide-react";
+import { MapPin, Factory, Mail, Phone } from "lucide-react";
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
 
@@ -8,7 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Chart, ChartLegend, ChartLegendItem } from "@/components/ui/chart";
 import { CustomProgress } from "./custom-progress";
 import React, { useEffect } from "react";
+
+interface EnergySource {
+  source: string;
+  value: number;
+}
 import { useQuery } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 
 // Energy Sources Data
 const energySourcesData = [
@@ -50,12 +56,15 @@ export default function CompanyDashboard() {
     } else setToken(lstoredToken);
   }, []);
 
+  const { user } = useAuth();
+  console.log(user);
+
   const { data } = useQuery({
-    queryKey: ["singelCompany"],
+    queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/by-user`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/by-user`,
         {
           method: "GET",
           headers: {
@@ -112,7 +121,7 @@ export default function CompanyDashboard() {
       </g>
     );
   };
-  console.log(data?.data);
+  console.log(data?.data[0]);
   return (
     <div className="flex w-full flex-col gap-6">
       {/* Company Header */}
@@ -127,25 +136,38 @@ export default function CompanyDashboard() {
           </Avatar> */}
           <div className="space-y-4">
             <h1 className="mb-4 text-2xl font-bold md:text-3xl">
-              {data?.data?.businessName || "Company Name"}
+              {data?.data[0]?.basic_information?.full_name || "Company Name"}
             </h1>
             <div className="flex items-center gap-2 text-sm">
-              <Factory className="h-4 w-4" />
+              <Mail className="h-4 w-4" />
               <span>
-                {data?.data?.industryType && data?.data?.industryType}
+                {data?.data[0]?.basic_information.email &&
+                  data?.data[0]?.basic_information.email}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2 text-sm">
+              <Phone className="h-4 w-4" />
+              <span>
+                {" "}
+                {data?.data[0]?.basic_information.phone_number &&
+                  data?.data[0]?.basic_information.phone_number}
               </span>
             </div>
             <div className="flex items-center gap-2 text-sm">
-              <Clock className="h-4 w-4" />
-              <span>{data?.data && data.data.businessDuration}</span>
-            </div>
-            <div className="flex items-center gap-2 text-sm">
-              <Lectern className="h-4 w-4" />
-              <span>{data?.data && data?.data?.businessLicenseNumber}</span>
+              <Factory className="h-4 w-4" />
+              <span>
+                {data?.data[0]?.basic_information.company_operating_name &&
+                  data?.data[0]?.basic_information.company_operating_name}
+              </span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <MapPin className="h-4 w-4" />
-              <span> {data?.data && data?.data?.businessAddress}</span>
+              <span>
+                {" "}
+                {data?.data[0]?.basic_information.headquarter_location &&
+                  data?.data[0]?.basic_information.headquarter_location}
+              </span>
             </div>
           </div>
         </CardContent>
@@ -269,10 +291,17 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-1">
-              <p>Energy</p>
-              <p>Manufacturing</p>
-            </div>
+            {data?.data[0]?.basic_information.business_sector?.map(
+              (source: {
+                _id: string;
+                sector: string;
+                carbon_emission_percentage: number;
+              }) => (
+                <div key={source._id} className="space-y-1">
+                  <p>{source.sector}s</p>
+                </div>
+              ),
+            )}
           </CardContent>
         </Card>
 
@@ -284,10 +313,15 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-1">
-              <p>Traditional Grid</p>
-              <p>Solar</p>
-            </div>
+            {data?.data[0]?.carbon_footprint?.energy_sources?.map(
+              (source: EnergySource, i: number) => {
+                return (
+                  <div key={i} className="space-y-1">
+                    <p>{source.source}</p>
+                  </div>
+                );
+              },
+            )}
           </CardContent>
         </Card>
 

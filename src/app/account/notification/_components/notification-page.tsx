@@ -1,101 +1,133 @@
-import { Button } from "@/components/ui/button";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { useQuery } from "@tanstack/react-query";
 import { Bell } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Pagination } from "@/components/pagination";
 
 export default function NotificationPage() {
-  // Sample data
-  const notifications = [
-    {
-      id: 1,
-      title: "Subscription renewal successful",
-      message: "Your subscription has been successfully renewed",
-      date: "Feb 25, 2023 - 9:15 AM",
-      icon: "S",
+  const [token, setToken] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    const storedToken =
+      sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
+    setToken(storedToken);
+  }, []);
+
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["notifications", currentPage, token],
+    queryFn: async () => {
+      if (!token || !backendUrl) return null;
+
+      const res = await fetch(
+        `${backendUrl}/api/notification/?page=${currentPage}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!res.ok) {
+        if (res.status === 404) {
+          return {
+            data: [],
+            pagination: {
+              totalPages: 1,
+              currentPage: 1,
+              totalNotifications: 0,
+            },
+          };
+        }
+        throw new Error("Failed to fetch notifications");
+      }
+
+      return res.json();
     },
-    {
-      id: 2,
-      title: "Payment method expired",
-      message:
-        "Your payment method has expired. Please update it to avoid interruptions.",
-      date: "Feb 25, 2023 - 9:12 AM",
-      icon: "P",
-    },
-    {
-      id: 3,
-      title: "Your Custom Code",
-      message: "Your custom code is 15241",
-      date: "Feb 25, 2023 - 9:10 AM",
-      icon: "C",
-    },
-    {
-      id: 4,
-      title: "Payment method expired",
-      message:
-        "Your payment method has expired. Please update it to avoid interruptions.",
-      date: "Feb 25, 2023 - 9:07 AM",
-      icon: "P",
-    },
-    {
-      id: 5,
-      title: "Subscription renewal successful",
-      message: "Your subscription has been successfully renewed",
-      date: "Feb 25, 2023 - 9:05 AM",
-      icon: "S",
-    },
-    {
-      id: 6,
-      title: "Subscription renewal successful",
-      message: "Your subscription has been successfully renewed",
-      date: "Feb 25, 2023 - 9:01 AM",
-      icon: "S",
-    },
-    {
-      id: 7,
-      title: "Payment method expired",
-      message:
-        "Your payment method has expired. Please update it to avoid interruptions.",
-      date: "Feb 25, 2023 - 8:55 AM",
-      icon: "P",
-    },
-  ];
+    enabled: !!token && !!backendUrl,
+  });
+
+  const notifications = data?.data || [];
+  console.log(notifications)
+  const paginationData = data?.pagination || {
+    totalPages: 1,
+    currentPage: 1,
+    totalNotifications: 0,
+  };
+
+  const totalPages = Number(paginationData.totalPages);
+  const totalItems = Number(paginationData.totalNotifications);
+  const currentApiPage = Number(paginationData.currentPage);
+  const itemsPerPage = notifications.length || 10; // fallback to 10
 
   return (
     <div>
       <h1 className="mb-6 border-b border-[#CECECE] pb-4 text-2xl font-bold">
         Notifications
       </h1>
-      <div className="space-y-4">
-        {notifications.map((notification) => (
-          <div
-            key={notification.id}
-            className="flex items-start justify-between border-b p-4"
-          >
-            <div className="flex gap-4">
-              <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-[#282828]">
-                <Bell className="h-5 w-5 text-white" />
-              </div>
-              <div>
-                <h3 className="text-[18px] font-[500] text-[#000000]">
-                  {notification.title}
-                </h3>
-                <p className="text-[16px] text-[#595959]">
-                  {notification.message}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col items-end gap-2">
-              <span className="text-xs text-muted-foreground">
-                {notification.date}
-              </span>
-              <Button
-                variant="ghost"
-                className="h-6 p-2 text-[16px] font-[500] text-red-500 hover:bg-red-50 hover:text-red-700"
+
+      {isLoading ? (
+        <p className="text-center py-6">Loading...</p>
+      ) : isError ? (
+        <p className="text-center text-red-500 py-6">
+          Failed to load notifications.
+        </p>
+      ) : notifications.length === 0 ? (
+        <p className="text-center py-6">No notifications found.</p>
+      ) : (
+        <>
+          <div className="space-y-4">
+            {notifications.map((notification: any) => (
+              <div
+                key={notification._id}
+                className="flex items-start justify-between border-b p-4"
               >
-                Delete
-              </Button>
-            </div>
+                <div className="flex gap-4">
+                  <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-[#282828]">
+                    <Bell className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-[18px] font-[500] text-[#000000]">
+                      {notification.title}
+                    </h3>
+                    <p className="text-[16px] text-[#595959]">
+                      {notification.message}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-end">
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(notification.date).toLocaleDateString()}
+                  </span>
+                  {/* <Button
+                    variant="ghost"
+                    className="h-6 p-2 text-[16px] font-[500] text-red-500 hover:bg-red-50 hover:text-red-700"
+                  >
+                    Delete
+                  </Button> */}
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+
+          {/* Pagination Controls */}
+          <div className="mt-6 flex justify-end">
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentApiPage}
+              onPageChange={(page) => setCurrentPage(page)}
+              totalItems={totalItems}
+              itemsPerPage={itemsPerPage}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

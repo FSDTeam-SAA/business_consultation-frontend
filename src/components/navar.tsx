@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Menu, Search, User } from "lucide-react";
+import { Menu, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -19,6 +19,7 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { toast } from "sonner";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 // interface NavbarProps {
 //   currentRoute?: string;
@@ -51,7 +52,6 @@ export default function Navbar() {
   //   window.addEventListener("scroll", handleScroll);
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
-
   const { data, refetch } = useQuery({
     queryKey: ["companySearch", searchResult],
     queryFn: ({ queryKey }) =>
@@ -411,7 +411,11 @@ export default function Navbar() {
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
               >
                 <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#09B850]">
-                  <User className="h-6 w-6 text-white" />
+                  {/* <User className="h-6 w-6 text-white" /> */}
+                  <Avatar>
+                    <AvatarImage src={user?.profileImage}/>
+                    <AvatarFallback>PR</AvatarFallback>
+                  </Avatar>
                 </div>
                 <div className="ml-2 hidden sm:block">
                   <div

@@ -53,6 +53,8 @@ export default function NotificationPage() {
     enabled: !!token && !!backendUrl,
   });
 
+
+
   const notifications = data?.data || [];
   console.log(notifications)
   const paginationData = data?.pagination || {
@@ -60,6 +62,9 @@ export default function NotificationPage() {
     currentPage: 1,
     totalNotifications: 0,
   };
+
+
+
 
   const totalPages = Number(paginationData.totalPages);
   const totalItems = Number(paginationData.totalNotifications);
@@ -103,7 +108,14 @@ export default function NotificationPage() {
                 </div>
                 <div className="flex items-center justify-end">
                   <span className="text-xs text-muted-foreground">
-                    {new Date(notification.date).toLocaleDateString()}
+                  {new Date(notification.createdAt).toLocaleDateString(
+                      "en-US",
+                      {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )}
                   </span>
                   {/* <Button
                     variant="ghost"
@@ -121,7 +133,7 @@ export default function NotificationPage() {
             <Pagination
               totalPages={totalPages}
               currentPage={currentApiPage}
-              onPageChange={(page) => setCurrentPage(page)}
+              onPageChange={(page:any) => setCurrentPage(page)}
               totalItems={totalItems}
               itemsPerPage={itemsPerPage}
             />

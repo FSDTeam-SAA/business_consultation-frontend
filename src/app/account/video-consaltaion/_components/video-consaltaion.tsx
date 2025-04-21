@@ -229,7 +229,11 @@ export default function ConsultationPage() {
         <button
           type="submit"
           disabled={!user?.videoConsultation}
-          className="mt-6 w-full rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100"
+          className={`mt-6 w-full rounded-md py-3 font-semibold text-green-500 ${
+            !user?.videoConsultation
+              ? "cursor-not-allowed bg-gray-300 text-gray-500"
+              : "bg-white hover:bg-gray-100"
+          }`}
         >
           BOOK A CONSULTATION
         </button>

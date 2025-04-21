@@ -58,7 +58,7 @@ export default function RecentPosts() {
         {latestPosts.map((postData: any) => (
           <Link
             href={`/blog/${postData.slug}`}
-            key={postData.id}
+            key={postData._id}
             className="group flex items-center gap-3"
           >
             <div className="h-20 w-20 flex-shrink-0">

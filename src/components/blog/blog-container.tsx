@@ -109,7 +109,7 @@ export default function BlogPage() {
           ) : (
             <div className="space-y-8">
               {currentPosts.map((post: Post) => (
-                <BlogCard key={post.id} post={post} />
+                <BlogCard key={post._id} post={post} />
               ))}
             </div>
           )}

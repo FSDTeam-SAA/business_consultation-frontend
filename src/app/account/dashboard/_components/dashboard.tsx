@@ -309,8 +309,8 @@ export default function CompanyDashboard() {
                 <PieChart>
                   <Pie
                     data={Carbonemission}
-                    cx="50%"
-                    cy="50%"
+                    cx="45%"
+                    cy="55%"
                     innerRadius={0}
                     outerRadius={80}
                     paddingAngle={1}
@@ -497,7 +497,8 @@ export default function CompanyDashboard() {
             <p className="text-2xl font-bold">
               {" "}
               {
-                data?.data[0]?.carbon_footprint?.average_distance_travelled_per_vehicle_annually
+                data?.data[0]?.carbon_footprint
+                  ?.average_distance_travelled_per_vehicle_annually
               }
             </p>
           </CardContent>
@@ -535,14 +536,15 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-          <p className="text-2xl font-bold">
+            <p className="text-2xl font-bold">
               {" "}
               {
-                data?.data[0]?.carbon_footprint?.annual_business_train_distance.distance
-              }
-              {" "}
+                data?.data[0]?.carbon_footprint?.annual_business_train_distance
+                  .distance
+              }{" "}
               {
-                data?.data[0]?.carbon_footprint?.annual_business_train_distance.unit
+                data?.data[0]?.carbon_footprint?.annual_business_train_distance
+                  .unit
               }
             </p>
           </CardContent>
@@ -556,10 +558,11 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-          <p className="text-2xl font-bold">
+            <p className="text-2xl font-bold">
               {" "}
               {
-                data?.data[0]?.supply_chain_logistics.volume_of_goods_transportation_tons
+                data?.data[0]?.supply_chain_logistics
+                  .volume_of_goods_transportation_tons
               }
             </p>
           </CardContent>
@@ -574,10 +577,10 @@ export default function CompanyDashboard() {
           </CardHeader>
           <CardContent>
             <div className="space-y-1">
-            <p className="text-2xl font-bold">
-              {" "}
-              {data?.data[0]?.basic_information?.type_of_organization}
-            </p>
+              <p className="text-2xl font-bold">
+                {" "}
+                {data?.data[0]?.basic_information?.type_of_organization}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -590,11 +593,9 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-          <p className="text-2xl font-bold">
+            <p className="text-2xl font-bold">
               {" "}
-              {
-                data?.data[0]?.finances?.total_value_of_assets
-              }
+              {data?.data[0]?.finances?.total_value_of_assets}
             </p>
           </CardContent>
         </Card>

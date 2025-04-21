@@ -56,7 +56,7 @@ export default function Navbar() {
     queryKey: ["companySearch", searchResult],
     queryFn: ({ queryKey }) =>
       fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/company/search?id=${encodeURIComponent(queryKey[1] ?? "")}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/search?uniqueCode=${encodeURIComponent(queryKey[1] ?? "")}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -359,7 +359,7 @@ export default function Navbar() {
                     Business Name:
                   </span>
                   <span className="text-gray-900 dark:text-gray-100">
-                    {data?.data.businessName}
+                    {data?.data.companyLegalName}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -413,7 +413,7 @@ export default function Navbar() {
                 <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#09B850]">
                   {/* <User className="h-6 w-6 text-white" /> */}
                   <Avatar>
-                    <AvatarImage src={user?.profileImage}/>
+                    <AvatarImage src={user?.profileImage} />
                     <AvatarFallback>PR</AvatarFallback>
                   </Avatar>
                 </div>

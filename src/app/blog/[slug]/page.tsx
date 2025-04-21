@@ -163,7 +163,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 <p className="text-gray-500">No gallery images available.</p>
               )}
 
-              <div className="my-8 flex items-center justify-between border-b border-t border-gray-200 py-4">
+              {/* <div className="my-8 flex items-center justify-between border-b border-t border-gray-200 py-4">
                 <div>
                   <span className="mr-2 font-medium">Tag:</span>
 
@@ -177,7 +177,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                     </Link>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </article>
           </div>
 

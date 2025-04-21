@@ -8,6 +8,7 @@ export interface Post {
   authorName: string;
   tags?: string[];
   image: string;
+  description: string;
   comments?: Comment[];
 }
 

@@ -36,7 +36,7 @@ export default function ConsultationPage() {
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
     {},
   );
-  const { user } = useAuth();
+  const { user }: any = useAuth();
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {

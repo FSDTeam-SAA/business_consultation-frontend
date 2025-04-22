@@ -68,8 +68,8 @@ export default function BlogSection() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-10 md:grid-cols-1 lg:grid-cols-3">
-          {posts.slice(0, 3).map((post: any) => (
-            <BlogCard key={post.id} post={post} />
+          {posts.slice(0, 3).map((post: any,) => (
+            <BlogCard key={post._id} post={post} />
           ))}
         </div>
       )}

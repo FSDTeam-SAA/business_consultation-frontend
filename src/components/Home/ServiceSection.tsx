@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
+// import SearchComponent from "../search";
 
 export default function ServiceSection() {
   const services = [
@@ -25,7 +26,8 @@ export default function ServiceSection() {
 
   return (
     <section className="container mx-auto px-4 py-12">
-      <div className="mb-6 flex items-center justify-center">
+      {/* <SearchComponent /> */}
+      <div className="mb-6 flex items-center justify-center mt-10">
         <span className="inline-block rounded-md border border-green-500 px-3 py-1 text-[16px] font-semibold text-green-500">
           • ABOUT US
         </span>

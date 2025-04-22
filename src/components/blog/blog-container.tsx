@@ -15,13 +15,13 @@ export default function BlogPage() {
   const [token, setToken] = useState<string | null>(null);
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 4;
+  const postsPerPage = 3;
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem("authToken");
     setToken(storedToken);
   }, []);
-
+  //
   const {
     data: postsResponse,
     isLoading,
@@ -30,13 +30,13 @@ export default function BlogPage() {
     queryKey: ["blogs", token],
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs?page=${currentPage}&limit=${postsPerPage}&search=${searchParam}`,
         {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
       if (!res.ok) {
         throw new Error("Failed to fetch blogs");
@@ -109,7 +109,7 @@ export default function BlogPage() {
           ) : (
             <div className="space-y-8">
               {currentPosts.map((post: Post) => (
-                <BlogCard key={post.id} post={post} />
+                <BlogCard key={post._id} post={post} />
               ))}
             </div>
           )}
@@ -167,5 +167,3 @@ export default function BlogPage() {
     </div>
   );
 }
-
-

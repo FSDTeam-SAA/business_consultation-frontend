@@ -5,13 +5,11 @@ import ServiceSection from "@/components/Home/ServiceSection";
 import AboutUsSection from "@/components/Home/AboutUsSection";
 import Services from "@/components/Home/Services";
 import WhyChooseUsSection from "@/components/Home/whyChooseUs";
-import BlogSection from "@/components/blog/BlogSection";
-import { useAuth } from "@/hooks/useAuth";
+// import BlogSection from "@/components/blog/BlogSection";
+// import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
-  const { user } = useAuth();
-
-  console.log("aaskjldfasfdsaflsdflsd",user); // You can remove this in production
+  // const { user } = useAuth();
 
   return (
     <main className="">
@@ -23,11 +21,11 @@ export default function Home() {
       <Services />
       <WhyChooseUsSection />
       {/* Blog section with spacing */}
-      {!user?.hasActiveSubscription && (
+      {/* {!user?.hasActiveSubscription && (
         <div className="mt-12 border-t pt-8">
           <BlogSection />
         </div>
-      )}
+      )} */}
     </main>
   );
 }

@@ -1,4 +1,3 @@
-import React from "react";
 import EmissionForm from "./_components/emission-form";
 
 const page = () => {

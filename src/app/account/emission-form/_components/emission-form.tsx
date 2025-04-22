@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -1178,8 +1179,3 @@ export default function EmissionForm() {
     </div>
   );
 }
-
-
-
-
-

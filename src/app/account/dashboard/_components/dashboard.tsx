@@ -14,8 +14,8 @@ interface EnergySource {
   value: number;
 }
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/useAuth";
 import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 // Energy Sources Data
 const energySourcesData = [
@@ -68,8 +68,6 @@ export default function CompanyDashboard() {
     } else setToken(lstoredToken);
   }, []);
 
-  const { user } = useAuth();
-  console.log(user);
 
   const { data, isLoading } = useQuery({
     queryKey: ["companydetails"],
@@ -229,12 +227,12 @@ export default function CompanyDashboard() {
 
               {data?.data[0]?.basic_information.website && (
                 <div className="flex items-center gap-2 text-sm">
-                  <Globe className="h-4 w-4" />
-                  <span>
+                  <Globe className="h-4 w-4" /> 
+                  <Link href={`${data?.data[0]?.basic_information.website}`} target="_blank" className="text-sm text-blue-500 hover:underline">
                     {" "}
                     {data?.data[0]?.basic_information.website &&
                       data?.data[0]?.basic_information.website}
-                  </span>
+                  </Link>
                 </div>
               )}
             </div>

@@ -1,6 +1,58 @@
+"use client";
+import { useAuth } from "@/hooks/useAuth";
+import { useMutation } from "@tanstack/react-query";
 import { Check } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function Pricing() {
+  const [, setIsLoading] = useState(false);
+  const { user } = useAuth();
+
+  const checkoutMutation = useMutation({
+    mutationFn: async (payment: string) => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/payment/checkout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            amount: payment,
+            subscriptionType: "Subscription_fee",
+            email: user?.email,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to process payment");
+      }
+
+      return response.json();
+    },
+    onSuccess: (data) => {
+      toast.success(data.message);
+      // Handle successful payment (redirect to success page, show confirmation, etc.)
+      if (data?.data?.url) {
+        window.location.href = data.data.url;
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message);
+      // Handle payment error (show error message, etc.)
+    },
+    onSettled: () => {
+      setIsLoading(false);
+    },
+  });
+
+  const handleBuyNow = (payment: string): void => {
+    setIsLoading(true);
+    checkoutMutation.mutate(payment);
+  };
+
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-8">
       <div className="mb-4 inline-block">
@@ -55,7 +107,12 @@ export default function Pricing() {
 
               <div className="mt-4 flex items-center">
                 <div className="text-sm text-green-500">Package</div>
-                <button className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600">
+                <button
+                  onClick={() => {
+                    handleBuyNow("110");
+                  }}
+                  className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600"
+                >
                   Buy Plan
                 </button>
               </div>
@@ -108,7 +165,12 @@ export default function Pricing() {
 
               <div className="mt-4 flex items-center">
                 <div className="text-sm text-green-500">Package</div>
-                <button className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600">
+                <button
+                  onClick={() => {
+                    handleBuyNow("1152");
+                  }}
+                  className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600"
+                >
                   Buy Plan
                 </button>
               </div>

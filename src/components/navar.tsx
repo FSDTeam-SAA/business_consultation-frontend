@@ -2,13 +2,18 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+<<<<<<< HEAD
 import { Menu, Search } from "lucide-react";
+=======
+import { Menu } from "lucide-react";
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Hideon from "@/provider/Hideon";
-import { Input } from "./ui/input";
+// import { Input } from "./ui/input";
 import { useAuth } from "@/hooks/useAuth";
+<<<<<<< HEAD
 import { useQuery } from "@tanstack/react-query";
 import {
   Dialog,
@@ -19,6 +24,18 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { toast } from "sonner";
+=======
+// import { useQuery } from "@tanstack/react-query";
+// import {
+//   Dialog,
+//   DialogContent,
+//   DialogDescription,
+//   DialogFooter,
+//   DialogHeader,
+//   DialogTitle,
+// } from "./ui/dialog";
+// import { toast } from "sonner";
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 // interface NavbarProps {
@@ -31,6 +48,7 @@ export default function Navbar() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const pathName = usePathname();
   const profileRef = useRef<HTMLDivElement>(null);
+<<<<<<< HEAD
   const [searchResult, setSearchResult] = useState<string | null>(null);
   const { user, logout } = useAuth();
   const [token, setToken] = useState<string | null>(null);
@@ -42,6 +60,19 @@ export default function Navbar() {
       setToken(storedToken);
     } else setToken(lstoredToken);
   }, []);
+=======
+  // const [searchResult, setSearchResult] = useState<string | null>(null);
+  const { user, logout } = useAuth();
+  // const [token, setToken] = useState<string | null>(null);
+  // const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // useEffect(() => {
+  //   const storedToken = sessionStorage.getItem("authToken");
+  //   const lstoredToken = localStorage.getItem("authToken");
+  //   if (storedToken) {
+  //     setToken(storedToken);
+  //   } else setToken(lstoredToken);
+  // }, []);
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
   // console.log(user);
 
@@ -52,6 +83,7 @@ export default function Navbar() {
   //   window.addEventListener("scroll", handleScroll);
   //   return () => window.removeEventListener("scroll", handleScroll);
   // }, []);
+<<<<<<< HEAD
   const { data, refetch } = useQuery({
     queryKey: ["companySearch", searchResult],
     queryFn: ({ queryKey }) =>
@@ -88,6 +120,44 @@ export default function Navbar() {
       console.error("Search failed", error);
     }
   };
+=======
+  // const { data, refetch } = useQuery({
+  //   queryKey: ["companySearch", searchResult],
+  //   queryFn: ({ queryKey }) =>
+  //     fetch(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/search?uniqueCode=${encodeURIComponent(queryKey[1] ?? "")}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       },
+  //     )
+  //       .then((res) => {
+  //         if (!res.ok) throw new Error("Company not found");
+  //         return res.json();
+  //       })
+  //       .catch((error) => {
+  //         toast.error(error.message);
+  //       }),
+  //   enabled: false, // disable automatic fetching :contentReference[oaicite:2]{index=2}
+  //   refetchOnWindowFocus: false,
+  // });
+
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (!searchResult) return;
+
+  //   try {
+  //     const result = await refetch();
+  //     if (result.isSuccess && result.data) {
+  //       setIsDialogOpen(true);
+  //     }
+  //   } catch (error) {
+  //     console.error("Search failed", error);
+  //   }
+  // };
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
   useEffect(() => {
     const handleScroll = () => {
@@ -220,7 +290,7 @@ export default function Navbar() {
                 >
                   ABOUT US
                 </Link>
-                <Link
+                {/* <Link
                   href="/blog"
                   className={cn(
                     "text-xl font-medium transition-colors",
@@ -231,7 +301,7 @@ export default function Navbar() {
                   onClick={() => setIsSheetOpen(false)}
                 >
                   BLOGS
-                </Link>
+                </Link> */}
                 <Link
                   href="/contact"
                   className={cn(
@@ -292,7 +362,7 @@ export default function Navbar() {
               ABOUT US
             </Link>
 
-            <Link
+            {/* <Link
               href="/blog"
               className={cn(
                 "transition-colors",
@@ -304,7 +374,7 @@ export default function Navbar() {
               )}
             >
               BLOGS
-            </Link>
+            </Link> */}
 
             <Link
               href="/contact"
@@ -321,7 +391,12 @@ export default function Navbar() {
             </Link>
           </nav>
           {/* search bar  */}
+<<<<<<< HEAD
           <form
+=======
+       
+          {/* <form
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
             onSubmit={handleSubmit}
             className="relative hidden items-center lg:flex"
           >
@@ -339,10 +414,17 @@ export default function Navbar() {
                 isScrolled ? "border border-black text-gray-800" : "text-white"
               }`}
             />
+<<<<<<< HEAD
           </form>
           {/* model   */}
 
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+=======
+          </form> */}
+          {/* model   */}
+
+          {/* <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
             <DialogContent className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
               <DialogHeader className="mb-4">
                 <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">
@@ -359,7 +441,11 @@ export default function Navbar() {
                     Business Name:
                   </span>
                   <span className="text-gray-900 dark:text-gray-100">
+<<<<<<< HEAD
                     {data?.data.businessName}
+=======
+                    {data?.data.companyLegalName}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -401,7 +487,11 @@ export default function Navbar() {
                 </button>
               </DialogFooter>
             </DialogContent>
+<<<<<<< HEAD
           </Dialog>
+=======
+          </Dialog> */}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
           {/* User Profile */}
           {user ? (
@@ -413,7 +503,11 @@ export default function Navbar() {
                 <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#09B850]">
                   {/* <User className="h-6 w-6 text-white" /> */}
                   <Avatar>
+<<<<<<< HEAD
                     <AvatarImage src={user?.profileImage}/>
+=======
+                    <AvatarImage src={user?.profileImage} />
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
                     <AvatarFallback>PR</AvatarFallback>
                   </Avatar>
                 </div>

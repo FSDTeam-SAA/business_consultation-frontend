@@ -53,6 +53,11 @@ export default function NotificationPage() {
     enabled: !!token && !!backendUrl,
   });
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
   const notifications = data?.data || [];
   console.log(notifications)
   const paginationData = data?.pagination || {
@@ -61,6 +66,12 @@ export default function NotificationPage() {
     totalNotifications: 0,
   };
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
   const totalPages = Number(paginationData.totalPages);
   const totalItems = Number(paginationData.totalNotifications);
   const currentApiPage = Number(paginationData.currentPage);
@@ -103,7 +114,18 @@ export default function NotificationPage() {
                 </div>
                 <div className="flex items-center justify-end">
                   <span className="text-xs text-muted-foreground">
+<<<<<<< HEAD
                     {new Date(notification.date).toLocaleDateString()}
+=======
+                  {new Date(notification.createdAt).toLocaleDateString(
+                      "en-US",
+                      {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      }
+                    )}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
                   </span>
                   {/* <Button
                     variant="ghost"
@@ -121,7 +143,11 @@ export default function NotificationPage() {
             <Pagination
               totalPages={totalPages}
               currentPage={currentApiPage}
+<<<<<<< HEAD
               onPageChange={(page) => setCurrentPage(page)}
+=======
+              onPageChange={(page:any) => setCurrentPage(page)}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
               totalItems={totalItems}
               itemsPerPage={itemsPerPage}
             />

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // /* eslint-disable @typescript-eslint/no-unused-vars */
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // import Link from "next/link";
@@ -90,6 +91,8 @@
 //   );
 // }
 
+=======
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -141,7 +144,11 @@ export default function RecentPosts() {
     (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
 
+<<<<<<< HEAD
   const latestPosts = sortedPosts.slice(0, 2); // Only take the latest 2 posts
+=======
+  const latestPosts = sortedPosts.slice(0, 3); // Only take the latest 3 posts
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
   return (
     <div className="rounded-md bg-gray-100 p-6">
@@ -150,7 +157,11 @@ export default function RecentPosts() {
         {latestPosts.map((postData: any) => (
           <Link
             href={`/blog/${postData.slug}`}
+<<<<<<< HEAD
             key={postData.id}
+=======
+            key={postData._id}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
             className="group flex items-center gap-3"
           >
             <div className="h-20 w-20 flex-shrink-0">

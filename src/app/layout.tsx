@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/navar";
 import Footer from "@/components/footer";
 import AppProvider from "@/provider/AppProvider";
+import ConsoleMessage from "@/components/consoleMessage";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+<<<<<<< HEAD
 
         <AppProvider>
         <Navbar />
@@ -39,6 +41,14 @@ export default function RootLayout({
           <Footer />
           </AppProvider>
      
+=======
+        <AppProvider>
+          <Navbar />
+          <ConsoleMessage />
+          {children}
+          <Footer />
+        </AppProvider>
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
       </body>
     </html>
   );

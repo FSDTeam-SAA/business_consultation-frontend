@@ -63,9 +63,18 @@ export default function BlogCard({ post }: BlogCardProps) {
             </p>
           </Link>
           <p className="mb-4 line-clamp-3 text-gray-700">{post.excerpt}</p>
-          <div className="mt-4 flex h-[45px] w-[151px] items-center justify-center rounded-[8px] border border-[#09B850]">
+          <div className="mt-6 flex h-[45px] w-[151px] items-center justify-center rounded-[8px]">
             <Link href={`/blog/${post.slug}`}>
-              <button className="mb-1 text-[#09B850]">Read More</button>
+              <div className="group relative overflow-hidden rounded-lg border border-[#09B850] px-5 py-3 font-medium text-[#09B850] shadow-inner">
+                <span className="ease absolute left-0 top-0 h-0 w-0 border-t-2 border-[#09B850] transition-all duration-200 group-hover:w-full"></span>
+                <span className="ease absolute bottom-0 right-0 h-0 w-0 border-b-2 border-[#09B850] transition-all duration-200 group-hover:w-full"></span>
+                <span className="ease absolute left-0 top-0 h-0 w-full bg-[#09B850] transition-all delay-200 duration-300 group-hover:h-full"></span>
+                <span className="ease absolute bottom-0 left-0 h-0 w-full bg-[#09B850] transition-all delay-200 duration-300 group-hover:h-full"></span>
+                <span className="absolute inset-0 h-full w-full bg-[#09B850] opacity-0 delay-300 duration-300 group-hover:opacity-100"></span>
+                <span className="ease relative transition-colors delay-300 duration-300 group-hover:text-white">
+                  Read More
+                </span>
+              </div>
             </Link>
           </div>
         </div>

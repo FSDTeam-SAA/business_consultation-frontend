@@ -14,7 +14,8 @@ interface EnergySource {
   value: number;
 }
 import { useQuery } from "@tanstack/react-query";
-import { useAuth } from "@/hooks/useAuth";
+import { Skeleton } from "@/components/ui/skeleton";
+import Link from "next/link";
 
 // Energy Sources Data
 const energySourcesData = [
@@ -67,10 +68,8 @@ export default function CompanyDashboard() {
     } else setToken(lstoredToken);
   }, []);
 
-  const { user } = useAuth();
-  console.log(user);
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available
     queryFn: async () => {
@@ -137,74 +136,109 @@ export default function CompanyDashboard() {
   return (
     <div className="flex w-full flex-col gap-6">
       {/* Company Header */}
-      <Card className="bg-[#033618] text-white">
-        <CardContent className="flex items-center gap-4 p-6">
-          {/* <Avatar className="h-24 w-24 border-4 border-white">
+      {isLoading ? (
+        <Card className="bg-[#033618] text-white">
+          <CardContent className="flex items-center gap-4 p-6">
+            <div className="flex-1 space-y-4">
+              <Skeleton className="h-8 w-3/4 md:w-1/2" />
+
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-4 rounded-full" />
+                <Skeleton className="h-4 w-1/3" />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-4 rounded-full" />
+                <Skeleton className="h-4 w-1/3" />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-4 rounded-full" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-4 rounded-full" />
+                <Skeleton className="h-4 w-2/5" />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Skeleton className="h-4 w-4 rounded-full" />
+                <Skeleton className="h-4 w-1/3" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="bg-[#033618] text-white">
+          <CardContent className="flex items-center gap-4 p-6">
+            {/* <Avatar className="h-24 w-24 border-4 border-white">
             <AvatarImage
               src="/placeholder.svg?height=96&width=96"
               alt="Company Logo"
             />
             <AvatarFallback className="text-black">CN</AvatarFallback>
           </Avatar> */}
-          <div className="space-y-4">
-            <h1 className="mb-4 text-2xl font-bold md:text-3xl">
-              {data?.data[0]?.basic_information?.full_name || "Company Name"}
-            </h1>
-            {data?.data[0]?.basic_information.email && (
-              <div className="flex items-center gap-2 text-sm">
-                <Mail className="h-4 w-4" />
-                <span>
-                  {data?.data[0]?.basic_information.email &&
-                    data?.data[0]?.basic_information.email}
-                </span>
-              </div>
-            )}
+            <div className="space-y-4">
+              <h1 className="mb-4 text-2xl font-bold md:text-3xl">
+                {data?.data[0]?.basic_information?.full_name || "Company Name"}
+              </h1>
+              {data?.data[0]?.basic_information.email && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Mail className="h-4 w-4" />
+                  <span>
+                    {data?.data[0]?.basic_information.email &&
+                      data?.data[0]?.basic_information.email}
+                  </span>
+                </div>
+              )}
 
-            {data?.data[0]?.basic_information.phone_number && (
-              <div className="flex items-center gap-2 text-sm">
-                <Phone className="h-4 w-4" />
-                <span>
-                  {" "}
-                  {data?.data[0]?.basic_information.phone_number &&
-                    data?.data[0]?.basic_information.phone_number}
-                </span>
-              </div>
-            )}
+              {data?.data[0]?.basic_information.phone_number && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Phone className="h-4 w-4" />
+                  <span>
+                    {" "}
+                    {data?.data[0]?.basic_information.phone_number &&
+                      data?.data[0]?.basic_information.phone_number}
+                  </span>
+                </div>
+              )}
 
-            {data?.data[0]?.basic_information.company_operating_name && (
-              <div className="flex items-center gap-2 text-sm">
-                <Factory className="h-4 w-4" />
-                <span>
-                  {data?.data[0]?.basic_information.company_operating_name &&
-                    data?.data[0]?.basic_information.company_operating_name}
-                </span>
-              </div>
-            )}
+              {data?.data[0]?.basic_information.company_operating_name && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Factory className="h-4 w-4" />
+                  <span>
+                    {data?.data[0]?.basic_information.company_operating_name &&
+                      data?.data[0]?.basic_information.company_operating_name}
+                  </span>
+                </div>
+              )}
 
-            {data?.data[0]?.basic_information.headquarter_location && (
-              <div className="flex items-center gap-2 text-sm">
-                <MapPin className="h-4 w-4" />
-                <span>
-                  {" "}
-                  {data?.data[0]?.basic_information.headquarter_location &&
-                    data?.data[0]?.basic_information.headquarter_location}
-                </span>
-              </div>
-            )}
+              {data?.data[0]?.basic_information.headquarter_location && (
+                <div className="flex items-center gap-2 text-sm">
+                  <MapPin className="h-4 w-4" />
+                  <span>
+                    {" "}
+                    {data?.data[0]?.basic_information.headquarter_location &&
+                      data?.data[0]?.basic_information.headquarter_location}
+                  </span>
+                </div>
+              )}
 
-            {data?.data[0]?.basic_information.website && (
-              <div className="flex items-center gap-2 text-sm">
-                <Globe className="h-4 w-4" />
-                <span>
-                  {" "}
-                  {data?.data[0]?.basic_information.website &&
-                    data?.data[0]?.basic_information.website}
-                </span>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+              {data?.data[0]?.basic_information.website && (
+                <div className="flex items-center gap-2 text-sm">
+                  <Globe className="h-4 w-4" /> 
+                  <Link href={`${data?.data[0]?.basic_information.website}`} target="_blank" className="text-sm text-blue-500 hover:underline">
+                    {" "}
+                    {data?.data[0]?.basic_information.website &&
+                      data?.data[0]?.basic_information.website}
+                  </Link>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Energy Sources Chart */}

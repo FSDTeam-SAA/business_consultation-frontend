@@ -14,8 +14,12 @@ interface EnergySource {
   value: number;
 }
 import { useQuery } from "@tanstack/react-query";
+<<<<<<< HEAD
+import { useAuth } from "@/hooks/useAuth";
+=======
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
 // Energy Sources Data
 const energySourcesData = [
@@ -68,8 +72,15 @@ export default function CompanyDashboard() {
     } else setToken(lstoredToken);
   }, []);
 
+<<<<<<< HEAD
+  const { user } = useAuth();
+  console.log(user);
+
+  const { data } = useQuery({
+=======
 
   const { data, isLoading } = useQuery({
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
     queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available
     queryFn: async () => {
@@ -136,6 +147,11 @@ export default function CompanyDashboard() {
   return (
     <div className="flex w-full flex-col gap-6">
       {/* Company Header */}
+<<<<<<< HEAD
+      <Card className="bg-[#033618] text-white">
+        <CardContent className="flex items-center gap-4 p-6">
+          {/* <Avatar className="h-24 w-24 border-4 border-white">
+=======
       {isLoading ? (
         <Card className="bg-[#033618] text-white">
           <CardContent className="flex items-center gap-4 p-6">
@@ -173,12 +189,74 @@ export default function CompanyDashboard() {
         <Card className="bg-[#033618] text-white">
           <CardContent className="flex items-center gap-4 p-6">
             {/* <Avatar className="h-24 w-24 border-4 border-white">
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
             <AvatarImage
               src="/placeholder.svg?height=96&width=96"
               alt="Company Logo"
             />
             <AvatarFallback className="text-black">CN</AvatarFallback>
           </Avatar> */}
+<<<<<<< HEAD
+          <div className="space-y-4">
+            <h1 className="mb-4 text-2xl font-bold md:text-3xl">
+              {data?.data[0]?.basic_information?.full_name || "Company Name"}
+            </h1>
+            {data?.data[0]?.basic_information.email && (
+              <div className="flex items-center gap-2 text-sm">
+                <Mail className="h-4 w-4" />
+                <span>
+                  {data?.data[0]?.basic_information.email &&
+                    data?.data[0]?.basic_information.email}
+                </span>
+              </div>
+            )}
+
+            {data?.data[0]?.basic_information.company_operating_name && (
+              <div className="flex items-center gap-2 text-sm">
+                <Phone className="h-4 w-4" />
+                <span>
+                  {" "}
+                  {data?.data[0]?.basic_information.phone_number &&
+                    data?.data[0]?.basic_information.phone_number}
+                </span>
+              </div>
+            )}
+
+            {data?.data[0]?.basic_information.company_operating_name && (
+              <div className="flex items-center gap-2 text-sm">
+                <Factory className="h-4 w-4" />
+                <span>
+                  {data?.data[0]?.basic_information.company_operating_name &&
+                    data?.data[0]?.basic_information.company_operating_name}
+                </span>
+              </div>
+            )}
+
+            {data?.data[0]?.basic_information.headquarter_location && (
+              <div className="flex items-center gap-2 text-sm">
+                <MapPin className="h-4 w-4" />
+                <span>
+                  {" "}
+                  {data?.data[0]?.basic_information.headquarter_location &&
+                    data?.data[0]?.basic_information.headquarter_location}
+                </span>
+              </div>
+            )}
+
+            {data?.data[0]?.basic_information.website && (
+              <div className="flex items-center gap-2 text-sm">
+                <Globe className="h-4 w-4" />
+                <span>
+                  {" "}
+                  {data?.data[0]?.basic_information.website &&
+                    data?.data[0]?.basic_information.website}
+                </span>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+=======
             <div className="space-y-4">
               <h1 className="mb-4 text-2xl font-bold md:text-3xl">
                 {data?.data[0]?.basic_information?.full_name || "Company Name"}
@@ -239,6 +317,7 @@ export default function CompanyDashboard() {
           </CardContent>
         </Card>
       )}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Energy Sources Chart */}
@@ -343,8 +422,13 @@ export default function CompanyDashboard() {
                 <PieChart>
                   <Pie
                     data={Carbonemission}
+<<<<<<< HEAD
+                    cx="50%"
+                    cy="50%"
+=======
                     cx="45%"
                     cy="55%"
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
                     innerRadius={0}
                     outerRadius={80}
                     paddingAngle={1}
@@ -384,7 +468,10 @@ export default function CompanyDashboard() {
       </div>
 
       {/* Percentage of Energy Renewable */}
+<<<<<<< HEAD
+=======
 
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
       {/* <Card>
         <CardHeader>
           <CardTitle className="text-base font-medium text-emerald-500">
@@ -412,7 +499,11 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
+<<<<<<< HEAD
+            {data?.data[0]?.basic_information.business_sector?.map(
+=======
             {data?.data[0]?.basic_information.business_sector.length !== 0 && data?.data[0]?.basic_information.business_sector.map(
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
               (source: {
                 _id: string;
                 sector: string;
@@ -427,6 +518,27 @@ export default function CompanyDashboard() {
         </Card> */}
 
         {/* Energy Sources */}
+<<<<<<< HEAD
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">
+              Energy Sources
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {data?.data[0]?.carbon_footprint?.energy_sources?.map(
+              (source: EnergySource, i: number) => {
+                return (
+                  <div key={i} className="space-y-1">
+                    <p>{source.source}</p>
+                  </div>
+                );
+              },
+            )}
+          </CardContent>
+        </Card>
+
+=======
         {data?.data[0]?.carbon_footprint?.energy_sources.length !== 0 && (
           <Card>
             <CardHeader className="pb-2">
@@ -447,6 +559,7 @@ export default function CompanyDashboard() {
             </CardContent>
           </Card>
         )}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
         {/* Average Business Flight Distance */}
         <Card>
           <CardHeader className="pb-2">
@@ -460,6 +573,24 @@ export default function CompanyDashboard() {
         </Card>
 
         {/* Number of Company owned vehicles */}
+<<<<<<< HEAD
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">
+              Number of Company owned vehicles
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.carbon_footprint
+                  ?.number_of_company_owned_vehicles
+              }
+            </p>
+          </CardContent>
+        </Card>
+=======
         {data?.data[0]?.carbon_footprint?.number_of_company_owned_vehicles && (
           <Card>
             <CardHeader className="pb-2">
@@ -478,6 +609,7 @@ export default function CompanyDashboard() {
             </CardContent>
           </Card>
         )}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
         {/* Total Electrical Consumption */}
         <Card>
@@ -498,6 +630,21 @@ export default function CompanyDashboard() {
         </Card>
 
         {/* Number of Employees */}
+<<<<<<< HEAD
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">
+              Number of Employees
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">
+              {" "}
+              {data?.data[0]?.basic_information?.number_of_employees}
+            </p>
+          </CardContent>
+        </Card>
+=======
         {data?.data[0]?.basic_information?.number_of_employees && (
           <Card>
             <CardHeader className="pb-2">
@@ -513,6 +660,7 @@ export default function CompanyDashboard() {
             </CardContent>
           </Card>
         )}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
         {/* Volume of Goods Transportation Method */}
         <Card>
@@ -527,6 +675,23 @@ export default function CompanyDashboard() {
         </Card>
 
         {/* Average Distance Travelled per Vehicle Annually */}
+<<<<<<< HEAD
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">
+              Average Distance Travelled per Vehicle Annually
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.carbon_footprint?.average_distance_travelled_per_vehicle_annually
+              }
+            </p>
+          </CardContent>
+        </Card>
+=======
         {data?.data[0]?.carbon_footprint
           ?.average_distance_travelled_per_vehicle_annually && (
           <Card>
@@ -546,6 +711,7 @@ export default function CompanyDashboard() {
             </CardContent>
           </Card>
         )}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
         {/* Total Annual Turnover in the last Financial Year */}
         <Card>
@@ -572,6 +738,78 @@ export default function CompanyDashboard() {
         </Card>
 
         {/* Annual Business Train Distance */}
+<<<<<<< HEAD
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">
+              Annual Business Train Distance
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+          <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.carbon_footprint?.annual_business_train_distance.distance
+              }
+              {" "}
+              {
+                data?.data[0]?.carbon_footprint?.annual_business_train_distance.unit
+              }
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Supply Chain & Logistics */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">
+              Supply Chain & Logistics
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+          <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.supply_chain_logistics.volume_of_goods_transportation_tons
+              }
+            </p>
+          </CardContent>
+        </Card>
+
+        {/* Type of Organization */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">
+              Type of Organization
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-1">
+            <p className="text-2xl font-bold">
+              {" "}
+              {data?.data[0]?.basic_information?.type_of_organization}
+            </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Total Value of Assets at End of The Last Financial Year */}
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-medium">
+              Total Value of Assets at End of The Last Financial Year
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+          <p className="text-2xl font-bold">
+              {" "}
+              {
+                data?.data[0]?.finances?.total_value_of_assets
+              }
+            </p>
+          </CardContent>
+        </Card>
+=======
         {data?.data[0]?.carbon_footprint?.annual_business_train_distance && (
           <Card>
             <CardHeader className="pb-2">
@@ -646,6 +884,7 @@ export default function CompanyDashboard() {
             </CardContent>
           </Card>
         )}
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
         {/* Primary Transportation Method */}
         <Card>

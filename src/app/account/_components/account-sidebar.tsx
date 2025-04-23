@@ -24,6 +24,7 @@ export function AccountSidebar() {
     { title: "Dashboard", href: "/account/dashboard" },
     { title: "Emission Form", href: "/account/emission-form" },
     { title: "Personal Information", href: "/account/personal-information" },
+    { title: "Blogs", href: "/account/blog" },
     { title: "Subscription", href: "/account/subscription" },
     { title: "Notification", href: "/account/notification" },
     { title: "Email Consultation", href: "/account/email-consaltaion" },

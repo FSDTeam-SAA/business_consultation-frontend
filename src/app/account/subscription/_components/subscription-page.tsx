@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use client";
+
 import {
   Table,
   TableBody,
@@ -6,137 +10,133 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-// import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { Pagination } from "@/components/pagination";
 
 export default function SubscriptionPage() {
-  // Sample data
-  const subscriptions = [
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Expired",
+  const [token, setToken] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    const storedToken =
+      sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
+    setToken(storedToken);
+  }, []);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["subscriptions", currentPage],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/dashboard/get-subscriptions?page=${currentPage}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      if (!res.ok) throw new Error("Failed to fetch subscriptions");
+      return res.json();
     },
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Disabled",
-    },
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Active",
-    },
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Expired",
-    },
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Active",
-    },
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Disabled",
-    },
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Active",
-    },
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Active",
-    },
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Active",
-    },
-    {
-      type: "Basic",
-      renewalDate: "8 Sep, 2020",
-      expiredDate: "10 Nov, 2020",
-      total: "$125.00",
-      status: "Active",
-    },
-  ];
+    enabled: !!token,
+  });
+
+  // ✅ Extract subscriptions safely from nested structure
+  const subscriptions = Array.isArray(data?.data?.subscriptions)
+    ? data.data.subscriptions
+    : [];
+
+  console.log(subscriptions);
+
+  const totalPages = data?.pagination?.totalPages || 1;
 
   return (
     <div>
       <h1 className="mb-6 border-b border-[#CECECE] pb-4 text-2xl font-bold">
         View Current Plan
       </h1>
-      <div className="rounded-md bg-muted/50">
+
+      <div className="overflow-hidden rounded-lg bg-white shadow-md">
         <Table>
-          <TableHeader className="h-[70px] bg-[#CECECECC]">
+          <TableHeader className="border-b bg-[#f4f4f4]">
             <TableRow>
-              {/* <TableHead className="pl-[30px] text-[16px] font-[600] text-[#000000]">
-                Type
-              </TableHead> */}
-              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
-                Renewal Date
+              <TableHead className="px-6 py-4 text-sm font-semibold text-gray-700">
+                package Type
               </TableHead>
-              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
-                Expired Date
-              </TableHead>
-              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
-                Total
-              </TableHead>
-              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
+              <TableHead className="px-6 py-4 text-sm font-semibold text-gray-700">
                 Status
               </TableHead>
-              <TableHead className="text-[16px] px-10 font-[600] text-[#000000]">
-                Action
+              <TableHead className="px-6 py-4 text-sm font-semibold text-gray-700">
+                SubscriptionType
+              </TableHead>
+              <TableHead className="px-6 py-4 text-sm font-semibold text-gray-700">
+                Date
               </TableHead>
             </TableRow>
           </TableHeader>
+
           <TableBody>
-            {subscriptions.map((subscription, index) => (
-              <TableRow key={index}>
-                {/* <TableCell>
-                  <Badge className="flex h-[30px] w-[87px] items-center justify-center bg-green-500 text-[12px] hover:bg-green-600">
-                    {subscription.type}
-                  </Badge>
-                </TableCell> */}
-                <TableCell className="px-10">{subscription.renewalDate}</TableCell>
-                <TableCell className="px-10">{subscription.expiredDate}</TableCell>
-                <TableCell className="px-10">{subscription.total}</TableCell>
-                <TableCell className="px-10">{subscription.status}</TableCell>
-                <TableCell className="px-10">
-                  <Button
-                    variant="ghost"
-                    className="h-6 p-2 text-[16px] font-[500] text-red-500 hover:bg-red-50 hover:text-red-700"
-                  >
-                    Delete
-                  </Button>
+            {isLoading ? (
+              <TableRow>
+                <TableCell colSpan={4} className="py-6 text-center">
+                  Loading...
                 </TableCell>
               </TableRow>
-            ))}
+            ) : isError ? (
+              <TableRow>
+                <TableCell
+                  colSpan={4}
+                  className="py-6 text-center text-red-500"
+                >
+                  Failed to load subscriptions.
+                </TableCell>
+              </TableRow>
+            ) : subscriptions.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4} className="py-6 text-center">
+                  No subscriptions found.
+                </TableCell>
+              </TableRow>
+            ) : (
+              subscriptions.map((sub: any, index: number) => (
+                <TableRow key={index} className="border-b hover:bg-gray-50">
+                  <TableCell className="px-6 py-4 text-sm text-gray-800">
+                    {sub?.packageId}
+                  </TableCell>
+                  <TableCell className="px-6 py-4 text-sm text-gray-800">
+                    {sub?.status || "No Status"}
+                  </TableCell>
+                  <TableCell className="px-6 py-4 text-sm text-gray-800">
+                    {sub?.subscriptionType || "N/A"}
+                  </TableCell>
+                  <TableCell className="px-6 py-4 text-sm text-gray-800">
+                    {/* {sub?.phoneNumber || "N/A"} */}
+                    <p>
+                      {new Date(sub?.createdAt).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </p>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="mt-4 flex justify-end">
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={(page:any) => setCurrentPage(page)}
+          totalItems={0}
+          itemsPerPage={0}
+        />
       </div>
     </div>
   );

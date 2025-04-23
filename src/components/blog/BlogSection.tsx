@@ -18,34 +18,34 @@ export interface BlogPost {
 export default function BlogSection() {
   const [token, setToken] = useState<string | null>(null);
 
-useEffect(() => {
-  const storedToken = sessionStorage.getItem("authToken");
-  setToken(storedToken);
-}, []);
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("authToken");
+    setToken(storedToken);
+  }, []);
 
-const {
-  data: postsResponse, isLoading,
-} = useQuery({
-  queryKey: ["blogs", token],
-  queryFn: async () => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+  const {
+    data: postsResponse, isLoading,
+  } = useQuery({
+    queryKey: ["blogs", token],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        throw new Error("Failed to fetch blogs");
       }
-    );
-    if (!res.ok) {
-      throw new Error("Failed to fetch blogs");
-    }
-    return res.json();
-  },
-  enabled: !!token,
-});
+      return res.json();
+    },
+    enabled: !!token,
+  });
 
-const posts: BlogPost[] = postsResponse?.data || [];
+  const posts: BlogPost[] = postsResponse?.data || [];
 
   return (
     <section className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
@@ -68,8 +68,8 @@ const posts: BlogPost[] = postsResponse?.data || [];
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-10 md:grid-cols-1 lg:grid-cols-3">
-          {posts.map((post: any) => (
-            <BlogCard key={post.id} post={post} />
+          {posts.slice(0, 3).map((post: any,) => (
+            <BlogCard key={post._id} post={post} />
           ))}
         </div>
       )}

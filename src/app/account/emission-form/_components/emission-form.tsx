@@ -1,10 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 "use client";
 
-import { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -15,8 +14,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -24,8 +21,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 // Define the organization types
 const organizationTypes = [
@@ -44,29 +46,29 @@ const organizationTypes = [
 
 // Define the energy sources
 const energySources = [
-  { value: "coal", label: "Coal" },
-  { value: "natural-gas", label: "Natural Gas" },
-  { value: "oil", label: "Oil" },
-  { value: "nuclear", label: "Nuclear" },
-  { value: "solar", label: "Solar" },
-  { value: "wind", label: "Wind" },
-  { value: "hydro", label: "Hydro" },
-  { value: "biomass", label: "Biomass" },
-  { value: "geothermal", label: "Geothermal" },
-  { value: "mixed", label: "Mixed Sources" },
+  { id: "source-1", value: "coal", label: "Coal" },
+  { id: "source-2", value: "natural-gas", label: "Natural Gas" },
+  { id: "source-3", value: "oil", label: "Oil" },
+  { id: "source-4", value: "nuclear", label: "Nuclear" },
+  { id: "source-5", value: "solar", label: "Solar" },
+  { id: "source-6", value: "wind", label: "Wind" },
+  { id: "source-7", value: "hydro", label: "Hydro" },
+  { id: "source-8", value: "biomass", label: "Biomass" },
+  { id: "source-9", value: "geothermal", label: "Geothermal" },
+  { id: "source-10", value: "mixed", label: "Mixed Sources" },
 ];
 
 // Define the fuel types
 const fuelTypes = [
-  { value: "petrol", label: "Petrol/Gasoline" },
-  { value: "diesel", label: "Diesel" },
-  { value: "electric", label: "Electric" },
-  { value: "hybrid", label: "Hybrid" },
-  { value: "cng", label: "Compressed Natural Gas (CNG)" },
-  { value: "lpg", label: "Liquefied Petroleum Gas (LPG)" },
-  { value: "hydrogen", label: "Hydrogen" },
-  { value: "biofuel", label: "Biofuel" },
-  { value: "mixed", label: "Mixed Fuel Types" },
+  { id: "fuel-1", value: "petrol", label: "Petrol/Gasoline" },
+  { id: "fuel-2", value: "diesel", label: "Diesel" },
+  { id: "fuel-3", value: "electric", label: "Electric" },
+  { id: "fuel-4", value: "hybrid", label: "Hybrid" },
+  { id: "fuel-5", value: "cng", label: "Compressed Natural Gas (CNG)" },
+  { id: "fuel-6", value: "lpg", label: "Liquefied Petroleum Gas (LPG)" },
+  { id: "fuel-7", value: "hydrogen", label: "Hydrogen" },
+  { id: "fuel-8", value: "biofuel", label: "Biofuel" },
+  { id: "fuel-9", value: "mixed", label: "Mixed Fuel Types" },
 ];
 
 // Define the transportation methods
@@ -81,7 +83,14 @@ const transportationMethods = [
 
 // Removed unused businessSectors variable
 
-// Define the form schema with Zod
+// Define the object schema for sectors, energy sources, and fuel types
+const selectionSchema = z.object({
+  name: z.string(),
+  percentage: z.string().optional(),
+  isSelected: z.boolean().default(false),
+});
+
+// Update the form schema for energy sources and fuel types
 const formSchema = z.object({
   // Section 1: Personal/Company Information
   fullName: z.string().min(2, { message: "Full name is required" }),
@@ -104,7 +113,7 @@ const formSchema = z.object({
   organizationType: z
     .string()
     .min(1, { message: "Please select an organization type" }),
-  businessSector: z.string().min(1, { message: "Business sector is required" }),
+  businessSector: z.array(selectionSchema).default([]).optional(),
   numberOfEmployees: z
     .string()
     .min(1, { message: "Number of employees is required" }),
@@ -118,14 +127,12 @@ const formSchema = z.object({
   electricalConsumption: z
     .string()
     .min(1, { message: "Electrical consumption is required" }),
-  energySource: z
-    .string()
-    .min(1, { message: "Please select an energy source" }),
+  energySources: z.array(selectionSchema).default([]).optional(),
   renewablePercentage: z.string().optional(),
   companyVehicles: z
     .string()
     .min(1, { message: "Number of vehicles is required" }),
-  fuelType: z.string().min(1, { message: "Please select a fuel type" }),
+  fuelTypes: z.array(selectionSchema).default([]).optional(),
   averageDistance: z
     .string()
     .min(1, { message: "Average distance is required" }),
@@ -149,9 +156,48 @@ const formSchema = z.object({
   financialStatements: z.any().optional(), // For file upload
 });
 
+const businessSectors = [
+  { id: "manufacturing", label: "Manufacturing" },
+  { id: "retail", label: "Retail" },
+  { id: "technology", label: "Technology" },
+  { id: "healthcare", label: "Healthcare" },
+  { id: "finance", label: "Finance" },
+  { id: "education", label: "Education" },
+  { id: "transportation", label: "Transportation" },
+  { id: "construction", label: "Construction" },
+  { id: "agriculture", label: "Agriculture" },
+  { id: "energy", label: "Energy" },
+  { id: "other", label: "Other..." },
+];
+
 export default function EmissionForm() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
+
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("authToken");
+    const lstoredToken = localStorage.getItem("authToken");
+    if (storedToken) {
+      setToken(storedToken);
+    } else setToken(lstoredToken);
+  }, []);
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["emmison-form-submit"],
+    mutationFn: (formData: FormData) =>
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }).then((res) => res.json()),
+    onSuccess: (data) => {
+      console.log("submmited response", data);
+    },
+  });
 
   // Initialize the form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -165,16 +211,28 @@ export default function EmissionForm() {
       website: "",
       headquarterLocation: "",
       organizationType: "",
-      businessSector: "",
+      businessSector: businessSectors.map((sector) => ({
+        name: sector.id,
+        percentage: "",
+        isSelected: false,
+      })),
       numberOfEmployees: "",
       businessDescription: "",
 
       carbonFootprintDescription: "",
       electricalConsumption: "",
-      energySource: "",
+      energySources: energySources.map((source) => ({
+        name: source.id,
+        percentage: "",
+        isSelected: false,
+      })),
       renewablePercentage: "",
       companyVehicles: "",
-      fuelType: "",
+      fuelTypes: fuelTypes.map((type) => ({
+        name: type.id,
+        percentage: "",
+        isSelected: false,
+      })),
       averageDistance: "",
       flightDistance: "",
       trainDistance: "",
@@ -193,8 +251,135 @@ export default function EmissionForm() {
 
   // Handle form submission
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    alert("Form submitted successfully!");
+    const formData = new FormData();
+
+    // Basic Information (Step 1)
+    formData.append("basic_information.full_name", values.fullName);
+    formData.append("basic_information.email", values.email);
+    formData.append("basic_information.phone_number", values.phoneNumber);
+    formData.append(
+      "basic_information.company_legal_name",
+      values.companyLegalName,
+    );
+    formData.append(
+      "basic_information.company_operating_name",
+      values.companyOperatingName,
+    );
+    {
+      values.website &&
+        formData.append("basic_information.website", values.website);
+    }
+    formData.append(
+      "basic_information.headquarter_location",
+      values.headquarterLocation,
+    );
+    formData.append(
+      "basic_information.type_of_organization",
+      values.organizationType,
+    );
+
+    // Business Sectors
+    let sectorIndex = 0;
+    values.businessSector?.forEach((sector) => {
+      if (sector.isSelected) {
+        formData.append(
+          `basic_information.business_sector[${sectorIndex}].sector`,
+          businessSectors.find((s) => s.id === sector.name)?.label ||
+            sector.name,
+        );
+        formData.append(
+          `basic_information.business_sector[${sectorIndex}].carbon_emission_percentage`,
+          sector.percentage || "0",
+        );
+        sectorIndex++;
+      }
+    });
+    formData.append(
+      "basic_information.number_of_employees",
+      values.numberOfEmployees,
+    );
+    formData.append(
+      "basic_information.business_description",
+      values.businessDescription || "",
+    );
+
+    // Carbon Footprint (Step 2)
+    formData.append(
+      "carbon_footprint.total_electrical_consumption_kwh",
+      Number(values.electricalConsumption).toString(),
+    );
+
+    // Energy Sources
+    let energyIndex = 0;
+    values.energySources?.forEach((source) => {
+      if (source.isSelected) {
+        formData.append(
+          `carbon_footprint.energy_sources[${energyIndex}].source`,
+          energySources.find((s) => s.id === source.name)?.label || source.name,
+        );
+        formData.append(
+          `carbon_footprint.energy_sources[${energyIndex}].usage_percentage`,
+          source.percentage || "0",
+        );
+        energyIndex++;
+      }
+    });
+    formData.append(
+      "carbon_footprint.percentage_of_energy_renewable",
+      Number(values.renewablePercentage).toString(),
+    );
+    formData.append(
+      "carbon_footprint.number_of_company_owned_vehicles",
+      Number(values.companyVehicles).toString(),
+    );
+
+    // Fuel Types
+    let fuelIndex = 0;
+    values.fuelTypes?.forEach((fuel) => {
+      if (fuel.isSelected) {
+        formData.append(
+          `carbon_footprint.type_of_fuel_used_in_vehicles[${fuelIndex}].fuel_type`,
+          fuelTypes.find((f) => f.id === fuel.name)?.label || fuel.name,
+        );
+        formData.append(
+          `carbon_footprint.type_of_fuel_used_in_vehicles[${fuelIndex}].usage_percentage`,
+          fuel.percentage || "0",
+        );
+        fuelIndex++;
+      }
+    });
+
+    // Distances
+    formData.append(
+      "carbon_footprint.average_distance_travelled_per_vehicle_annually.distance",
+      Number(values.averageDistance).toString(),
+    );
+    formData.append(
+      "carbon_footprint.annual_business_flight_distance.distance",
+      Number(values.flightDistance).toString(),
+    );
+    formData.append(
+      "carbon_footprint.annual_business_train_distance.distance",
+      Number(values.trainDistance).toString(),
+    );
+
+    // Supply Chain & Logistics (Step 3)
+    formData.append(
+      "supply_chain_logistics.volume_of_goods_transportation_tons",
+      values.goodsVolume,
+    );
+
+    // Finances (Step 4)
+    formData.append("finances.total_annual_turnover", values.annualTurnover);
+    formData.append("finances.total_value_of_assets", values.assetsValue);
+    if (values.financialStatements) {
+      formData.append(
+        "financial_statements",
+        values.financialStatements as File,
+      );
+    }
+
+    mutate(formData);
   }
 
   // Navigate to the next step
@@ -437,13 +622,55 @@ export default function EmissionForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Business Sector</FormLabel>
-                        <FormControl>
-                          <Input
-                            className="py-6"
-                            placeholder="Choose type"
-                            {...field}
-                          />
-                        </FormControl>
+                        <div className="space-y-4">
+                          {businessSectors.map((sector, index) => (
+                            <div
+                              key={sector.id}
+                              className="flex flex-col space-y-2"
+                            >
+                              <div className="flex items-center space-x-2">
+                                <Checkbox
+                                  id={`sector-${sector.id}`}
+                                  checked={
+                                    (field.value ?? [])[index]?.isSelected ||
+                                    false
+                                  }
+                                  onCheckedChange={(checked) => {
+                                    const newValue = [...(field.value || [])];
+                                    newValue[index] = {
+                                      ...newValue[index],
+                                      isSelected: !!checked,
+                                    };
+                                    field.onChange(newValue);
+                                  }}
+                                />
+                                <label
+                                  htmlFor={`sector-${sector.id}`}
+                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                  {sector.label}
+                                </label>
+                              </div>
+                              {(field.value ?? [])[index]?.isSelected && (
+                                <Input
+                                  className="ml-6 w-[calc(100%-1.5rem)] py-6"
+                                  placeholder="Enter Percentage"
+                                  value={
+                                    (field.value ?? [])[index]?.percentage || ""
+                                  }
+                                  onChange={(e) => {
+                                    const newValue = [...(field.value || [])];
+                                    newValue[index] = {
+                                      ...newValue[index],
+                                      percentage: e.target.value,
+                                    };
+                                    field.onChange(newValue);
+                                  }}
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -524,30 +751,79 @@ export default function EmissionForm() {
 
                   <FormField
                     control={form.control}
-                    name="energySource"
+                    name="energySources"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Energy sources</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Choose type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {energySources.map((source) => (
-                              <SelectItem
-                                key={source.value}
-                                value={source.value}
-                              >
-                                {source.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+                          {energySources.map((source, index) => (
+                            <div
+                              key={source.id}
+                              className="flex flex-col space-y-2"
+                            >
+                              <div className="flex items-center space-x-2">
+                                <Checkbox
+                                  id={`energy-${source.id}`}
+                                  checked={
+                                    (field.value ?? [])[index]?.isSelected ||
+                                    false
+                                  }
+                                  onCheckedChange={(checked) => {
+                                    const newValue = [...(field.value || [])];
+                                    newValue[index] = {
+                                      ...newValue[index],
+                                      isSelected: !!checked,
+                                    };
+                                    field.onChange(newValue);
+                                  }}
+                                />
+                                <label
+                                  htmlFor={`energy-${source.id}`}
+                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                  {source.label}
+                                </label>
+                              </div>
+                              {field.value?.[index]?.isSelected && (
+                                <Input
+                                  className="ml-6 w-[calc(100%-1.5rem)] py-6"
+                                  placeholder="Enter Percentage"
+                                  value={
+                                    (field.value ?? [])[index]?.percentage || ""
+                                  }
+                                  onChange={(e) => {
+                                    const newValue = [...(field.value || [])];
+                                    newValue[index] = {
+                                      ...newValue[index],
+                                      percentage: e.target.value,
+                                    };
+                                    field.onChange(newValue);
+                                  }}
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="renewablePercentage"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          Percentage of Energy Renewable (If Applicable)
+                        </FormLabel>
+                        <FormControl>
+                          <Input
+                            className="py-6"
+                            placeholder="Percentage"
+                            {...field}
+                          />
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -593,27 +869,59 @@ export default function EmissionForm() {
 
                   <FormField
                     control={form.control}
-                    name="fuelType"
+                    name="fuelTypes"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Type of Fuel used in Vehicles</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Choose type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {fuelTypes.map((type) => (
-                              <SelectItem key={type.value} value={type.value}>
-                                {type.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <div className="grid grid-cols-2 gap-2 md:grid-cols-5">
+                          {fuelTypes.map((type, index) => (
+                            <div
+                              key={type.id}
+                              className="flex flex-col space-y-2"
+                            >
+                              <div className="flex items-center space-x-2">
+                                <Checkbox
+                                  id={`fuel-${type.id}`}
+                                  checked={
+                                    (field.value ?? [])[index]?.isSelected ||
+                                    false
+                                  }
+                                  onCheckedChange={(checked) => {
+                                    const newValue = [...(field.value || [])];
+                                    newValue[index] = {
+                                      ...newValue[index],
+                                      isSelected: !!checked,
+                                    };
+                                    field.onChange(newValue);
+                                  }}
+                                />
+                                <label
+                                  htmlFor={`fuel-${type.id}`}
+                                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                  {type.label}
+                                </label>
+                              </div>
+                              {(field.value ?? [])[index]?.isSelected && (
+                                <Input
+                                  className="ml-6 w-[calc(100%-1.5rem)] py-6"
+                                  placeholder="Enter Percentage"
+                                  value={
+                                    (field.value ?? [])[index]?.percentage || ""
+                                  }
+                                  onChange={(e) => {
+                                    const newValue = [...(field.value || [])];
+                                    newValue[index] = {
+                                      ...newValue[index],
+                                      percentage: e.target.value,
+                                    };
+                                    field.onChange(newValue);
+                                  }}
+                                />
+                              )}
+                            </div>
+                          ))}
+                        </div>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -816,23 +1124,25 @@ export default function EmissionForm() {
                   <FormField
                     control={form.control}
                     name="financialStatements"
-                    render={() => (
+                    render={({ field: { value, onChange, ...fieldProps } }) => (
                       <FormItem>
                         <FormLabel>Financial Statements</FormLabel>
                         <FormDescription>
                           Income Statement, Balance Sheet, Cash Flow Statement
                         </FormDescription>
-                        <div className="mt-2 flex items-center gap-4">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            className="h-10"
-                          >
-                            Add File
-                          </Button>
-                          <span className="text-sm text-gray-500">
-                            No file selected
-                          </span>
+                        <div className="mt-2">
+                          <Input
+                            type="file"
+                            className="py-2"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              onChange(file || undefined);
+                            }}
+                            {...fieldProps}
+                          />
+                        </div>
+                        <div className="mt-1 text-sm text-gray-500">
+                          {value ? (value as File).name : "No file selected"}
                         </div>
                         <FormMessage />
                       </FormItem>
@@ -857,7 +1167,9 @@ export default function EmissionForm() {
                     Next
                   </Button>
                 ) : (
-                  <Button type="submit">Submit</Button>
+                  <Button type="submit" disabled={isPending}>
+                    Submit
+                  </Button>
                 )}
               </div>
             </form>
@@ -867,8 +1179,3 @@ export default function EmissionForm() {
     </div>
   );
 }
-
-
-
-
-

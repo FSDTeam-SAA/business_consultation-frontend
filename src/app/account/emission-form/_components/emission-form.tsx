@@ -27,6 +27,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as z from "zod";
 
 // Define the organization types
@@ -195,6 +196,7 @@ export default function EmissionForm() {
         body: formData,
       }).then((res) => res.json()),
     onSuccess: (data) => {
+      toast.success(data.message);
       console.log("submmited response", data);
     },
   });
@@ -1179,8 +1181,3 @@ export default function EmissionForm() {
     </div>
   );
 }
-
-
-
-
-

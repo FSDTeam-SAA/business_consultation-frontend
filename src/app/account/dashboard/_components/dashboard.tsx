@@ -14,45 +14,9 @@ interface EnergySource {
   value: number;
 }
 import { useQuery } from "@tanstack/react-query";
-<<<<<<< HEAD
-import { useAuth } from "@/hooks/useAuth";
-=======
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
-
-// Energy Sources Data
-const energySourcesData = [
-  { name: "Traditional Grid", value: 20, color: "#10b981" },
-  { name: "Geothermal", value: 10, color: "#ec4899" },
-  { name: "Solar", value: 10, color: "#3b82f6" },
-  { name: "Biomass", value: 10, color: "#22c55e" },
-  { name: "Wind", value: 10, color: "#8b5cf6" },
-  { name: "Battery Storage System", value: 10, color: "#f97316" },
-  { name: "Hydroelectricity", value: 10, color: "#6366f1" },
-  { name: "Others", value: 10, color: "#000000" },
-];
-
-const Carbonemission = [
-  { name: "Traditional Grid", value: 20, color: "#10b981" },
-  { name: "Geothermal", value: 10, color: "#ec4899" },
-  { name: "Solar", value: 10, color: "#3b82f6" },
-  { name: "Biomass", value: 10, color: "#22c55e" },
-  { name: "Wind", value: 10, color: "#8b5cf6" },
-  { name: "Battery Storage System", value: 10, color: "#f97316" },
-  { name: "Hydroelectricity", value: 10, color: "#6366f1" },
-  { name: "Others", value: 10, color: "#000000" },
-];
-
-// Fuel Types Data
-const fuelTypesData = [
-  { name: "Petrol", value: 30, color: "#10b981" },
-  { name: "Diesel", value: 10, color: "#3b82f6" },
-  { name: "Electric", value: 10, color: "#8b5cf6" },
-  { name: "Hybrid", value: 5, color: "#6366f1" },
-  { name: "Others", value: 25, color: "#ec4899" },
-  { name: "Biofuel", value: 20, color: "#f97316" },
-];
+import { useAuth } from "@/hooks/useAuth";
 
 export default function CompanyDashboard() {
   // State for active slice
@@ -60,6 +24,9 @@ export default function CompanyDashboard() {
     number | undefined
   >(undefined);
   const [activeFuelIndex, setActiveFuelIndex] = React.useState<
+    number | undefined
+  >(undefined);
+  const [businessSector, setBusinessSector] = React.useState<
     number | undefined
   >(undefined);
   const [token, setToken] = React.useState<string | null>(null);
@@ -72,20 +39,16 @@ export default function CompanyDashboard() {
     } else setToken(lstoredToken);
   }, []);
 
-<<<<<<< HEAD
   const { user } = useAuth();
-  console.log(user);
 
-  const { data } = useQuery({
-=======
+  // console.log(user?._id)
 
   const { data, isLoading } = useQuery({
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
     queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/by-user`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/by-user/${user?._id}`,
         {
           method: "GET",
           headers: {
@@ -142,16 +105,10 @@ export default function CompanyDashboard() {
       </g>
     );
   };
-  console.log(data?.data[0]);
-
+  console.log(data?.data.basic_information.business_sector.length);
   return (
     <div className="flex w-full flex-col gap-6">
       {/* Company Header */}
-<<<<<<< HEAD
-      <Card className="bg-[#033618] text-white">
-        <CardContent className="flex items-center gap-4 p-6">
-          {/* <Avatar className="h-24 w-24 border-4 border-white">
-=======
       {isLoading ? (
         <Card className="bg-[#033618] text-white">
           <CardContent className="flex items-center gap-4 p-6">
@@ -189,127 +146,69 @@ export default function CompanyDashboard() {
         <Card className="bg-[#033618] text-white">
           <CardContent className="flex items-center gap-4 p-6">
             {/* <Avatar className="h-24 w-24 border-4 border-white">
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
             <AvatarImage
               src="/placeholder.svg?height=96&width=96"
               alt="Company Logo"
             />
             <AvatarFallback className="text-black">CN</AvatarFallback>
           </Avatar> */}
-<<<<<<< HEAD
-          <div className="space-y-4">
-            <h1 className="mb-4 text-2xl font-bold md:text-3xl">
-              {data?.data[0]?.basic_information?.full_name || "Company Name"}
-            </h1>
-            {data?.data[0]?.basic_information.email && (
-              <div className="flex items-center gap-2 text-sm">
-                <Mail className="h-4 w-4" />
-                <span>
-                  {data?.data[0]?.basic_information.email &&
-                    data?.data[0]?.basic_information.email}
-                </span>
-              </div>
-            )}
-
-            {data?.data[0]?.basic_information.company_operating_name && (
-              <div className="flex items-center gap-2 text-sm">
-                <Phone className="h-4 w-4" />
-                <span>
-                  {" "}
-                  {data?.data[0]?.basic_information.phone_number &&
-                    data?.data[0]?.basic_information.phone_number}
-                </span>
-              </div>
-            )}
-
-            {data?.data[0]?.basic_information.company_operating_name && (
-              <div className="flex items-center gap-2 text-sm">
-                <Factory className="h-4 w-4" />
-                <span>
-                  {data?.data[0]?.basic_information.company_operating_name &&
-                    data?.data[0]?.basic_information.company_operating_name}
-                </span>
-              </div>
-            )}
-
-            {data?.data[0]?.basic_information.headquarter_location && (
-              <div className="flex items-center gap-2 text-sm">
-                <MapPin className="h-4 w-4" />
-                <span>
-                  {" "}
-                  {data?.data[0]?.basic_information.headquarter_location &&
-                    data?.data[0]?.basic_information.headquarter_location}
-                </span>
-              </div>
-            )}
-
-            {data?.data[0]?.basic_information.website && (
-              <div className="flex items-center gap-2 text-sm">
-                <Globe className="h-4 w-4" />
-                <span>
-                  {" "}
-                  {data?.data[0]?.basic_information.website &&
-                    data?.data[0]?.basic_information.website}
-                </span>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-=======
             <div className="space-y-4">
               <h1 className="mb-4 text-2xl font-bold md:text-3xl">
-                {data?.data[0]?.basic_information?.full_name || "Company Name"}
+                {data?.data?.basic_information?.full_name || "Company Name"}
               </h1>
-              {data?.data[0]?.basic_information.email && (
+              {data?.data?.basic_information.email && (
                 <div className="flex items-center gap-2 text-sm">
                   <Mail className="h-4 w-4" />
                   <span>
-                    {data?.data[0]?.basic_information.email &&
-                      data?.data[0]?.basic_information.email}
+                    {data?.data?.basic_information.email &&
+                      data?.data?.basic_information.email}
                   </span>
                 </div>
               )}
 
-              {data?.data[0]?.basic_information.phone_number && (
+              {data?.data?.basic_information.phone_number && (
                 <div className="flex items-center gap-2 text-sm">
                   <Phone className="h-4 w-4" />
                   <span>
                     {" "}
-                    {data?.data[0]?.basic_information.phone_number &&
-                      data?.data[0]?.basic_information.phone_number}
+                    {data?.data?.basic_information.phone_number &&
+                      data?.data?.basic_information.phone_number}
                   </span>
                 </div>
               )}
 
-              {data?.data[0]?.basic_information.company_operating_name && (
+              {data?.data?.basic_information.company_operating_name && (
                 <div className="flex items-center gap-2 text-sm">
                   <Factory className="h-4 w-4" />
                   <span>
-                    {data?.data[0]?.basic_information.company_operating_name &&
-                      data?.data[0]?.basic_information.company_operating_name}
+                    {data?.data?.basic_information.company_operating_name &&
+                      data?.data?.basic_information.company_operating_name}
                   </span>
                 </div>
               )}
 
-              {data?.data[0]?.basic_information.headquarter_location && (
+              {data?.data?.basic_information.headquarter_location && (
                 <div className="flex items-center gap-2 text-sm">
                   <MapPin className="h-4 w-4" />
                   <span>
                     {" "}
-                    {data?.data[0]?.basic_information.headquarter_location &&
-                      data?.data[0]?.basic_information.headquarter_location}
+                    {data?.data?.basic_information.headquarter_location &&
+                      data?.data?.basic_information.headquarter_location}
                   </span>
                 </div>
               )}
 
-              {data?.data[0]?.basic_information.website && (
+              {data?.data?.basic_information.website && (
                 <div className="flex items-center gap-2 text-sm">
-                  <Globe className="h-4 w-4" /> 
-                  <Link href={`${data?.data[0]?.basic_information.website}`} target="_blank" className="text-sm text-blue-500 hover:underline">
+                  <Globe className="h-4 w-4" />
+                  <Link
+                    href={`${data?.data?.basic_information.website}`}
+                    target="_blank"
+                    className="text-sm text-blue-500 hover:underline"
+                  >
                     {" "}
-                    {data?.data[0]?.basic_information.website &&
-                      data?.data[0]?.basic_information.website}
+                    {data?.data?.basic_information.website &&
+                      data?.data?.basic_information.website}
                   </Link>
                 </div>
               )}
@@ -317,7 +216,6 @@ export default function CompanyDashboard() {
           </CardContent>
         </Card>
       )}
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* Energy Sources Chart */}
@@ -332,7 +230,17 @@ export default function CompanyDashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={energySourcesData}
+                    data={data?.data.carbon_footprint.energy_sources.map(
+                      (entry: {
+                        source: string;
+                        usage_percentage: number;
+                        color: string;
+                      }) => ({
+                        name: entry.source,
+                        value: entry.usage_percentage,
+                        color: entry.color,
+                      }),
+                    )}
                     cx="50%"
                     cy="50%"
                     innerRadius={0}
@@ -341,25 +249,33 @@ export default function CompanyDashboard() {
                     dataKey="value"
                     activeIndex={activeEnergyIndex}
                     activeShape={renderActiveShape}
-                    onMouseEnter={(_, index) => setActiveEnergyIndex(index)}
-                    label={({ value }) => `${value}%`}
+                    onMouseEnter={(_: unknown, index: number) =>
+                      setActiveEnergyIndex(index)
+                    }
+                    label={(entry: { name: string; value: number }) =>
+                      `${entry.name} ${entry.value}%`
+                    }
                     labelLine={false}
                   >
-                    {energySourcesData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
+                    {data?.data.carbon_footprint.energy_sources.map(
+                      (entry: { color: string }, index: number) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ),
+                    )}
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
             </Chart>
             <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
-              {energySourcesData.map((entry, index) => (
-                <ChartLegendItem
-                  key={index}
-                  color={entry.color}
-                  label={entry.name}
-                />
-              ))}
+              {data?.data.carbon_footprint.energy_sources.map(
+                (entry: { color: string; source: string }, index: number) => (
+                  <ChartLegendItem
+                    key={index}
+                    color={entry.color}
+                    label={entry.source}
+                  />
+                ),
+              )}
             </ChartLegend>
           </CardContent>
         </Card>
@@ -376,7 +292,17 @@ export default function CompanyDashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={fuelTypesData}
+                    data={data?.data.carbon_footprint.type_of_fuel_used_in_vehicles.map(
+                      (entry: {
+                        fuel_type: string;
+                        usage_percentage: number;
+                        color: string;
+                      }) => ({
+                        name: entry.fuel_type,
+                        value: entry.usage_percentage,
+                        color: entry.color,
+                      }),
+                    )}
                     cx="50%"
                     cy="50%"
                     innerRadius={0}
@@ -385,25 +311,36 @@ export default function CompanyDashboard() {
                     dataKey="value"
                     activeIndex={activeFuelIndex}
                     activeShape={renderActiveShape}
-                    onMouseEnter={(_, index) => setActiveFuelIndex(index)}
-                    label={({ value }) => `${value}%`}
+                    onMouseEnter={(_: unknown, index: number) =>
+                      setActiveFuelIndex(index)
+                    }
+                    label={(entry: { name: string; value: number }) =>
+                      `${entry.name} ${entry.value}%`
+                    }
                     labelLine={false}
                   >
-                    {fuelTypesData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
+                    {data?.data.carbon_footprint.type_of_fuel_used_in_vehicles.map(
+                      (entry: { color: string }, index: number) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ),
+                    )}
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
             </Chart>
             <ChartLegend className="mt-4 grid grid-cols-2 gap-2">
-              {fuelTypesData.map((entry, index) => (
-                <ChartLegendItem
-                  key={index}
-                  color={entry.color}
-                  label={entry.name}
-                />
-              ))}
+              {data?.data.carbon_footprint.type_of_fuel_used_in_vehicles.map(
+                (
+                  entry: { fuel_type: string; color: string },
+                  index: number,
+                ) => (
+                  <ChartLegendItem
+                    key={index}
+                    color={entry.color}
+                    label={entry.fuel_type}
+                  />
+                ),
+              )}
             </ChartLegend>
           </CardContent>
         </Card>
@@ -421,57 +358,72 @@ export default function CompanyDashboard() {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={Carbonemission}
-<<<<<<< HEAD
-                    cx="50%"
-                    cy="50%"
-=======
+                    data={data?.data.basic_information.business_sector.map(
+                      (entry: {
+                        sector: string;
+                        carbon_emission_percentage: number;
+                        color: string;
+                      }) => ({
+                        name: entry.sector,
+                        value: entry.carbon_emission_percentage,
+                        color: entry.color,
+                      }),
+                    )}
                     cx="45%"
                     cy="55%"
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
                     innerRadius={0}
                     outerRadius={80}
                     paddingAngle={1}
                     dataKey="value"
-                    activeIndex={activeEnergyIndex}
+                    activeIndex={businessSector}
                     activeShape={renderActiveShape}
-                    onMouseEnter={(_, index) => setActiveEnergyIndex(index)}
-                    label={({ value }) => `${value}%`}
+                    onMouseEnter={(_: unknown, index: number) =>
+                      setBusinessSector(index)
+                    }
+                    label={(entry: { name: string; value: number }) =>
+                      `${entry.name} ${entry.value}%`
+                    }
                     labelLine={false}
                   >
-                    {Carbonemission.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
+                    {data?.data.basic_information.business_sector.map(
+                      (entry: { color: string }, index: number) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ),
+                    )}
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
             </Chart>
             <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
-              {energySourcesData.map((entry, index) => (
-                <ChartLegendItem
-                  key={index}
-                  color={entry.color}
-                  label={entry.name}
-                />
-              ))}
+              {data?.data.basic_information.business_sector.map(
+                (entry: { color: string; sector: string }, index: number) => (
+                  <ChartLegendItem
+                    key={index}
+                    color={entry.color}
+                    label={entry.sector}
+                  />
+                ),
+              )}
             </ChartLegend>
           </CardContent>
         </Card>
 
         {/* Primary Transportation Method */}
-        <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-6 shadow-[0px_0px_6px_0px_#00000040]">
+        <div className="flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 text-center shadow-[0px_0px_6px_0px_#00000040]">
           <h1 className="text-[20px] font-medium">
             Primary Transportation Method
           </h1>
-          <p>Traditional Grid</p>
+          <p>
+            Volume of goods transportation tons:{" "}
+            {
+              data?.data.supply_chain_logistics
+                .volume_of_goods_transportation_tons
+            }
+          </p>
         </div>
       </div>
 
       {/* Percentage of Energy Renewable */}
-<<<<<<< HEAD
-=======
-
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
       {/* <Card>
         <CardHeader>
           <CardTitle className="text-base font-medium text-emerald-500">
@@ -499,11 +451,7 @@ export default function CompanyDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-<<<<<<< HEAD
-            {data?.data[0]?.basic_information.business_sector?.map(
-=======
-            {data?.data[0]?.basic_information.business_sector.length !== 0 && data?.data[0]?.basic_information.business_sector.map(
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
+            {data?.data?.basic_information.business_sector.length !== 0 && data?.data?.basic_information.business_sector.map(
               (source: {
                 _id: string;
                 sector: string;
@@ -518,28 +466,7 @@ export default function CompanyDashboard() {
         </Card> */}
 
         {/* Energy Sources */}
-<<<<<<< HEAD
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Energy Sources
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data?.data[0]?.carbon_footprint?.energy_sources?.map(
-              (source: EnergySource, i: number) => {
-                return (
-                  <div key={i} className="space-y-1">
-                    <p>{source.source}</p>
-                  </div>
-                );
-              },
-            )}
-          </CardContent>
-        </Card>
-
-=======
-        {data?.data[0]?.carbon_footprint?.energy_sources.length !== 0 && (
+        {data?.data?.carbon_footprint?.energy_sources.length !== 0 && (
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-medium">
@@ -547,7 +474,7 @@ export default function CompanyDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {data?.data[0]?.carbon_footprint?.energy_sources?.map(
+              {data?.data?.carbon_footprint?.energy_sources?.map(
                 (source: EnergySource, i: number) => {
                   return (
                     <div key={i} className="space-y-1">
@@ -559,7 +486,6 @@ export default function CompanyDashboard() {
             </CardContent>
           </Card>
         )}
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
         {/* Average Business Flight Distance */}
         <Card>
           <CardHeader className="pb-2">
@@ -573,25 +499,7 @@ export default function CompanyDashboard() {
         </Card>
 
         {/* Number of Company owned vehicles */}
-<<<<<<< HEAD
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Number of Company owned vehicles
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {" "}
-              {
-                data?.data[0]?.carbon_footprint
-                  ?.number_of_company_owned_vehicles
-              }
-            </p>
-          </CardContent>
-        </Card>
-=======
-        {data?.data[0]?.carbon_footprint?.number_of_company_owned_vehicles && (
+        {data?.data?.carbon_footprint?.number_of_company_owned_vehicles && (
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-medium">
@@ -601,15 +509,11 @@ export default function CompanyDashboard() {
             <CardContent>
               <p className="text-2xl font-bold">
                 {" "}
-                {
-                  data?.data[0]?.carbon_footprint
-                    ?.number_of_company_owned_vehicles
-                }
+                {data?.data?.carbon_footprint?.number_of_company_owned_vehicles}
               </p>
             </CardContent>
           </Card>
         )}
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
         {/* Total Electrical Consumption */}
         <Card>
@@ -621,31 +525,13 @@ export default function CompanyDashboard() {
           <CardContent>
             <p className="text-2xl font-bold">
               {" "}
-              {
-                data?.data[0]?.carbon_footprint
-                  ?.total_electrical_consumption_kwh
-              }
+              {data?.data?.carbon_footprint?.total_electrical_consumption_kwh}
             </p>
           </CardContent>
         </Card>
 
         {/* Number of Employees */}
-<<<<<<< HEAD
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Number of Employees
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {" "}
-              {data?.data[0]?.basic_information?.number_of_employees}
-            </p>
-          </CardContent>
-        </Card>
-=======
-        {data?.data[0]?.basic_information?.number_of_employees && (
+        {data?.data?.basic_information?.number_of_employees && (
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-medium">
@@ -655,12 +541,11 @@ export default function CompanyDashboard() {
             <CardContent>
               <p className="text-2xl font-bold">
                 {" "}
-                {data?.data[0]?.basic_information?.number_of_employees}
+                {data?.data?.basic_information?.number_of_employees}
               </p>
             </CardContent>
           </Card>
         )}
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
         {/* Volume of Goods Transportation Method */}
         <Card>
@@ -675,24 +560,7 @@ export default function CompanyDashboard() {
         </Card>
 
         {/* Average Distance Travelled per Vehicle Annually */}
-<<<<<<< HEAD
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Average Distance Travelled per Vehicle Annually
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {" "}
-              {
-                data?.data[0]?.carbon_footprint?.average_distance_travelled_per_vehicle_annually
-              }
-            </p>
-          </CardContent>
-        </Card>
-=======
-        {data?.data[0]?.carbon_footprint
+        {data?.data?.carbon_footprint
           ?.average_distance_travelled_per_vehicle_annually && (
           <Card>
             <CardHeader className="pb-2">
@@ -704,14 +572,13 @@ export default function CompanyDashboard() {
               <p className="text-2xl font-bold">
                 {" "}
                 {
-                  data?.data[0]?.carbon_footprint
+                  data?.data?.carbon_footprint
                     ?.average_distance_travelled_per_vehicle_annually.distance
                 }
               </p>
             </CardContent>
           </Card>
         )}
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
         {/* Total Annual Turnover in the last Financial Year */}
         <Card>
@@ -738,79 +605,7 @@ export default function CompanyDashboard() {
         </Card>
 
         {/* Annual Business Train Distance */}
-<<<<<<< HEAD
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Annual Business Train Distance
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-          <p className="text-2xl font-bold">
-              {" "}
-              {
-                data?.data[0]?.carbon_footprint?.annual_business_train_distance.distance
-              }
-              {" "}
-              {
-                data?.data[0]?.carbon_footprint?.annual_business_train_distance.unit
-              }
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Supply Chain & Logistics */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Supply Chain & Logistics
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-          <p className="text-2xl font-bold">
-              {" "}
-              {
-                data?.data[0]?.supply_chain_logistics.volume_of_goods_transportation_tons
-              }
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Type of Organization */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Type of Organization
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-1">
-            <p className="text-2xl font-bold">
-              {" "}
-              {data?.data[0]?.basic_information?.type_of_organization}
-            </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Total Value of Assets at End of The Last Financial Year */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Total Value of Assets at End of The Last Financial Year
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-          <p className="text-2xl font-bold">
-              {" "}
-              {
-                data?.data[0]?.finances?.total_value_of_assets
-              }
-            </p>
-          </CardContent>
-        </Card>
-=======
-        {data?.data[0]?.carbon_footprint?.annual_business_train_distance && (
+        {data?.data?.carbon_footprint?.annual_business_train_distance && (
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-medium">
@@ -821,8 +616,8 @@ export default function CompanyDashboard() {
               <p className="text-2xl font-bold">
                 {" "}
                 {
-                  data?.data[0]?.carbon_footprint
-                    ?.annual_business_train_distance.distance
+                  data?.data?.carbon_footprint?.annual_business_train_distance
+                    .distance
                 }
               </p>
             </CardContent>
@@ -830,7 +625,7 @@ export default function CompanyDashboard() {
         )}
 
         {/* Supply Chain & Logistics */}
-        {data?.data[0]?.supply_chain_logistics && (
+        {data?.data?.supply_chain_logistics && (
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-medium">
@@ -841,7 +636,7 @@ export default function CompanyDashboard() {
               <p className="text-2xl font-bold">
                 {" "}
                 {
-                  data?.data[0]?.supply_chain_logistics
+                  data?.data?.supply_chain_logistics
                     .volume_of_goods_transportation_tons
                 }
               </p>
@@ -850,7 +645,7 @@ export default function CompanyDashboard() {
         )}
 
         {/* Type of Organization */}
-        {data?.data[0]?.basic_information?.type_of_organization && (
+        {data?.data?.basic_information?.type_of_organization && (
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-medium">
@@ -861,7 +656,7 @@ export default function CompanyDashboard() {
               <div className="space-y-1">
                 <p className="text-2xl font-bold">
                   {" "}
-                  {data?.data[0]?.basic_information?.type_of_organization}
+                  {data?.data?.basic_information?.type_of_organization}
                 </p>
               </div>
             </CardContent>
@@ -869,7 +664,7 @@ export default function CompanyDashboard() {
         )}
 
         {/* Total Value of Assets at End of The Last Financial Year */}
-        {data?.data[0]?.finances?.total_value_of_assets && (
+        {data?.data?.finances?.total_value_of_assets && (
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-medium">
@@ -879,12 +674,11 @@ export default function CompanyDashboard() {
             <CardContent>
               <p className="text-2xl font-bold">
                 {" "}
-                {data?.data[0]?.finances?.total_value_of_assets}
+                {data?.data?.finances?.total_value_of_assets}
               </p>
             </CardContent>
           </Card>
         )}
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
         {/* Primary Transportation Method */}
         <Card>

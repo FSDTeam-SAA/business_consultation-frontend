@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-<<<<<<< HEAD
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // "use client";
 
@@ -113,8 +112,6 @@
 //     </div>
 //   );
 // }
-=======
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
 "use client";
 
@@ -249,11 +246,7 @@ export default function SubscriptionPage() {
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
-<<<<<<< HEAD
-          onPageChange={(page) => setCurrentPage(page)}
-=======
           onPageChange={(page:any) => setCurrentPage(page)}
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
           totalItems={0}
           itemsPerPage={0}
         />

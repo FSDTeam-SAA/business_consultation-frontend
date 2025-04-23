@@ -250,7 +250,7 @@ export default function PersonalInformationPage() {
 
             {/* Avatar section */}
             <div className="flex flex-col items-center gap-4">
-              <label htmlFor="image">
+              <label htmlFor="image" className="cursor-pointer">
                 <Avatar className="h-24 w-24 border-4 border-green-500">
                   <AvatarImage
                     src={

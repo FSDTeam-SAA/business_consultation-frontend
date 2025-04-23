@@ -1,23 +1,33 @@
-import BlogSection from "@/components/blog/BlogSection";
-import AboutUsSection from "@/components/Home/AboutUsSection";
+"use client";
+
 import HeroSection from "@/components/Home/hero-section";
-import Services from "@/components/Home/Services";
 import ServiceSection from "@/components/Home/ServiceSection";
+import AboutUsSection from "@/components/Home/AboutUsSection";
+import Services from "@/components/Home/Services";
 import WhyChooseUsSection from "@/components/Home/whyChooseUs";
-// import { PortfolioCarouselResponsive } from "@/components/portfolio/PortfolioCarouselResponsive";
+import BlogSection from "@/components/blog/BlogSection";
+import { useAuth } from "@/hooks/useAuth";
+
 export default function Home() {
+  const { user } = useAuth();
+
+  console.log("aaskjldfasfdsaflsdflsd",user); // You can remove this in production
+
   return (
-    <main>
+    <main className="">
+      {" "}
+      {/* Add padding to account for fixed navbar */}
       <HeroSection />
       <ServiceSection />
       <AboutUsSection />
       <Services />
       <WhyChooseUsSection />
-      {/* <PortfolioCarouselResponsive /> */}
-      <div className="border">
-      <BlogSection />
-      </div>
-      
+      {/* Blog section with spacing */}
+      {!user?.hasActiveSubscription && (
+        <div className="mt-12 border-t pt-8">
+          <BlogSection />
+        </div>
+      )}
     </main>
   );
 }

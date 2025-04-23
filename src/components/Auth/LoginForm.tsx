@@ -142,6 +142,8 @@ export default function LoginForm() {
             )}
           </button>
         </form>
+
+        
         <div>
           <p className="mt-6 text-center text-gray-400">
             Don&apos;t have an account?{" "}

@@ -27,6 +27,12 @@ export default function Home() {
       <Services />
       <WhyChooseUsSection />
     
+      {/* Blog section with spacing */}
+      {/* {!user?.hasActiveSubscription && (
+        <div className="mt-12 border-t pt-8">
+          <BlogSection />
+        </div>
+      )} */}
     </main>
   );
 }

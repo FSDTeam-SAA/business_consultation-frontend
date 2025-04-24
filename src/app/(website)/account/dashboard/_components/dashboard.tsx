@@ -11,44 +11,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface EnergySource {
   source: string;
   value: number;
 }
-
-// Energy Sources Data
-const energySourcesData = [
-  { name: "Traditional Grid", value: 20, color: "#10b981" },
-  { name: "Geothermal", value: 10, color: "#ec4899" },
-  { name: "Solar", value: 10, color: "#3b82f6" },
-  { name: "Biomass", value: 10, color: "#22c55e" },
-  { name: "Wind", value: 10, color: "#8b5cf6" },
-  { name: "Battery Storage System", value: 10, color: "#f97316" },
-  { name: "Hydroelectricity", value: 10, color: "#6366f1" },
-  { name: "Others", value: 10, color: "#000000" },
-];
-
-const Carbonemission = [
-  { name: "Traditional Grid", value: 20, color: "#10b981" },
-  { name: "Geothermal", value: 10, color: "#ec4899" },
-  { name: "Solar", value: 10, color: "#3b82f6" },
-  { name: "Biomass", value: 10, color: "#22c55e" },
-  { name: "Wind", value: 10, color: "#8b5cf6" },
-  { name: "Battery Storage System", value: 10, color: "#f97316" },
-  { name: "Hydroelectricity", value: 10, color: "#6366f1" },
-  { name: "Others", value: 10, color: "#000000" },
-];
-
-// Fuel Types Data
-const fuelTypesData = [
-  { name: "Petrol", value: 30, color: "#10b981" },
-  { name: "Diesel", value: 10, color: "#3b82f6" },
-  { name: "Electric", value: 10, color: "#8b5cf6" },
-  { name: "Hybrid", value: 5, color: "#6366f1" },
-  { name: "Others", value: 25, color: "#ec4899" },
-  { name: "Biofuel", value: 20, color: "#f97316" },
-];
 
 export default function CompanyDashboard() {
   // State for active slice
@@ -56,6 +24,9 @@ export default function CompanyDashboard() {
     number | undefined
   >(undefined);
   const [activeFuelIndex, setActiveFuelIndex] = React.useState<
+    number | undefined
+  >(undefined);
+  const [businessSector, setBusinessSector] = React.useState<
     number | undefined
   >(undefined);
   const [token, setToken] = React.useState<string | null>(null);
@@ -68,12 +39,16 @@ export default function CompanyDashboard() {
     } else setToken(lstoredToken);
   }, []);
 
+  const { user } = useAuth();
+
+  // console.log(user?._id)
+
   const { data, isLoading } = useQuery({
     queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available
     queryFn: async () => {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/by-user`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/by-user/${user?._id}`,
         {
           method: "GET",
           headers: {
@@ -130,540 +105,618 @@ export default function CompanyDashboard() {
       </g>
     );
   };
-  console.log(data?.data[0]);
-
+  console.log(data?.data.basic_information.business_sector.length);
   return (
-    <div className="flex w-full flex-col gap-6">
-      {/* Company Header */}
-      {isLoading ? (
-        <Card className="bg-[#033618] text-white">
-          <CardContent className="flex items-center gap-4 p-6">
-            <div className="flex-1 space-y-4">
-              <Skeleton className="h-8 w-3/4 md:w-1/2" />
-
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <Skeleton className="h-4 w-1/3" />
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <Skeleton className="h-4 w-1/3" />
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <Skeleton className="h-4 w-1/2" />
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <Skeleton className="h-4 w-2/5" />
-              </div>
-
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-4 w-4 rounded-full" />
-                <Skeleton className="h-4 w-1/3" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ) : (
-        <Card className="bg-[#033618] text-white">
-          <CardContent className="flex items-center gap-4 p-6">
-            {/* <Avatar className="h-24 w-24 border-4 border-white">
-            <AvatarImage
-              src="/placeholder.svg?height=96&width=96"
-              alt="Company Logo"
-            />
-            <AvatarFallback className="text-black">CN</AvatarFallback>
-          </Avatar> */}
-            <div className="space-y-4">
-              <h1 className="mb-4 text-2xl font-bold md:text-3xl">
-                {data?.data[0]?.basic_information?.full_name || "Company Name"}
-              </h1>
-              {data?.data[0]?.basic_information.email && (
-                <div className="flex items-center gap-2 text-sm">
-                  <Mail className="h-4 w-4" />
-                  <span>
-                    {data?.data[0]?.basic_information.email &&
-                      data?.data[0]?.basic_information.email}
-                  </span>
-                </div>
-              )}
-
-              {data?.data[0]?.basic_information.phone_number && (
-                <div className="flex items-center gap-2 text-sm">
-                  <Phone className="h-4 w-4" />
-                  <span>
-                    {" "}
-                    {data?.data[0]?.basic_information.phone_number &&
-                      data?.data[0]?.basic_information.phone_number}
-                  </span>
-                </div>
-              )}
-
-              {data?.data[0]?.basic_information.company_operating_name && (
-                <div className="flex items-center gap-2 text-sm">
-                  <Factory className="h-4 w-4" />
-                  <span>
-                    {data?.data[0]?.basic_information.company_operating_name &&
-                      data?.data[0]?.basic_information.company_operating_name}
-                  </span>
-                </div>
-              )}
-
-              {data?.data[0]?.basic_information.headquarter_location && (
-                <div className="flex items-center gap-2 text-sm">
-                  <MapPin className="h-4 w-4" />
-                  <span>
-                    {" "}
-                    {data?.data[0]?.basic_information.headquarter_location &&
-                      data?.data[0]?.basic_information.headquarter_location}
-                  </span>
-                </div>
-              )}
-
-              {data?.data[0]?.basic_information.website && (
-                <div className="flex items-center gap-2 text-sm">
-                  <Globe className="h-4 w-4" />
-                  <Link
-                    href={`${data?.data[0]?.basic_information.website}`}
-                    target="_blank"
-                    className="text-sm text-blue-500 hover:underline"
-                  >
-                    {" "}
-                    {data?.data[0]?.basic_information.website &&
-                      data?.data[0]?.basic_information.website}
-                  </Link>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* Energy Sources Chart */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-emerald-500">
-              Energy Sources
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex justify-between">
-            <Chart className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={energySourcesData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={0}
-                    outerRadius={80}
-                    paddingAngle={1}
-                    dataKey="value"
-                    activeIndex={activeEnergyIndex}
-                    activeShape={renderActiveShape}
-                    onMouseEnter={(_, index) => setActiveEnergyIndex(index)}
-                    label={({ value }) => `${value}%`}
-                    labelLine={false}
-                  >
-                    {energySourcesData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </Chart>
-            <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
-              {energySourcesData.map((entry, index) => (
-                <ChartLegendItem
-                  key={index}
-                  color={entry.color}
-                  label={entry.name}
-                />
-              ))}
-            </ChartLegend>
-          </CardContent>
-        </Card>
-
-        {/* Type of Fuel Used in Vehicles */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-emerald-500">
-              Type of Fuel Used in Vehicles
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Chart className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={fuelTypesData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={0}
-                    outerRadius={80}
-                    paddingAngle={1}
-                    dataKey="value"
-                    activeIndex={activeFuelIndex}
-                    activeShape={renderActiveShape}
-                    onMouseEnter={(_, index) => setActiveFuelIndex(index)}
-                    label={({ value }) => `${value}%`}
-                    labelLine={false}
-                  >
-                    {fuelTypesData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </Chart>
-            <ChartLegend className="mt-4 grid grid-cols-2 gap-2">
-              {fuelTypesData.map((entry, index) => (
-                <ChartLegendItem
-                  key={index}
-                  color={entry.color}
-                  label={entry.name}
-                />
-              ))}
-            </ChartLegend>
-          </CardContent>
-        </Card>
-
-        {/* Carbon Emission Percentage */}
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium text-emerald-500">
-              Carbon emission Business Sector
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex justify-between">
-            <Chart className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={Carbonemission}
-                    cx="45%"
-                    cy="55%"
-                    innerRadius={0}
-                    outerRadius={80}
-                    paddingAngle={1}
-                    dataKey="value"
-                    activeIndex={activeEnergyIndex}
-                    activeShape={renderActiveShape}
-                    onMouseEnter={(_, index) => setActiveEnergyIndex(index)}
-                    label={({ value }) => `${value}%`}
-                    labelLine={false}
-                  >
-                    {Carbonemission.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </Chart>
-            <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
-              {energySourcesData.map((entry, index) => (
-                <ChartLegendItem
-                  key={index}
-                  color={entry.color}
-                  label={entry.name}
-                />
-              ))}
-            </ChartLegend>
-          </CardContent>
-        </Card>
-
-        {/* Primary Transportation Method */}
-        <div className="flex flex-col items-center gap-4 rounded-lg bg-white p-6 shadow-[0px_0px_6px_0px_#00000040]">
-          <h1 className="text-[20px] font-medium">
-            Primary Transportation Method
-          </h1>
-          <p>Traditional Grid</p>
+    <>
+      {!data?.data ? (
+        <div>
+          <h1 className="mb-4 p-4 text-2xl font-semibold">No Data Found</h1>
+          <p className="text-center">Please enter your emission from details</p>
         </div>
-      </div>
+      ) : (
+        <div className="flex w-full flex-col gap-6">
+          {/* Company Header */}
+          {isLoading ? (
+            <Card className="bg-[#033618] text-white">
+              <CardContent className="flex items-center gap-4 p-6">
+                <div className="flex-1 space-y-4">
+                  <Skeleton className="h-8 w-3/4 md:w-1/2" />
 
-      {/* Percentage of Energy Renewable */}
-      {/* <Card>
-        <CardHeader>
-          <CardTitle className="text-base font-medium text-emerald-500">
-            Percentage of Energy Renewable
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-10">
-          <CustomProgress value={90} color="#10b981" label="90%" />
-          <CustomProgress value={70} color="#3b82f6" label="70%" />
-          <CustomProgress value={80} color="#818cf8" label="80%" />
-          <CustomProgress value={50} color="#a855f7" label="50%" />
-          <CustomProgress value={65} color="#ec4899" label="65%" />
-          <CustomProgress value={60} color="#22c55e" label="60%" />
-          <CustomProgress value={70} color="#f97316" label="70%" />
-          <CustomProgress value={40} color="#064e3b" label="40%" />
-        </CardContent>
-      </Card> */}
-      {/* Metrics Grid */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* Business Sector */}
-        {/* <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Business Sector
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data?.data[0]?.basic_information.business_sector.length !== 0 && data?.data[0]?.basic_information.business_sector.map(
-              (source: {
-                _id: string;
-                sector: string;
-                carbon_emission_percentage: number;
-              }) => (
-                <div key={source._id} className="space-y-1">
-                  <p>{source.sector}s</p>
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="h-4 w-4 rounded-full" />
+                    <Skeleton className="h-4 w-1/3" />
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="h-4 w-4 rounded-full" />
+                    <Skeleton className="h-4 w-1/3" />
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="h-4 w-4 rounded-full" />
+                    <Skeleton className="h-4 w-1/2" />
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="h-4 w-4 rounded-full" />
+                    <Skeleton className="h-4 w-2/5" />
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="h-4 w-4 rounded-full" />
+                    <Skeleton className="h-4 w-1/3" />
+                  </div>
                 </div>
-              ),
-            )}
-          </CardContent>
-        </Card> */}
-
-        {/* Energy Sources */}
-        {data?.data[0]?.carbon_footprint?.energy_sources.length !== 0 && (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base font-medium">
-                Energy Sources
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {data?.data[0]?.carbon_footprint?.energy_sources?.map(
-                (source: EnergySource, i: number) => {
-                  return (
-                    <div key={i} className="space-y-1">
-                      <p>{source.source}</p>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="bg-[#033618] text-white">
+              <CardContent className="flex items-center gap-4 p-6">
+                {/* <Avatar className="h-24 w-24 border-4 border-white">
+                  <AvatarImage
+                    src="/placeholder.svg?height=96&width=96"
+                    alt="Company Logo"
+                  />
+                  <AvatarFallback className="text-black">CN</AvatarFallback>
+                </Avatar> */}
+                <div className="space-y-4">
+                  <h1 className="mb-4 text-2xl font-bold md:text-3xl">
+                    {data?.data?.basic_information?.full_name || "Company Name"}
+                  </h1>
+                  {data?.data?.basic_information.email && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Mail className="h-4 w-4" />
+                      <span>
+                        {data?.data?.basic_information.email &&
+                          data?.data?.basic_information.email}
+                      </span>
                     </div>
-                  );
-                },
-              )}
-            </CardContent>
-          </Card>
-        )}
-        {/* Average Business Flight Distance */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Average Business Flight Distance
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">50 miles</p>
-          </CardContent>
-        </Card>
+                  )}
 
-        {/* Number of Company owned vehicles */}
-        {data?.data[0]?.carbon_footprint?.number_of_company_owned_vehicles && (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base font-medium">
-                Number of Company owned vehicles
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">
-                {" "}
+                  {data?.data?.basic_information.phone_number && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Phone className="h-4 w-4" />
+                      <span>
+                        {" "}
+                        {data?.data?.basic_information.phone_number &&
+                          data?.data?.basic_information.phone_number}
+                      </span>
+                    </div>
+                  )}
+
+                  {data?.data?.basic_information.company_operating_name && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Factory className="h-4 w-4" />
+                      <span>
+                        {data?.data?.basic_information.company_operating_name &&
+                          data?.data?.basic_information.company_operating_name}
+                      </span>
+                    </div>
+                  )}
+
+                  {data?.data?.basic_information.headquarter_location && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <MapPin className="h-4 w-4" />
+                      <span>
+                        {" "}
+                        {data?.data?.basic_information.headquarter_location &&
+                          data?.data?.basic_information.headquarter_location}
+                      </span>
+                    </div>
+                  )}
+
+                  {data?.data?.basic_information.website && (
+                    <div className="flex items-center gap-2 text-sm">
+                      <Globe className="h-4 w-4" />
+                      <Link
+                        href={`${data?.data?.basic_information.website}`}
+                        target="_blank"
+                        className="text-sm text-blue-500 hover:underline"
+                      >
+                        {" "}
+                        {data?.data?.basic_information.website &&
+                          data?.data?.basic_information.website}
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* Energy Sources Chart */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium text-emerald-500">
+                  Energy Sources
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex justify-between">
+                <Chart className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={data?.data.carbon_footprint.energy_sources.map(
+                          (entry: {
+                            source: string;
+                            usage_percentage: number;
+                            color: string;
+                          }) => ({
+                            name: entry.source,
+                            value: entry.usage_percentage,
+                            color: entry.color,
+                          }),
+                        )}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={0}
+                        outerRadius={80}
+                        paddingAngle={1}
+                        dataKey="value"
+                        activeIndex={activeEnergyIndex}
+                        activeShape={renderActiveShape}
+                        onMouseEnter={(_: unknown, index: number) =>
+                          setActiveEnergyIndex(index)
+                        }
+                        label={(entry: { name: string; value: number }) =>
+                          `${entry.name} ${entry.value}%`
+                        }
+                        labelLine={false}
+                      >
+                        {data?.data.carbon_footprint.energy_sources.map(
+                          (entry: { color: string }, index: number) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ),
+                        )}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </Chart>
+                <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
+                  {data?.data.carbon_footprint.energy_sources.map(
+                    (
+                      entry: { color: string; source: string },
+                      index: number,
+                    ) => (
+                      <ChartLegendItem
+                        key={index}
+                        color={entry.color}
+                        label={entry.source}
+                      />
+                    ),
+                  )}
+                </ChartLegend>
+              </CardContent>
+            </Card>
+
+            {/* Type of Fuel Used in Vehicles */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium text-emerald-500">
+                  Type of Fuel Used in Vehicles
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Chart className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={data?.data.carbon_footprint.type_of_fuel_used_in_vehicles.map(
+                          (entry: {
+                            fuel_type: string;
+                            usage_percentage: number;
+                            color: string;
+                          }) => ({
+                            name: entry.fuel_type,
+                            value: entry.usage_percentage,
+                            color: entry.color,
+                          }),
+                        )}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={0}
+                        outerRadius={80}
+                        paddingAngle={1}
+                        dataKey="value"
+                        activeIndex={activeFuelIndex}
+                        activeShape={renderActiveShape}
+                        onMouseEnter={(_: unknown, index: number) =>
+                          setActiveFuelIndex(index)
+                        }
+                        label={(entry: { name: string; value: number }) =>
+                          `${entry.name} ${entry.value}%`
+                        }
+                        labelLine={false}
+                      >
+                        {data?.data.carbon_footprint.type_of_fuel_used_in_vehicles.map(
+                          (entry: { color: string }, index: number) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ),
+                        )}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </Chart>
+                <ChartLegend className="mt-4 grid grid-cols-2 gap-2">
+                  {data?.data.carbon_footprint.type_of_fuel_used_in_vehicles.map(
+                    (
+                      entry: { fuel_type: string; color: string },
+                      index: number,
+                    ) => (
+                      <ChartLegendItem
+                        key={index}
+                        color={entry.color}
+                        label={entry.fuel_type}
+                      />
+                    ),
+                  )}
+                </ChartLegend>
+              </CardContent>
+            </Card>
+
+            {/* Carbon Emission Percentage */}
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium text-emerald-500">
+                  Carbon emission Business Sector
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex justify-between">
+                <Chart className="h-[300px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={data?.data.basic_information.business_sector.map(
+                          (entry: {
+                            sector: string;
+                            carbon_emission_percentage: number;
+                            color: string;
+                          }) => ({
+                            name: entry.sector,
+                            value: entry.carbon_emission_percentage,
+                            color: entry.color,
+                          }),
+                        )}
+                        cx="45%"
+                        cy="55%"
+                        innerRadius={0}
+                        outerRadius={80}
+                        paddingAngle={1}
+                        dataKey="value"
+                        activeIndex={businessSector}
+                        activeShape={renderActiveShape}
+                        onMouseEnter={(_: unknown, index: number) =>
+                          setBusinessSector(index)
+                        }
+                        label={(entry: { name: string; value: number }) =>
+                          `${entry.name} ${entry.value}%`
+                        }
+                        labelLine={false}
+                      >
+                        {data?.data.basic_information.business_sector.map(
+                          (entry: { color: string }, index: number) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ),
+                        )}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                </Chart>
+                <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
+                  {data?.data.basic_information.business_sector.map(
+                    (
+                      entry: { color: string; sector: string },
+                      index: number,
+                    ) => (
+                      <ChartLegendItem
+                        key={index}
+                        color={entry.color}
+                        label={entry.sector}
+                      />
+                    ),
+                  )}
+                </ChartLegend>
+              </CardContent>
+            </Card>
+
+            {/* Primary Transportation Method */}
+            <div className="flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 text-center shadow-[0px_0px_6px_0px_#00000040]">
+              <h1 className="text-[20px] font-medium">
+                Primary Transportation Method
+              </h1>
+              <p>
+                Volume of goods transportation tons:{" "}
                 {
-                  data?.data[0]?.carbon_footprint
-                    ?.number_of_company_owned_vehicles
-                }
-              </p>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Total Electrical Consumption */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Total Electrical Consumption
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {" "}
-              {
-                data?.data[0]?.carbon_footprint
-                  ?.total_electrical_consumption_kwh
-              }
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Number of Employees */}
-        {data?.data[0]?.basic_information?.number_of_employees && (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base font-medium">
-                Number of Employees
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">
-                {" "}
-                {data?.data[0]?.basic_information?.number_of_employees}
-              </p>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Volume of Goods Transportation Method */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Volume of Goods Transportation Method (Tons)
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">10</p>
-          </CardContent>
-        </Card>
-
-        {/* Average Distance Travelled per Vehicle Annually */}
-        {data?.data[0]?.carbon_footprint
-          ?.average_distance_travelled_per_vehicle_annually && (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base font-medium">
-                Average Distance Travelled per Vehicle Annually
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">
-                {" "}
-                {
-                  data?.data[0]?.carbon_footprint
-                    ?.average_distance_travelled_per_vehicle_annually.distance
-                }
-              </p>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Total Annual Turnover in the last Financial Year */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Total Annual Turnover in the last Financial Year
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">10</p>
-          </CardContent>
-        </Card>
-
-        {/* Total Annual Turnover in the last Financial Year (duplicate in original) */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Total Annual Turnover in the last Financial Year
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">10</p>
-          </CardContent>
-        </Card>
-
-        {/* Annual Business Train Distance */}
-        {data?.data[0]?.carbon_footprint?.annual_business_train_distance && (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base font-medium">
-                Annual Business Train Distance
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">
-                {" "}
-                {
-                  data?.data[0]?.carbon_footprint
-                    ?.annual_business_train_distance.distance
-                }
-              </p>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Supply Chain & Logistics */}
-        {data?.data[0]?.supply_chain_logistics && (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base font-medium">
-                Supply Chain & Logistics
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">
-                {" "}
-                {
-                  data?.data[0]?.supply_chain_logistics
+                  data?.data.supply_chain_logistics
                     .volume_of_goods_transportation_tons
                 }
               </p>
-            </CardContent>
-          </Card>
-        )}
+            </div>
+          </div>
 
-        {/* Type of Organization */}
-        {data?.data[0]?.basic_information?.type_of_organization && (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base font-medium">
-                Type of Organization
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-1">
+          {/* Percentage of Energy Renewable */}
+          {/* <Card>
+              <CardHeader>
+                <CardTitle className="text-base font-medium text-emerald-500">
+                  Percentage of Energy Renewable
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-10">
+                <CustomProgress value={90} color="#10b981" label="90%" />
+                <CustomProgress value={70} color="#3b82f6" label="70%" />
+                <CustomProgress value={80} color="#818cf8" label="80%" />
+                <CustomProgress value={50} color="#a855f7" label="50%" />
+                <CustomProgress value={65} color="#ec4899" label="65%" />
+                <CustomProgress value={60} color="#22c55e" label="60%" />
+                <CustomProgress value={70} color="#f97316" label="70%" />
+                <CustomProgress value={40} color="#064e3b" label="40%" />
+              </CardContent>
+            </Card> */}
+          {/* Metrics Grid */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* Business Sector */}
+            {/* <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base font-medium">
+                    Business Sector
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {data?.data?.basic_information.business_sector.length !== 0 && data?.data?.basic_information.business_sector.map(
+                    (source: {
+                      _id: string;
+                      sector: string;
+                      carbon_emission_percentage: number;
+                    }) => (
+                      <div key={source._id} className="space-y-1">
+                        <p>{source.sector}s</p>
+                      </div>
+                    ),
+                  )}
+                </CardContent>
+              </Card> */}
+
+            {/* Energy Sources */}
+            {data?.data?.carbon_footprint?.energy_sources.length !== 0 && (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base font-medium">
+                    Energy Sources
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {data?.data?.carbon_footprint?.energy_sources?.map(
+                    (source: EnergySource, i: number) => {
+                      return (
+                        <div key={i} className="space-y-1">
+                          <p>{source.source}</p>
+                        </div>
+                      );
+                    },
+                  )}
+                </CardContent>
+              </Card>
+            )}
+            {/* Average Business Flight Distance */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Average Business Flight Distance
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">50 miles</p>
+              </CardContent>
+            </Card>
+
+            {/* Number of Company owned vehicles */}
+            {data?.data?.carbon_footprint?.number_of_company_owned_vehicles && (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base font-medium">
+                    Number of Company owned vehicles
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">
+                    {" "}
+                    {
+                      data?.data?.carbon_footprint
+                        ?.number_of_company_owned_vehicles
+                    }
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Total Electrical Consumption */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Total Electrical Consumption
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
                 <p className="text-2xl font-bold">
                   {" "}
-                  {data?.data[0]?.basic_information?.type_of_organization}
+                  {
+                    data?.data?.carbon_footprint
+                      ?.total_electrical_consumption_kwh
+                  }
                 </p>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+              </CardContent>
+            </Card>
 
-        {/* Total Value of Assets at End of The Last Financial Year */}
-        {data?.data[0]?.finances?.total_value_of_assets && (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base font-medium">
-                Total Value of Assets at End of The Last Financial Year
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">
-                {" "}
-                {data?.data[0]?.finances?.total_value_of_assets}
-              </p>
-            </CardContent>
-          </Card>
-        )}
+            {/* Number of Employees */}
+            {data?.data?.basic_information?.number_of_employees && (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base font-medium">
+                    Number of Employees
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">
+                    {" "}
+                    {data?.data?.basic_information?.number_of_employees}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
 
-        {/* Primary Transportation Method */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base font-medium">
-              Primary Transportation Method
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-1">
-              <p>Traditional Grid</p>
-              <p>Solar</p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+            {/* Volume of Goods Transportation Method */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Volume of Goods Transportation Method (Tons)
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">10</p>
+              </CardContent>
+            </Card>
+
+            {/* Average Distance Travelled per Vehicle Annually */}
+            {data?.data?.carbon_footprint
+              ?.average_distance_travelled_per_vehicle_annually && (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base font-medium">
+                    Average Distance Travelled per Vehicle Annually
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">
+                    {" "}
+                    {
+                      data?.data?.carbon_footprint
+                        ?.average_distance_travelled_per_vehicle_annually
+                        .distance
+                    }
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Total Annual Turnover in the last Financial Year */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Total Annual Turnover in the last Financial Year
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">10</p>
+              </CardContent>
+            </Card>
+
+            {/* Total Annual Turnover in the last Financial Year (duplicate in original) */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Total Annual Turnover in the last Financial Year
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">10</p>
+              </CardContent>
+            </Card>
+
+            {/* Annual Business Train Distance */}
+            {data?.data?.carbon_footprint?.annual_business_train_distance && (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base font-medium">
+                    Annual Business Train Distance
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">
+                    {" "}
+                    {
+                      data?.data?.carbon_footprint
+                        ?.annual_business_train_distance.distance
+                    }
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Supply Chain & Logistics */}
+            {data?.data?.supply_chain_logistics && (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base font-medium">
+                    Supply Chain & Logistics
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">
+                    {" "}
+                    {
+                      data?.data?.supply_chain_logistics
+                        .volume_of_goods_transportation_tons
+                    }
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Type of Organization */}
+            {data?.data?.basic_information?.type_of_organization && (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base font-medium">
+                    Type of Organization
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-1">
+                    <p className="text-2xl font-bold">
+                      {" "}
+                      {data?.data?.basic_information?.type_of_organization}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Total Value of Assets at End of The Last Financial Year */}
+            {data?.data?.finances?.total_value_of_assets && (
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base font-medium">
+                    Total Value of Assets at End of The Last Financial Year
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">
+                    {" "}
+                    {data?.data?.finances?.total_value_of_assets}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Primary Transportation Method */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Primary Transportation Method
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-1">
+                  <p>Traditional Grid</p>
+                  <p>Solar</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

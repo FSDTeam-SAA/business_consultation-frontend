@@ -321,7 +321,7 @@ export default function Navbar() {
             </Link>
           </nav>
           {/* search bar  */}
-       
+
           {/* <form
             onSubmit={handleSubmit}
             className="relative hidden items-center lg:flex"
@@ -441,13 +441,15 @@ export default function Navbar() {
               {/* Profile Dropdown */}
               {isProfileOpen && (
                 <div className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
-                  <Link
-                    href="/account"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
-                    Settings
-                  </Link>
+                  {!(user.role === "Admin" || user.role === "SuperAdmin") && (
+                    <Link
+                      href="/account"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsProfileOpen(false)}
+                    >
+                      Settings
+                    </Link>
+                  )}
                   <div className="my-1 border-t border-gray-100"></div>
                   <button
                     className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"

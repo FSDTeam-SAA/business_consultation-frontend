@@ -37,9 +37,14 @@ export default function PaymentSuccessPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-4 pt-2 pb-8">
-          <Button asChild className="w-full bg-green-500 hover:bg-green-600">
+          <div className="flex gap-3">
+          <Button asChild className="w-1/2 bg-green-500 hover:bg-green-600">
             <Link href="/login">Log In</Link>
           </Button>
+          <Button asChild className="w-1/2 bg-green-500 hover:bg-green-600">
+            <Link href="/account/dashboard">Bashboard</Link>
+          </Button>
+          </div>
           {/* <p className="text-sm text-center text-muted-foreground">
             Please log in to access your account and view your purchase details.
           </p> */}

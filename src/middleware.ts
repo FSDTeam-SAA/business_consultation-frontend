@@ -7,6 +7,7 @@ const protectedRoutes = [
   "/challenges",
   "/profile",
   "/dashboard",
+  "/"
 ];
 
 export function middleware(request: NextRequest) {
@@ -39,5 +40,6 @@ export const config = {
     "/challenges/:path*",
     "/profile/:path*",
     "/dashboard/:path*",
+    "/:path*"
   ],
 };

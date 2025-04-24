@@ -39,7 +39,11 @@ export default function BlogCard({ post }: BlogCardProps) {
             <p className="my-2 text-[#595959]">
               By <span>{post.authorName}</span>
             </p>
+<<<<<<< HEAD
+            <div className="flex gap-2 items-center">
+=======
             <div className="flex items-center gap-2">
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
               <Calendar />
               <p>
                 {post?.createdAt
@@ -63,7 +67,11 @@ export default function BlogCard({ post }: BlogCardProps) {
             </p>
           </Link>
           <p className="mb-4 line-clamp-3 text-gray-700">{post.excerpt}</p>
+<<<<<<< HEAD
+          <div className="mt-4 flex h-[45px] w-[151px] items-center justify-center rounded-[8px] border border-[#09B850]">
+=======
           <div className="mt-6 flex h-[45px] w-[151px] items-center justify-center rounded-[8px]">
+>>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
             <Link href={`/blog/${post.slug}`}>
               <div className="group relative overflow-hidden rounded-lg border border-[#09B850] px-5 py-3 font-medium text-[#09B850] shadow-inner">
                 <span className="ease absolute left-0 top-0 h-0 w-0 border-t-2 border-[#09B850] transition-all duration-200 group-hover:w-full"></span>

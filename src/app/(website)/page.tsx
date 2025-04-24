@@ -1,9 +1,9 @@
 "use client";
 
-import HeroSection from "@/components/Home/hero-section";
-import ServiceSection from "@/components/Home/ServiceSection";
 import AboutUsSection from "@/components/Home/AboutUsSection";
+import HeroSection from "@/components/Home/hero-section";
 import Services from "@/components/Home/Services";
+import ServiceSection from "@/components/Home/ServiceSection";
 import WhyChooseUsSection from "@/components/Home/whyChooseUs";
 import SearchComponent from "@/components/search";
 // import ProtectedRoute from "@/components/Auth/ProtectedRoute";

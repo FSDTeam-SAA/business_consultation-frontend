@@ -1,21 +1,21 @@
 "use client";
-import { MapPin, Factory, Mail, Phone, Globe } from "lucide-react";
+import { Factory, Globe, Mail, MapPin, Phone } from "lucide-react";
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Sector } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Chart, ChartLegend, ChartLegendItem } from "@/components/ui/chart";
 // import { CustomProgress } from "./custom-progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import React, { useEffect } from "react";
 
 interface EnergySource {
   source: string;
   value: number;
 }
-import { useQuery } from "@tanstack/react-query";
-import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
 
 // Energy Sources Data
 const energySourcesData = [
@@ -67,7 +67,6 @@ export default function CompanyDashboard() {
       setToken(storedToken);
     } else setToken(lstoredToken);
   }, []);
-
 
   const { data, isLoading } = useQuery({
     queryKey: ["companydetails"],
@@ -227,8 +226,12 @@ export default function CompanyDashboard() {
 
               {data?.data[0]?.basic_information.website && (
                 <div className="flex items-center gap-2 text-sm">
-                  <Globe className="h-4 w-4" /> 
-                  <Link href={`${data?.data[0]?.basic_information.website}`} target="_blank" className="text-sm text-blue-500 hover:underline">
+                  <Globe className="h-4 w-4" />
+                  <Link
+                    href={`${data?.data[0]?.basic_information.website}`}
+                    target="_blank"
+                    className="text-sm text-blue-500 hover:underline"
+                  >
                     {" "}
                     {data?.data[0]?.basic_information.website &&
                       data?.data[0]?.basic_information.website}
@@ -384,7 +387,6 @@ export default function CompanyDashboard() {
       </div>
 
       {/* Percentage of Energy Renewable */}
-
       {/* <Card>
         <CardHeader>
           <CardTitle className="text-base font-medium text-emerald-500">

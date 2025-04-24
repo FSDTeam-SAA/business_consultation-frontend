@@ -53,26 +53,20 @@ export default function NotificationPage() {
     enabled: !!token && !!backendUrl,
   });
 
-
-
   const notifications = data?.data || [];
-  console.log(notifications)
   const paginationData = data?.pagination || {
     totalPages: 1,
     currentPage: 1,
     totalNotifications: 0,
   };
 
-
-
-
   const totalPages = Number(paginationData.totalPages);
   const totalItems = Number(paginationData.totalNotifications);
   const currentApiPage = Number(paginationData.currentPage);
-  const itemsPerPage = notifications.length || 10; // fallback to 10
+  const itemsPerPage = notifications.length || 2;
 
   return (
-    <div>
+    <div className="px-4 py-6 sm:px-6 md:px-8 lg:px-10 w-full max-w-5xl mx-auto">
       <h1 className="mb-6 border-b border-[#CECECE] pb-4 text-2xl font-bold">
         Notifications
       </h1>
@@ -91,24 +85,24 @@ export default function NotificationPage() {
             {notifications.map((notification: any) => (
               <div
                 key={notification._id}
-                className="flex items-start justify-between border-b p-4"
+                className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b p-4 rounded-lg shadow-sm bg-white"
               >
-                <div className="flex gap-4">
-                  <div className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-[#282828]">
-                    <Bell className="h-5 w-5 text-white" />
+                <div className="flex gap-4 items-start">
+                  <div className="flex min-w-[36px] sm:min-w-[42px] h-9 sm:h-10 items-center justify-center rounded-full bg-[#282828]">
+                    <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                   </div>
-                  <div>
-                    <h3 className="text-[18px] font-[500] text-[#000000]">
+                  <div className="flex-1">
+                    <h3 className="text-base sm:text-lg font-medium text-[#000000]">
                       {notification.title}
                     </h3>
-                    <p className="text-[16px] text-[#595959]">
+                    <p className="text-sm text-[#595959]">
                       {notification.message}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center justify-end">
-                  <span className="text-xs text-muted-foreground">
-                  {new Date(notification.createdAt).toLocaleDateString(
+                <div className="flex items-center justify-end sm:justify-start">
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    {new Date(notification.createdAt).toLocaleDateString(
                       "en-US",
                       {
                         year: "numeric",
@@ -117,23 +111,16 @@ export default function NotificationPage() {
                       }
                     )}
                   </span>
-                  {/* <Button
-                    variant="ghost"
-                    className="h-6 p-2 text-[16px] font-[500] text-red-500 hover:bg-red-50 hover:text-red-700"
-                  >
-                    Delete
-                  </Button> */}
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Pagination Controls */}
-          <div className="mt-6 flex justify-end">
+          <div className="mt-6 flex justify-center sm:justify-end">
             <Pagination
               totalPages={totalPages}
               currentPage={currentApiPage}
-              onPageChange={(page:any) => setCurrentPage(page)}
+              onPageChange={(page: any) => setCurrentPage(page)}
               totalItems={totalItems}
               itemsPerPage={itemsPerPage}
             />

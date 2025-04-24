@@ -251,6 +251,72 @@ export default function EmissionForm() {
     mode: "onChange",
   });
 
+  const businessSetorsFilldData = form.watch("businessSector");
+
+  useEffect(() => {
+    // Watch the "businessSector" field in the form
+    const businessSetorsFilldData = form.watch("businessSector");
+
+    if (!businessSetorsFilldData) return;
+
+    // Calculate the total percentage of selected sectors (excluding "other")
+    const totalPercentage = businessSetorsFilldData.reduce((acc, sector) => {
+      if (sector.isSelected && sector.name !== "other") {
+        return acc + Number(sector.percentage || 0); // Add the percentage if isSelected is true and it's not "other"
+      }
+      return acc;
+    }, 0);
+
+    console.log({ totalPercentage });
+
+    // Check if the total percentage exceeds 100%
+    if ((totalPercentage || 0) > 100) {
+      // Set an error in the form for the "businessSector" field
+      form.setError("businessSector", {
+        type: "manual",
+        message: "The total percentage cannot exceed 100%.",
+      });
+      toast.warning("The total percentage cannot exceed 100%.");
+    } else {
+      // Clear the error if the total percentage is valid
+      form.clearErrors("businessSector");
+
+      // Find the "other" object
+      const otherSector = businessSetorsFilldData.find(
+        (sector) => sector.name === "other",
+      );
+
+      // If totalPercentage is less than 100, assign the rest to the "other" object
+      if (totalPercentage < 100 && otherSector) {
+        const remainingPercentage = 100 - totalPercentage;
+
+        // Update the "other" object's percentage only if it differs
+        if (otherSector.percentage !== remainingPercentage.toString()) {
+          form.setValue(
+            "businessSector",
+            businessSetorsFilldData.map((sector) =>
+              sector.name === "other"
+                ? { ...sector, percentage: remainingPercentage.toString() }
+                : sector,
+            ),
+            { shouldValidate: false }, // Prevent re-triggering validation
+          );
+        }
+      } else if (otherSector) {
+        // Reset the "other" object's percentage to 0 if totalPercentage is exactly 100
+        if (otherSector.percentage !== "0") {
+          form.setValue(
+            "businessSector",
+            businessSetorsFilldData.map((sector) =>
+              sector.name === "other" ? { ...sector, percentage: "0" } : sector,
+            ),
+            { shouldValidate: false }, // Prevent re-triggering validation
+          );
+        }
+      }
+    }
+  }, [businessSetorsFilldData]); // Dependency array ensures this runs when "businessSector" changes
+
   // Handle form submission
   function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = new FormData();

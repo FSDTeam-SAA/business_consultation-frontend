@@ -28,7 +28,7 @@ export default function LoginForm() {
 
       if (success) {
         toast.success("Login successful!");
-        router.push("/");
+        window.location.href = "/";
       } else {
         toast.error("Login failed. Please check your credentials.");
       }

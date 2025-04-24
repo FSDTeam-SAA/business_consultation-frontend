@@ -6,6 +6,7 @@ import AboutUsSection from "@/components/Home/AboutUsSection";
 import Services from "@/components/Home/Services";
 import WhyChooseUsSection from "@/components/Home/whyChooseUs";
 import SearchComponent from "@/components/search";
+// import ProtectedRoute from "@/components/Auth/ProtectedRoute";
 // import BlogSection from "@/components/blog/BlogSection";
 // import { useAuth } from "@/hooks/useAuth";
 
@@ -16,6 +17,7 @@ export default function Home() {
     <main className="">
       {" "}
       {/* Add padding to account for fixed navbar */}
+    
       <HeroSection />
       <div className="">
         <SearchComponent />
@@ -24,6 +26,7 @@ export default function Home() {
       <AboutUsSection />
       <Services />
       <WhyChooseUsSection />
+    
     </main>
   );
 }

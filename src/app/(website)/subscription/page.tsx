@@ -3,6 +3,8 @@
 import AnnualPlan from "../account/_components/annualPlan";
 import OneMonthPlan from "../account/_components/oneMonthPlan";
 
+
+
 export default function PricingPlanPage() {
   return (
     <div className="mt-10 flex flex-col gap-20 md:gap-0 items-center justify-center md:flex-row">

@@ -1,6 +1,4 @@
 import ConsoleMessage from "@/components/consoleMessage";
-import Footer from "@/components/footer";
-import Navbar from "@/components/navar";
 import AppProvider from "@/provider/AppProvider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";

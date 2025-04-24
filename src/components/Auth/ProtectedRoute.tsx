@@ -14,7 +14,10 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const router = useRouter();
   const pathname = usePathname();
 
+
   useEffect(() => {
+
+    
     // Wait until auth state is loaded
     if (!isLoading && !isLoggedIn) {
       // Redirect to login with return URL

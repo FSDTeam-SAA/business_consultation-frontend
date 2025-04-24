@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import {
@@ -9,42 +11,33 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Search } from "lucide-react";
-import { Input } from "./ui/input";
 import { toast } from "sonner";
 
 const SearchComponent = () => {
-  const [searchResult, setSearchResult] = useState<string | null>(null);
+  const [searchResult, setSearchResult] = useState<string>("");
   const [token, setToken] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    const storedToken = sessionStorage.getItem("authToken");
-    const lstoredToken = localStorage.getItem("authToken");
+    const storedToken = sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
     if (storedToken) {
       setToken(storedToken);
-    } else setToken(lstoredToken);
+    }
   }, []);
 
-  // console.log(user);
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setIsScrolled(window.scrollY > 10);
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
   const { data, refetch } = useQuery({
     queryKey: ["companySearch", searchResult],
     queryFn: ({ queryKey }) =>
       fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/search?uniqueCode=${encodeURIComponent(queryKey[1] ?? "")}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/search?uniqueCode=${encodeURIComponent(
+          queryKey[1] ?? ""
+        )}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        },
+        }
       )
         .then((res) => {
           if (!res.ok) throw new Error("Company not found");
@@ -53,13 +46,13 @@ const SearchComponent = () => {
         .catch((error) => {
           toast.error(error.message);
         }),
-    enabled: false, // disable automatic fetching :contentReference[oaicite:2]{index=2}
+    enabled: false,
     refetchOnWindowFocus: false,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchResult) return;
+    if (!searchResult.trim()) return;
 
     try {
       const result = await refetch();
@@ -72,24 +65,28 @@ const SearchComponent = () => {
   };
 
   return (
-    <div>
-      {/* search bar  */}
+    <div className="absolute lg:left-[25%] lg:top-[90%] top-[85%] z-50 lg:w-[948px] w-full">
       <form
         onSubmit={handleSubmit}
-        className="relative hidden items-center lg:flex"
+        className="bg-white h-[156px] p-6 rounded-md shadow-md flex flex-col justify-center gap-4"
       >
-        <button type="submit" className="absolute left-2">
-          <Search className={`w-5 text-gray-800`} />
-        </button>
-        <Input
-          onChange={(e) => setSearchResult(e.target.value)}
-          value={searchResult || ""}
+        <input
           type="text"
-          placeholder="Search Company by Unique Code"
-          className={`rounded-xl border border-gray-400 px-8 text-center text-gray-800`}
+          value={searchResult}
+          onChange={(e) => setSearchResult(e.target.value)}
+          placeholder="Enter company name or ID"
+          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-300"
         />
+        <button
+          type="submit"
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+        >
+          <div className="flex items-center justify-center gap-2">
+            <Search className="w-5" />
+            <span>Search</span>
+          </div>
+        </button>
       </form>
-      {/* model   */}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
@@ -104,37 +101,27 @@ const SearchComponent = () => {
 
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="font-medium text-gray-700 dark:text-gray-300">
-                Business Name:
-              </span>
-              <span className="text-gray-900 dark:text-gray-100">
-                {data?.data.companyLegalName}
+              <span className="font-medium text-gray-700 dark:text-gray-300">Business Name:</span>
+              <span className="text-gray-900 dark:text-gray-100">{data?.data?.companyLegalName}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium text-gray-700 dark:text-gray-300">Entry Complete:</span>
+              <span
+                className={`font-semibold ${
+                  data?.data?.isEntryComplete ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {data?.data?.isEntryComplete ? "Completed" : "Not Completed"}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="font-medium text-gray-700 dark:text-gray-300">
-                Entry Complete:
-              </span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">Active Subscription:</span>
               <span
                 className={`font-semibold ${
-                  data?.data.isEntryComplete ? "text-green-600" : "text-red-600"
+                  data?.data?.hasActiveSubscription ? "text-green-600" : "text-red-600"
                 }`}
               >
-                {data?.data.isEntryComplete ? "Completed" : "Not Completed"}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-medium text-gray-700 dark:text-gray-300">
-                Active Subscription:
-              </span>
-              <span
-                className={`font-semibold ${
-                  data?.data.hasActiveSubscription
-                    ? "text-green-600"
-                    : "text-red-600"
-                }`}
-              >
-                {data?.data.hasActiveSubscription ? "Active" : "Inactive"}
+                {data?.data?.hasActiveSubscription ? "Active" : "Inactive"}
               </span>
             </div>
           </div>
@@ -154,3 +141,5 @@ const SearchComponent = () => {
 };
 
 export default SearchComponent;
+
+

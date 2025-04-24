@@ -28,7 +28,7 @@ export default function LoginForm() {
 
       if (success) {
         toast.success("Login successful!");
-        router.push("/");
+        window.location.href = "/";
       } else {
         toast.error("Login failed. Please check your credentials.");
       }
@@ -142,6 +142,8 @@ export default function LoginForm() {
             )}
           </button>
         </form>
+
+        
         <div>
           <p className="mt-6 text-center text-gray-400">
             Don&apos;t have an account?{" "}

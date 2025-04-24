@@ -140,49 +140,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
 
               <h1 className="mb-6">{postData.description}</h1>
-<<<<<<< HEAD
-
-              <div
-                className="prose mb-8 max-w-none"
-                dangerouslySetInnerHTML={{ __html: postData.content || "" }}
-              />
-
-              {postData?.subImages?.length ? (
-                <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-                  {postData.subImages.map((img: string, index: number) => (
-                    <Image
-                      key={index}
-                      src={img}
-                      alt={`Blog image ${index + 1}`}
-                      width={600}
-                      height={400}
-                      className="h-[200px] w-full rounded-md object-cover"
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className="text-gray-500">No gallery images available.</p>
-              )}
-
-              <div className="my-8 flex items-center justify-between border-b border-t border-gray-200 py-4">
-                <div>
-                  <span className="mr-2 font-medium">Tag:</span>
-
-                  {(postData.tags ?? []).map((tag: any) => (
-                    <Link
-                      key={tag}
-                      href={`/blog?tag=${encodeURIComponent(tag)}`}
-                      className="mr-2 rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-800 transition-colors hover:bg-gray-200"
-                    >
-                      {tag}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </article>
-          </div>
-
-=======
 
               <div
                 className="prose mb-8 max-w-none"
@@ -224,7 +181,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             </article>
           </div>
 
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
           <div className="order-1 lg:order-2">
             <Sidebar />
           </div>

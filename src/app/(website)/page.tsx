@@ -5,6 +5,8 @@ import HeroSection from "@/components/Home/hero-section";
 import Services from "@/components/Home/Services";
 import ServiceSection from "@/components/Home/ServiceSection";
 import WhyChooseUsSection from "@/components/Home/whyChooseUs";
+import SearchComponent from "@/components/search";
+// import ProtectedRoute from "@/components/Auth/ProtectedRoute";
 // import BlogSection from "@/components/blog/BlogSection";
 // import { useAuth } from "@/hooks/useAuth";
 
@@ -15,11 +17,16 @@ export default function Home() {
     <main className="">
       {" "}
       {/* Add padding to account for fixed navbar */}
+    
       <HeroSection />
+      <div className="">
+        <SearchComponent />
+      </div>
       <ServiceSection />
       <AboutUsSection />
       <Services />
       <WhyChooseUsSection />
+    
       {/* Blog section with spacing */}
       {/* {!user?.hasActiveSubscription && (
         <div className="mt-12 border-t pt-8">

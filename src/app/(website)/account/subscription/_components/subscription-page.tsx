@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-<<<<<<< HEAD
 // /* eslint-disable @typescript-eslint/no-explicit-any */
 // "use client";
 
@@ -113,8 +112,6 @@
 //     </div>
 //   );
 // }
-=======
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
 
 "use client";
 
@@ -164,7 +161,7 @@ export default function SubscriptionPage() {
     ? data.data.subscriptions
     : [];
 
-  console.log(subscriptions);
+  console.log("subscriptions",subscriptions);
 
   const totalPages = data?.pagination?.totalPages || 1;
 
@@ -216,7 +213,7 @@ export default function SubscriptionPage() {
                 </TableCell>
               </TableRow>
             ) : (
-              subscriptions.map((sub: any, index: number) => (
+              subscriptions.map((sub: { packageId: string; status?: string; subscriptionType?: string; createdAt: string }, index: number) => (
                 <TableRow key={index} className="border-b hover:bg-gray-50">
                   <TableCell className="px-6 py-4 text-sm text-gray-800">
                     {sub?.packageId}
@@ -249,11 +246,7 @@ export default function SubscriptionPage() {
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
-<<<<<<< HEAD
-          onPageChange={(page) => setCurrentPage(page)}
-=======
           onPageChange={(page:any) => setCurrentPage(page)}
->>>>>>> b0172744cf09b7c39a82e0e4809be03d7ec75d43
           totalItems={0}
           itemsPerPage={0}
         />

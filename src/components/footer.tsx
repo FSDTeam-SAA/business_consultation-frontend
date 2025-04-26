@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import Hideon from "@/provider/Hideon";
 import NewsletterSection from "./newsletter-section";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -42,38 +43,14 @@ export default function Footer() {
               </div>
             </div> */}
               <Link href="/" className="flex items-center">
-                <div className="mr-2">
-                  <svg
-                    width="40"
-                    height="40"
-                    viewBox="0 0 40 40"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <rect width="40" height="40" rx="4" fill="transparent" />
-                    <path
-                      d="M10 10H22V14H10V10ZM10 16H22V20H10V16ZM10 22H22V26H10V22ZM10 28H22V32H10V28ZM24 10H30V14H24V10ZM24 16H30V32H24V16Z"
-                      fill="#09B850"
-                    />
-                  </svg>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-sm font-bold leading-none text-[#09B850]">
-                    BUSINESS
-                  </span>
-                  <span
-                    className={"text-sm font-medium leading-none text-white"}
-                  >
-                    CONSULTATION
-                  </span>
-                </div>
+                <Image src="/logo.png" alt="logo" width={100} height={100} />
               </Link>
 
-              <p className="text-[16px] font-normal">
+              {/* <p className="text-[16px] font-normal">
                 We see our clients as strategic partners. This means in close
                 cooperation. We see our Clients as strategic partners. This
                 means in close cooperation.
-              </p>
+              </p> */}
 
               <div className="space-y-2">
                 <p>Follow us on</p>
@@ -207,7 +184,13 @@ export default function Footer() {
               Copyright ©2023 Business Consultative. All Right Reserved.
             </p>
             <div className="flex items-center justify-center gap-3">
-              <p>About Us </p>|<p>Services</p>|<p>Blogs</p>
+              <Link href="/about">
+                <p>About Us </p>
+              </Link>
+              |{" "}
+              <Link href="/service">
+                <p>Services</p>
+              </Link>
             </div>
           </div>
         </div>

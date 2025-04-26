@@ -27,27 +27,24 @@ export default function ServiceSection() {
   return (
     <section className="container mx-auto px-4 py-12">
       {/* <SearchComponent /> */}
-      <div className="mb-6 flex items-center justify-center mt-10">
+      <div className="mb-6 mt-10 flex items-center justify-center">
         <span className="inline-block rounded-md border border-green-500 px-3 py-1 text-[16px] font-semibold text-green-500">
           • ABOUT US
         </span>
       </div>
       <div className="mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to the Consultive</h1>
+        <h1 className="mb-4 text-4xl font-bold">Welcome to Going2Zero</h1>
         <p className="text-center text-lg font-normal text-[#595959]">
-          we help businesses take real action toward achieving net zero. Through
-          our innovative AI-powered platform, we provide businesses with the
-          tools to measure, track, and reduce their carbon footprint. Our
-          three-step approach—emissions tracking, personalized consulting, and
-          carbon offsetting—makes sustainability simple, accessible, and
-          effective. dfasdfas
-        </p>
-        <br />
-        <p className="text-center text-lg font-normal text-[#595959]">
-          We believe that every business, no matter its size, can play a role in
-          fighting climate change. By staying ahead of green regulations and
-          offering tailored solutions, we empower companies to make meaningful
-          progress while unlocking opportunities for growth and compliance.{" "}
+          At Going2Zero, we help businesses take real action toward achieving
+          net zero. Through our innovative AI-powered platform, we provide
+          businesses with the tools to measure, track, and reduce their carbon
+          footprint. Our three-step approach—emissions tracking, personalized
+          consulting, and carbon offsetting—makes sustainability simple,
+          accessible, and effective. We believe that every business, no matter
+          its size, can play a role in fighting climate change. By staying ahead
+          of green regulations and offering tailored solutions, we empower
+          companies to make meaningful progress while unlocking opportunities
+          for growth and compliance.
         </p>
       </div>
 

@@ -9,16 +9,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 // import { Input } from "./ui/input";
 import { useAuth } from "@/hooks/useAuth";
-// import { useQuery } from "@tanstack/react-query";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogFooter,
-//   DialogHeader,
-//   DialogTitle,
-// } from "./ui/dialog";
-// import { toast } from "sonner";
+
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 

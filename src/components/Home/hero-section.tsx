@@ -5,7 +5,7 @@ import Link from "next/link";
 import NextImage from "next/image";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import heroImg from "@/../public/asset/hero.jpg";
+// import heroImg from "@/public/hero_image.jpg"; // Ensure the file extension matches the actual file (e.g., .jpg, .png)
 
 const carouselItems = [
   {
@@ -64,7 +64,7 @@ export default function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <NextImage
-          src={heroImg}
+          src={"/hero_image.jpg"}
           alt="Business meeting"
           fill
           className="object-cover"

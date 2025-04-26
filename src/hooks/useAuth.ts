@@ -283,7 +283,7 @@ export function useAuth() {
           data.data.user, // Pass user data to storeAuthInfo
         );
 
-        router.push("/");
+        // router.push("/");
         return true;
       }
       return false;
@@ -326,3 +326,5 @@ export function useAuth() {
     refreshAuthToken,
   };
 }
+
+

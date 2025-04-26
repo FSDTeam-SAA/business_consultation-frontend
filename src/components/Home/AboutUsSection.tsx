@@ -10,13 +10,10 @@ interface StrategyData {
 }
 
 export default function AboutUsSection() {
-  // This would be fetched from an API in a real application
+ 
   const strategyData: StrategyData[] = [
     { name: "Business Strategy", percentage: 60 },
   ];
-
-  // const tabs = ["Discover", "Planning", "Marketing"]
-  // const [activeTab, setActiveTab] = useState("Discover")
 
   const tabs: Array<keyof typeof tabContent> = [
     "Discover",

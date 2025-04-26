@@ -1,22 +1,22 @@
 "use client";
-import { MapPin, Factory, Mail, Phone, Globe } from "lucide-react";
+import { Factory, Globe, Mail, MapPin, Phone } from "lucide-react";
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
+import { Cell, Pie, PieChart, ResponsiveContainer, Sector } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Chart, ChartLegend, ChartLegendItem } from "@/components/ui/chart";
 // import { CustomProgress } from "./custom-progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import React, { useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 interface EnergySource {
   source: string;
   value: number;
 }
-import { useQuery } from "@tanstack/react-query";
-import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
-import { useAuth } from "@/hooks/useAuth";
 
 export default function CompanyDashboard() {
   // State for active slice

@@ -1,7 +1,9 @@
 "use client";
 
-import AnnualPlan from "../account/_components/annualPlan";
-import OneMonthPlan from "../account/_components/oneMonthPlan";
+import AnnualPlan from "../(website)/account/_components/annualPlan";
+import OneMonthPlan from "../(website)/account/_components/oneMonthPlan";
+
+
 
 export default function PricingPlanPage() {
   return (

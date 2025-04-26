@@ -65,7 +65,7 @@ const SearchComponent = () => {
   };
 
   return (
-    <div className="absolute lg:left-[25%] lg:top-[90%] top-[85%] z-50 lg:w-[948px] w-full">
+    <div className="absolute lg:left-[25%] lg:top-[90%] top-[87%] z-10 lg:w-[948px] w-full">
       <form
         onSubmit={handleSubmit}
         className="bg-white h-[156px] p-6 rounded-md shadow-md flex flex-col justify-center gap-4"

@@ -9,16 +9,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 // import { Input } from "./ui/input";
 import { useAuth } from "@/hooks/useAuth";
-// import { useQuery } from "@tanstack/react-query";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogFooter,
-//   DialogHeader,
-//   DialogTitle,
-// } from "./ui/dialog";
-// import { toast } from "sonner";
+
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 
@@ -242,89 +233,7 @@ export default function Navbar() {
               CONTACT US
             </Link>
           </nav>
-          {/* search bar  */}
-       
-          {/* <form
-            onSubmit={handleSubmit}
-            className="relative hidden items-center lg:flex"
-          >
-            <button type="submit" className="absolute left-2">
-              <Search
-                className={`${isScrolled ? "text-gray-800" : "text-white"} w-5`}
-              />
-            </button>
-            <Input
-              onChange={(e) => setSearchResult(e.target.value)}
-              value={searchResult || ""}
-              type="text"
-              placeholder="Search"
-              className={`rounded-xl px-8 ${
-                isScrolled ? "border border-black text-gray-800" : "text-white"
-              }`}
-            />
-          </form> */}
-          {/* model   */}
-
-          {/* <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogContent className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
-              <DialogHeader className="mb-4">
-                <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                  Search Result
-                </DialogTitle>
-                <DialogDescription className="text-sm text-gray-600 dark:text-gray-400">
-                  Here’s the company info we found for you:
-                </DialogDescription>
-              </DialogHeader>
-
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="font-medium text-gray-700 dark:text-gray-300">
-                    Business Name:
-                  </span>
-                  <span className="text-gray-900 dark:text-gray-100">
-                    {data?.data.companyLegalName}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium text-gray-700 dark:text-gray-300">
-                    Entry Complete:
-                  </span>
-                  <span
-                    className={`font-semibold ${
-                      data?.data.isEntryComplete
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {data?.data.isEntryComplete ? "Completed" : "Not Completed"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium text-gray-700 dark:text-gray-300">
-                    Active Subscription:
-                  </span>
-                  <span
-                    className={`font-semibold ${
-                      data?.data.hasActiveSubscription
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {data?.data.hasActiveSubscription ? "Active" : "Inactive"}
-                  </span>
-                </div>
-              </div>
-
-              <DialogFooter className="mt-6">
-                <button
-                  className="rounded-md border-none bg-green-600 px-4 py-2 text-white outline-none transition hover:bg-green-700"
-                  onClick={() => setIsDialogOpen(false)}
-                >
-                  Close
-                </button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog> */}
+          
 
           {/* User Profile */}
           {user ? (

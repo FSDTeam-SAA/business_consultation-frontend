@@ -11,20 +11,20 @@ Whether you're reducing emissions, supporting climate projects, or improving you
 
 Built for Trust
 Your badge is a clear signal that your business is taking sustainability seriously. It’s more than just a logo — it’s a meaningful way to stand out, build trust, and show your values to customers, clients, and partners.`,
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/asset/service1.png",
   },
   {
     id: 2,
     title: "Business Planning",
     description:
       "Detailed business planning for sustainable growth and success.",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/asset/service2.png",
   },
   {
     id: 3,
     title: "Financial Guidance",
     description: "Expert financial guidance for businesses and startups.",
-    image: "/placeholder.svg?height=200&width=300",
+    image: "/asset/service3.png",
   },
 ];
 

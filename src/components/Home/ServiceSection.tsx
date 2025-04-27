@@ -1,28 +1,28 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
+// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// import Image from "next/image";
 // import SearchComponent from "../search";
 
 export default function ServiceSection() {
-  const services = [
-    {
-      title: "About Business",
-      description:
-        "We have built enviable reputation in all the consumer goods, Heavy industry, hightech",
-      image: "/asset/about.png",
-    },
-    {
-      title: "Advance Analytics",
-      description:
-        "Business analytics (BA) is the practice of iterative, methodical exploration of our organization's data emphasis.",
-      image: "/asset/advance.png",
-    },
-    {
-      title: "Customer Insights",
-      description:
-        "Customer Insight Analytics solution deliver targeted and actionable customer analysis that help financial.",
-      image: "/asset/customer.png",
-    },
-  ];
+  // const services = [
+  //   {
+  //     title: "About Business",
+  //     description:
+  //       "We have built enviable reputation in all the consumer goods, Heavy industry, hightech",
+  //     image: "/asset/about.png",
+  //   },
+  //   {
+  //     title: "Advance Analytics",
+  //     description:
+  //       "Business analytics (BA) is the practice of iterative, methodical exploration of our organization's data emphasis.",
+  //     image: "/asset/advance.png",
+  //   },
+  //   {
+  //     title: "Customer Insights",
+  //     description:
+  //       "Customer Insight Analytics solution deliver targeted and actionable customer analysis that help financial.",
+  //     image: "/asset/customer.png",
+  //   },
+  // ];
 
   return (
     <section className="container mx-auto px-4 py-12">
@@ -48,37 +48,29 @@ export default function ServiceSection() {
         </p>
       </div>
 
-      {/* <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
-        {services.map((service, index) => (
-          <Card
-            key={index}
-            className="flex h-full flex-col overflow-hidden rounded-none border-none shadow-none"
-          >
-            <div className="relative mx-auto h-64 w-full max-w-[370px]">
-              <Image
-                src={service.image || "/placeholder.svg"}
-                alt={service.title}
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="z-40 mx-auto mt-[-20px] max-w-[340px] border-2 border-t-0">
-              <div className="z-40 mx-auto max-w-[340px] border-t-4 border-green-500 bg-white">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-center text-xl">
-                    {service.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow text-center">
-                  <p className="text-gray-600">{service.description}</p>
-                </CardContent>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div> */}
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3">
+          <h1 className="text-[32px] font-semibold">Our mission</h1>
+          <p className="font-normal text-[16px]">
+            We believe in a future where business and climate action go hand in
+            hand. Our mission is to help protect the planet by driving real
+            commitments to net zero. We’re motivated by the urgency of the
+            climate crisis and the belief that every company has a role to play.
+            By supporting bold, science-based action today, we aim to create a
+            more sustainable, resilient world for generations to come.
+          </p>
+        </div>
+        <div className="flex flex-col gap-3">
+          <h1 className="text-[32px] font-semibold">Our Goal</h1>
+          <p className="font-normal text-[16px]">
+            To become the leading force in accelerating the global shift to net
+            zero by certifying and empowering businesses that are truly
+            committed to climate action
+          </p>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
+      {/* <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
         {services.map((service, index) => (
           <Card
             key={index}
@@ -93,7 +85,7 @@ export default function ServiceSection() {
               />
 
               {/* Slide-up content on hover */}
-              <div className="absolute bottom-0 left-0 right-0 z-40 mx-auto max-w-[340px] translate-y-full opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-hover:shadow-xl">
+      {/* <div className="absolute bottom-0 left-0 right-0 z-40 mx-auto max-w-[340px] translate-y-full opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100 group-hover:shadow-xl">
                 <div className="border-t-4 border-green-500 bg-white">
                   <CardHeader className="pb-2">
                     <CardTitle className="text-center text-xl">
@@ -108,7 +100,7 @@ export default function ServiceSection() {
             </div>
           </Card>
         ))}
-      </div>
+      </div>  */}
     </section>
   );
 }

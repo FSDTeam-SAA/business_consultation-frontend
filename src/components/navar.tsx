@@ -13,7 +13,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Image from "next/image";
 
-
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -21,8 +20,7 @@ export default function Navbar() {
   const pathName = usePathname();
   const profileRef = useRef<HTMLDivElement>(null);
   // const [searchResult, setSearchResult] = useState<string | null>(null);
-  const { user, logout, checkSession} = useAuth();
-  
+  const { user, logout, checkSession } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -74,7 +72,19 @@ export default function Navbar() {
         <div className="container relative mx-auto flex items-center justify-between px-4 py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <Image src={'/logo.png'} width={100} height={100} alt="logo"/>
+            <Image src={"/logo.png"} width={100} height={100} alt="logo" />
+            <p className="text-[14px] font-medium text-[#09B850]">
+              {" "}
+              Going 2
+              <br />
+              <span
+                className={cn(
+                  isScrolled ? "text-gray-800" : "text-white",
+                )}
+              >
+                Zero
+              </span>
+            </p>
           </Link>
 
           {/* Mobile Menu Toggle with Sheet */}
@@ -130,7 +140,7 @@ export default function Navbar() {
                 >
                   ABOUT US
                 </Link>
-                
+
                 <Link
                   href="/contact"
                   className={cn(
@@ -190,8 +200,6 @@ export default function Navbar() {
             >
               ABOUT US
             </Link>
-
-            
 
             <Link
               href="/contact"

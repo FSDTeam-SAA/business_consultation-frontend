@@ -1,4 +1,4 @@
-import { Award, BarChart2, DollarSign } from "lucide-react";
+// import { Award, BarChart2, DollarSign } from "lucide-react";
 
 export default function WhyChooseUsSection() {
   return (
@@ -12,13 +12,16 @@ export default function WhyChooseUsSection() {
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
             Why choose us
             <br />
-            business solutions?
           </h2>
 
           <p className="max-w-lg text-gray-600 md:text-base lg:text-lg">
-            Team is a diverse network of consultants and industry professionals
-            with a global mindset and a collaborative culture. We work to
-            understand your issues & are driven to ask better questions.
+            Because taking climate action should be straightforward. With our
+            fast sign-up process and easy access to all our services, getting
+            certified has never been simpler. We’ve designed every step to be
+            efficient, user-friendly, and hassle-free—so you can start making an
+            impact without unnecessary delays or complexity. Whether you&#39;re just
+            beginning your net zero journey or looking to level up your climate
+            commitments, we make it easy to get the recognition you deserve.
           </p>
 
           <button className="rounded-md bg-green-500 px-6 py-3 font-medium text-white transition-colors hover:bg-green-600">
@@ -29,7 +32,7 @@ export default function WhyChooseUsSection() {
         <div className="relative order-first h-[300px] w-full overflow-hidden rounded-lg md:h-[400px] lg:order-last lg:h-[350px]">
           <video className="h-full w-full object-cover" muted autoPlay>
             <source
-              src="https://s3-figma-videos-production-sig.figma.com/video/TEAM/1461204755658353120/2720cb9358fdcd4909cebcb97d5ccbb1aa85378d?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=KD1gIYMDmGN1ENYvebkB7GjV7beiruC7x~dzLuiW1-bSDivY0KS1Z~Hs9rBouK4Y6HghB9dRXBX4k1wC0HuxUMM-OOF4Ve1yhy~YzL0gd44tq0WoheLS~Cu~AYy5ry8xbnQBhzLSkmPGfzSren3YseI1qfQFveUKZRkxsXaK-XYr4C5z5jhcRRmev~DjBzMcC-uPAoj7pqy4a5mJFqc3H8Lx-qxPWC1deAVmmlOLW4OnyYuvNmTyUCs~sPGTXTXwt7vu1KZkt8R6XOLQ0oyVhvWE-yneINEYdBvMlTkP3VTlEqyYhthqm5xYa2HTTg4Sr7qk558j2suK5zGy82267Q__"
+              src="https://s3-figma-videos-production-sig.figma.com/video/TEAM/1461204755658353120/2720cb9358fdcd4909cebcb97d5ccbb1aa85378d?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=g5693EXf-WKw6pCsrwmEcWpSepIsIEa0H3Jexq~0iYcnZ52HRZ74gGU1YIEU1qsjc0MHpxFZqStXTP-2YmZboeC7TXtfIlyVCRNpQfhh76juJRwuZTTqKbFDE~dLimbrORSrm52fu9432o4V9drX4t~hyNeYEhoXf6ZQrgfG7iDnemvjd1-6tBPz53j~EAUOHkkQjCinLm1JT454n7ZWrjaz~xTCkzrE2PNi9RF~b~W-rqNPIGlGPiMxDeeuCuRcPqe2nZ56BWgs8UhXexCj3pRItraGm3muljSxAw9FRecAKJOZ~wXKhsHrg3-GGio48YoyFuh2atEC3og7UkmOmg__"
               type="video/mp4"
             />
             Your browser does not support the video tag.
@@ -38,7 +41,7 @@ export default function WhyChooseUsSection() {
       </div>
 
       {/* card  */}
-      <div className="grid grid-cols-1 gap-8 pt-8 md:grid-cols-3">
+      {/* <div className="grid grid-cols-1 gap-8 pt-8 md:grid-cols-3">
         <div className="flex flex-col justify-between space-y-6 md:flex-row md:items-center md:space-y-0">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-500 p-5 transition duration-300 hover:bg-green-600 md:mx-0 md:mb-0">
             <DollarSign className="h-10 w-10 text-white" />
@@ -83,7 +86,7 @@ export default function WhyChooseUsSection() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

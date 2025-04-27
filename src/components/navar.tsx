@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { Menu, User } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 import Hideon from "@/provider/Hideon";
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+// import { Input } from "./ui/input";
+import { useAuth } from "@/hooks/useAuth";
 
-// interface NavbarProps {
-//   currentRoute?: string;
-// }
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import Image from "next/image";
+
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -18,14 +20,22 @@ export default function Navbar() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const pathName = usePathname();
   const profileRef = useRef<HTMLDivElement>(null);
+  // const [searchResult, setSearchResult] = useState<string | null>(null);
+  const { user, logout, checkSession} = useAuth();
+  
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
+
+    checkSession(); // <-- Forcefully re-check session
+    // Call it once immediately on mount
+    handleScroll();
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [checkSession]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -44,272 +54,313 @@ export default function Navbar() {
   }, []);
 
   return (
-  <Hideon
-  routes={[
-    "/sign-up",
-    "/login",
-    "/reset-password",
-    '/subscription',
-    '/forget-password'
-  ]}
-  >
-
-<header
-      className={cn(
-        "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-white/90 shadow-sm backdrop-blur-sm"
-          : "bg-transparent",
-      )}
+    <Hideon
+      routes={[
+        "/sign-up",
+        "/login",
+        "/reset-password",
+        "/subscription",
+        "/forget-password",
+      ]}
     >
-      <div className="container relative mx-auto flex items-center justify-between px-4 py-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <div className="mr-2">
-            <svg
-              width="40"
-              height="40"
-              viewBox="0 0 40 40"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+      <header
+        className={cn(
+          "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
+          isScrolled
+            ? "bg-white/90 shadow-sm backdrop-blur-sm"
+            : "bg-transparent",
+        )}
+      >
+        <div className="container relative mx-auto flex items-center justify-between px-4 py-4">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image src={'/logo.png'} width={100} height={100} alt="logo"/>
+          </Link>
+
+          {/* Mobile Menu Toggle with Sheet */}
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+              <button className="z-50 md:hidden" aria-label="Toggle menu">
+                <Menu
+                  className={cn(
+                    "h-6 w-6",
+                    isScrolled ? "text-gray-800" : "text-white",
+                  )}
+                />
+              </button>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="w-[80%] border-l border-gray-800 bg-black/95 sm:w-[350px]"
             >
-              <rect width="40" height="40" rx="4" fill="transparent" />
-              <path
-                d="M10 10H22V14H10V10ZM10 16H22V20H10V16ZM10 22H22V26H10V22ZM10 28H22V32H10V28ZM24 10H30V14H24V10ZM24 16H30V32H24V16Z"
-                fill="#09B850"
-              />
-            </svg>
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-bold leading-none text-[#09B850]">
-              BUSINESS
-            </span>
-            <span
+              <nav className="flex h-full flex-col items-center justify-center space-y-6">
+                <Link
+                  href="/"
+                  className={cn(
+                    "text-xl font-medium transition-colors",
+                    pathName === "/"
+                      ? "text-[#09B850]"
+                      : "text-white hover:text-[#09B850]",
+                  )}
+                  onClick={() => setIsSheetOpen(false)}
+                >
+                  HOME
+                </Link>
+                <Link
+                  href="/service"
+                  className={cn(
+                    "text-xl font-medium transition-colors",
+                    pathName === "/service"
+                      ? "text-[#09B850]"
+                      : "text-white hover:text-[#09B850]",
+                  )}
+                  onClick={() => setIsSheetOpen(false)}
+                >
+                  SERVICE
+                </Link>
+                <Link
+                  href="/about"
+                  className={cn(
+                    "text-xl font-medium transition-colors",
+                    pathName === "/about"
+                      ? "text-[#09B850]"
+                      : "text-white hover:text-[#09B850]",
+                  )}
+                  onClick={() => setIsSheetOpen(false)}
+                >
+                  ABOUT US
+                </Link>
+                
+                <Link
+                  href="/contact"
+                  className={cn(
+                    "text-xl font-medium transition-colors",
+                    pathName === "/contact"
+                      ? "text-[#09B850]"
+                      : "text-white hover:text-[#09B850]",
+                  )}
+                  onClick={() => setIsSheetOpen(false)}
+                >
+                  CONTACT US
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden items-center space-x-8 md:flex">
+            <Link
+              href="/"
               className={cn(
-                "text-sm font-medium leading-none",
-                isScrolled ? "text-gray-800" : "text-white",
+                "transition-colors",
+                pathName === "/"
+                  ? "text-[#09B850]" // Active link style
+                  : isScrolled
+                    ? "text-gray-800 hover:text-[#09B850]"
+                    : "text-white hover:text-[#09B850]",
               )}
             >
-              CONSULTATION
-            </span>
-          </div>
-        </Link>
+              HOME
+            </Link>
 
-        {/* Mobile Menu Toggle with Sheet */}
-        <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-          <SheetTrigger asChild>
-            <button className="z-50 md:hidden" aria-label="Toggle menu">
-              <Menu
-                className={cn(
-                  "h-6 w-6",
-                  isScrolled ? "text-gray-800" : "text-white",
-                )}
+            <Link
+              href="/service"
+              className={cn(
+                "transition-colors",
+                pathName === "/service"
+                  ? "text-[#09B850]"
+                  : isScrolled
+                    ? "text-gray-800 hover:text-[#09B850]"
+                    : "text-white hover:text-[#09B850]",
+              )}
+            >
+              SERVICE
+            </Link>
+
+            <Link
+              href="/about"
+              className={cn(
+                "transition-colors",
+                pathName === "/about"
+                  ? "text-[#09B850]"
+                  : isScrolled
+                    ? "text-gray-800 hover:text-[#09B850]"
+                    : "text-white hover:text-[#09B850]",
+              )}
+            >
+              ABOUT US
+            </Link>
+
+            
+
+            <Link
+              href="/contact"
+              className={cn(
+                "transition-colors",
+                pathName === "/contact"
+                  ? "text-[#09B850]"
+                  : isScrolled
+                    ? "text-gray-800 hover:text-[#09B850]"
+                    : "text-white hover:text-[#09B850]",
+              )}
+            >
+              CONTACT US
+            </Link>
+          </nav>
+          {/* search bar  */}
+
+          {/* <form
+            onSubmit={handleSubmit}
+            className="relative hidden items-center lg:flex"
+          >
+            <button type="submit" className="absolute left-2">
+              <Search
+                className={`${isScrolled ? "text-gray-800" : "text-white"} w-5`}
               />
             </button>
-          </SheetTrigger>
-          <SheetContent
-            side="right"
-            className="w-[80%] border-l border-gray-800 bg-black/95 sm:w-[350px]"
-          >
-            <nav className="flex h-full flex-col items-center justify-center space-y-6">
-              <Link
-                href="/"
-                className={cn(
-                  "text-xl font-medium transition-colors",
-                  pathName === "/"
-                    ? "text-[#09B850]"
-                    : "text-white hover:text-[#09B850]",
-                )}
-                onClick={() => setIsSheetOpen(false)}
-              >
-                HOME
-              </Link>
-              <Link
-                href="/service"
-                className={cn(
-                  "text-xl font-medium transition-colors",
-                  pathName === "/service"
-                    ? "text-[#09B850]"
-                    : "text-white hover:text-[#09B850]",
-                )}
-                onClick={() => setIsSheetOpen(false)}
-              >
-                SERVICE
-              </Link>
-              <Link
-                href="/about"
-                className={cn(
-                  "text-xl font-medium transition-colors",
-                  pathName === "/about"
-                    ? "text-[#09B850]"
-                    : "text-white hover:text-[#09B850]",
-                )}
-                onClick={() => setIsSheetOpen(false)}
-              >
-                ABOUT US
-              </Link>
-              <Link
-                href="/blog"
-                className={cn(
-                  "text-xl font-medium transition-colors",
-                  pathName === "/blog"
-                    ? "text-[#09B850]"
-                    : "text-white hover:text-[#09B850]",
-                )}
-                onClick={() => setIsSheetOpen(false)}
-              >
-                BLOGS
-              </Link>
-              <Link
-                href="/contact"
-                className={cn(
-                  "text-xl font-medium transition-colors",
-                  pathName === "/contact"
-                    ? "text-[#09B850]"
-                    : "text-white hover:text-[#09B850]",
-                )}
-                onClick={() => setIsSheetOpen(false)}
-              >
-                CONTACT US
-              </Link>
-            </nav>
-          </SheetContent>
-        </Sheet>
+            <Input
+              onChange={(e) => setSearchResult(e.target.value)}
+              value={searchResult || ""}
+              type="text"
+              placeholder="Search"
+              className={`rounded-xl px-8 ${
+                isScrolled ? "border border-black text-gray-800" : "text-white"
+              }`}
+            />
+          </form> */}
+          {/* model   */}
 
-        {/* Desktop Navigation */}
-        <nav className="hidden items-center space-x-8 md:flex">
-          <Link
-            href="/"
-            className={cn(
-              "transition-colors",
-              pathName === "/"
-                ? "text-[#09B850]" // Active link style
-                : isScrolled
-                  ? "text-gray-800 hover:text-[#09B850]"
-                  : "text-white hover:text-[#09B850]",
-            )}
-          >
-            HOME
-          </Link>
+          {/* <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogContent className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
+              <DialogHeader className="mb-4">
+                <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                  Search Result
+                </DialogTitle>
+                <DialogDescription className="text-sm text-gray-600 dark:text-gray-400">
+                  Here’s the company info we found for you:
+                </DialogDescription>
+              </DialogHeader>
 
-          <Link
-            href="/service"
-            className={cn(
-              "transition-colors",
-              pathName === "/service"
-                ? "text-[#09B850]"
-                : isScrolled
-                  ? "text-gray-800 hover:text-[#09B850]"
-                  : "text-white hover:text-[#09B850]",
-            )}
-          >
-            SERVICE
-          </Link>
-
-          <Link
-            href="/about"
-            className={cn(
-              "transition-colors",
-              pathName === "/about"
-                ? "text-[#09B850]"
-                : isScrolled
-                  ? "text-gray-800 hover:text-[#09B850]"
-                  : "text-white hover:text-[#09B850]",
-            )}
-          >
-            ABOUT US
-          </Link>
-
-          <Link
-            href="/blog"
-            className={cn(
-              "transition-colors",
-              pathName === "/blog"
-                ? "text-[#09B850]"
-                : isScrolled
-                  ? "text-gray-800 hover:text-[#09B850]"
-                  : "text-white hover:text-[#09B850]",
-            )}
-          >
-            BLOGS
-          </Link>
-
-          <Link
-            href="/contact"
-            className={cn(
-              "transition-colors",
-              pathName === "/contact"
-                ? "text-[#09B850]"
-                : isScrolled
-                  ? "text-gray-800 hover:text-[#09B850]"
-                  : "text-white hover:text-[#09B850]",
-            )}
-          >
-            CONTACT US
-          </Link>
-        </nav>
-
-        {/* User Profile */}
-        <div className="relative" ref={profileRef}>
-          <div
-            className="flex cursor-pointer items-center"
-            onClick={() => setIsProfileOpen(!isProfileOpen)}
-          >
-            <div className="mr-2 hidden text-right sm:block">
-              <div
-                className={cn(
-                  "text-sm",
-                  isScrolled ? "text-gray-800" : "text-white",
-                )}
-              >
-                Jaman
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                    Business Name:
+                  </span>
+                  <span className="text-gray-900 dark:text-gray-100">
+                    {data?.data.companyLegalName}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                    Entry Complete:
+                  </span>
+                  <span
+                    className={`font-semibold ${
+                      data?.data.isEntryComplete
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {data?.data.isEntryComplete ? "Completed" : "Not Completed"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                    Active Subscription:
+                  </span>
+                  <span
+                    className={`font-semibold ${
+                      data?.data.hasActiveSubscription
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {data?.data.hasActiveSubscription ? "Active" : "Inactive"}
+                  </span>
+                </div>
               </div>
-              <div
-                className={cn(
-                  "text-xs",
-                  isScrolled ? "text-gray-600" : "text-white/70",
-                )}
-              >
-                User
-              </div>
-            </div>
-            <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#09B850]">
-              <User className="h-6 w-6 text-white" />
-            </div>
-          </div>
 
-          {/* Profile Dropdown */}
-          {isProfileOpen && (
-            <div className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
-              <Link
-                href="/account"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => setIsProfileOpen(false)}
+              <DialogFooter className="mt-6">
+                <button
+                  className="rounded-md border-none bg-green-600 px-4 py-2 text-white outline-none transition hover:bg-green-700"
+                  onClick={() => setIsDialogOpen(false)}
+                >
+                  Close
+                </button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog> */}
+
+          {/* User Profile */}
+          {user ? (
+            <div className="relative" ref={profileRef}>
+              <div
+                className="flex cursor-pointer items-center"
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
               >
-                Your Profile
-              </Link>
-              <Link
-                href="/account/settings"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                onClick={() => setIsProfileOpen(false)}
-              >
-                Settings
-              </Link>
-              <div className="my-1 border-t border-gray-100"></div>
-              <button
-                className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
-                onClick={() => {
-                  // Add logout logic here
-                  setIsProfileOpen(false);
-                }}
-              >
-                Logout
-              </button>
+                <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-[#09B850]">
+                  {/* <User className="h-6 w-6 text-white" /> */}
+                  <Avatar>
+                    <AvatarImage src={user?.profileImage} />
+                    <AvatarFallback>PR</AvatarFallback>
+                  </Avatar>
+                </div>
+                <div className="ml-2 hidden sm:block">
+                  <div
+                    className={cn(
+                      "text-sm",
+                      isScrolled ? "text-gray-800" : "text-white",
+                    )}
+                  >
+                    {user?.fullName}
+                  </div>
+                  <div
+                    className={cn(
+                      "text-xs",
+                      isScrolled ? "text-gray-600" : "text-white/70",
+                    )}
+                  >
+                    {user?.email}
+                  </div>
+                </div>
+              </div>
+
+              {/* Profile Dropdown */}
+              {isProfileOpen && (
+                <div className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
+                  {!(user.role === "Admin" || user.role === "SuperAdmin") && (
+                    <Link
+                      href="/account"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsProfileOpen(false)}
+                    >
+                      Settings
+                    </Link>
+                  )}
+                  <div className="my-1 border-t border-gray-100"></div>
+                  <button
+                    className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
+                    onClick={() => {
+                      // Add logout logic here
+                      setIsProfileOpen(false);
+                      logout();
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
+          ) : (
+            <Link
+              href="/login"
+              className={`rounded-lg bg-primary px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90`}
+            >
+              Login
+            </Link>
           )}
         </div>
-      </div>
-    </header>
-  </Hideon>
+      </header>
+    </Hideon>
   );
 }

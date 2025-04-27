@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
 import BlogCard from "./BlogCard";
+import { useQuery } from "@tanstack/react-query";
 
 export interface BlogPost {
   id: number;
@@ -14,61 +16,36 @@ export interface BlogPost {
 }
 
 export default function BlogSection() {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    // In a real application, you would fetch from an API
-    // For demo purposes, we're using mock data
-    const fetchPosts = async () => {
-      try {
-        // Simulate API call delay
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        // Mock data based on the screenshot
-        const mockPosts = [
-          {
-            id: 1,
-            title: "How to improve employees skill",
-            excerpt:
-              "The great explore of the truth, the master builder of human happiness. No_",
-            date: "09 Dec",
-            author: "Admin",
-            category: "Blog 01",
-            image: "/asset/blog1.jpg",
-          },
-          {
-            id: 2,
-            title: "How to improve employees skill",
-            excerpt:
-              "The great explore of the truth, the master builder of human happiness. No_",
-            date: "12 Dec",
-            author: "Admin",
-            category: "Blog 01",
-            image: "/asset/blog2.jpg",
-          },
-          {
-            id: 3,
-            title: "How to improve employees skill",
-            excerpt:
-              "The great explore of the truth, the master builder of human happiness. No_",
-            date: "29 Dec",
-            author: "Admin",
-            category: "Blog 01",
-            image: "/asset/blog3.jpg",
-          },
-        ];
-
-        setPosts(mockPosts);
-      } catch (error) {
-        console.error("Error fetching blog posts:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPosts();
+    const storedToken = sessionStorage.getItem("authToken");
+    setToken(storedToken);
   }, []);
+
+  const {
+    data: postsResponse, isLoading,
+  } = useQuery({
+    queryKey: ["blogs", token],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        throw new Error("Failed to fetch blogs");
+      }
+      return res.json();
+    },
+    enabled: !!token,
+  });
+
+  const posts: BlogPost[] = postsResponse?.data || [];
 
   return (
     <section className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
@@ -90,12 +67,13 @@ export default function BlogSection() {
           ))}
         </div>
       ) : (
-        <div className="grid  grid-cols-1 gap-10 md:grid-cols-1 lg:grid-cols-3">
-          {posts.map((post) => (
-            <BlogCard key={post.id} post={post} />
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-1 lg:grid-cols-3">
+          {posts.slice(0, 3).map((post: any,) => (
+            <BlogCard key={post._id} post={post} />
           ))}
         </div>
       )}
     </section>
   );
 }
+

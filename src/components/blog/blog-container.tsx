@@ -1,45 +1,87 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import BlogCard from "./BlogCard";
 import Sidebar from "./blog-sidebar";
-import { posts, getPostsByTag, searchPosts } from "@/lib/data";
-import type { Post } from "@/lib/types";
+import { useQuery } from "@tanstack/react-query";
+// import BlogCard from "./BlogCard";
+import BlogCard from "./BlogCard";
+import { Post } from "@/lib/types";
 
 export default function BlogPage() {
   const searchParams = useSearchParams();
   const tagParam = searchParams.get("tag");
   const searchParam = searchParams.get("search");
-
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>(posts);
+  const [token, setToken] = useState<string | null>(null);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 4;
+  const postsPerPage = 3;
 
-  function ScrollToTop() {
-    // const pathname = usePathname(); // Get current route path
-      window.scrollTo({
-        behavior: "smooth",
-        top: 0,
-      });
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("authToken");
+    setToken(storedToken);
+  }, []);
+  //
+  const {
+    data: postsResponse,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["blogs", token],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs?page=${currentPage}&limit=${postsPerPage}&search=${searchParam}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      if (!res.ok) {
+        throw new Error("Failed to fetch blogs");
+      }
+      return res.json();
+    },
+    enabled: !!token,
+  });
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const posts = postsResponse?.data || [];
+
+  // console.log(posts);
+
+  function scrollToTop() {
+    window.scrollTo({
+      behavior: "smooth",
+      top: 0,
+    });
   }
 
   useEffect(() => {
-    if (tagParam) {
-      setFilteredPosts(getPostsByTag(tagParam));
-    } else if (searchParam) {
-      setFilteredPosts(searchPosts(searchParam));
-    } else {
-      setFilteredPosts(posts);
-    }
-    setCurrentPage(1);
-  }, [tagParam, searchParam]);
+    if (!posts.length) return;
 
-  // Calculate pagination
+    const filtered = posts.filter((post: Post) => {
+      if (tagParam) {
+        return post.tags?.includes(tagParam);
+      } else if (searchParam) {
+        return post.title.toLowerCase().includes(searchParam.toLowerCase());
+      }
+      return true;
+    });
+
+    setFilteredPosts(filtered);
+    setCurrentPage(1);
+  }, [tagParam, searchParam, posts]);
+
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+
+  if (isLoading) return <p className="text-center">Loading...</p>;
+  if (isError)
+    return <p className="text-center text-red-500">Failed to load blogs.</p>;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -57,7 +99,7 @@ export default function BlogPage() {
             </h2>
           )}
 
-          {currentPosts.length === 0 ? (
+          {filteredPosts.length === 0 ? (
             <div className="py-12 text-center">
               <h3 className="text-xl font-medium">No posts found</h3>
               <p className="mt-2 text-gray-600">
@@ -66,20 +108,19 @@ export default function BlogPage() {
             </div>
           ) : (
             <div className="space-y-8">
-              {currentPosts.map((post) => (
-                <BlogCard key={post.id} post={post} />
+              {currentPosts.map((post: Post) => (
+                <BlogCard key={post._id} post={post} />
               ))}
             </div>
           )}
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="mt-8 flex justify-center">
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => {
                     setCurrentPage((prev) => Math.max(prev - 1, 1));
-                    window.scrollTo(0, 0)
+                    scrollToTop();
                   }}
                   disabled={currentPage === 1}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 disabled:opacity-50"
@@ -92,7 +133,7 @@ export default function BlogPage() {
                     key={index}
                     onClick={() => {
                       setCurrentPage(index + 1);
-                      ScrollToTop();
+                      scrollToTop();
                     }}
                     className={`flex h-10 w-10 items-center justify-center rounded-full ${
                       currentPage === index + 1
@@ -105,7 +146,10 @@ export default function BlogPage() {
                 ))}
 
                 <button
-                  onClick={() =>{setCurrentPage((prev) => Math.min(prev + 1, totalPages));window.scrollTo(0, 0)}}
+                  onClick={() => {
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+                    scrollToTop();
+                  }}
                   disabled={currentPage === totalPages}
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 disabled:opacity-50"
                 >
@@ -123,3 +167,5 @@ export default function BlogPage() {
     </div>
   );
 }
+
+

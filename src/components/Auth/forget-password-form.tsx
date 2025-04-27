@@ -45,14 +45,14 @@ export function ForgetPasswordForm({  onSuccess }: ForgetPasswordFormProps) {
 
   return (
     <div>
-      <h1 className="mb-2 text-center text-3xl font-bold">Forget Password?</h1>
-      <p className="mb-8 text-center text-gray-400">
+      <h1 className="mb-2 text-center text-3xl font-semibold">Forget Password?</h1>
+      <p className="mb-8 text-center text-[#d6cde2]">
         You may receive email notifications from us to reset your password for security and login purposes.
       </p>
 
       <form onSubmit={handleSubmit}>
         <div className="mb-6">
-          <h2 className="mb-4 text-xl font-medium">Enter your Personal Information</h2>
+          <h2 className="mb-4 text-xl font-medium text-[#444444]">Enter your Personal Information</h2>
           <label htmlFor="email" className="mb-2 block text-gray-400">
             Email address
           </label>
@@ -63,7 +63,7 @@ export function ForgetPasswordForm({  onSuccess }: ForgetPasswordFormProps) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="mb-4"
+            className="mb-4 py-5"
           />
         </div>
 

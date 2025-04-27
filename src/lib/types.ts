@@ -1,19 +1,20 @@
 export interface Post {
-  id: string | number;
+  _id: string | number;
   title: string;
   excerpt: string;
   content?: string;
   slug?: string;
-  date: string;
-  author: string;
+  createdAt: string;
+  authorName: string;
   tags?: string[];
   image: string;
+  description: string;
   comments?: Comment[];
 }
 
 export interface Comment {
   id: string;
-  name: string;
+  name?:string
   content: string;
   date: string;
 }

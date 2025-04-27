@@ -131,7 +131,7 @@ const handleChange = (index: number, value: string) => {
       {error ? (
         <p className="mb-8 text-center text-red-500">{error}</p>
       ) : (
-        <p className="mb-8 text-center text-gray-400">Please enter the OTP we have sent you in your Email Address.</p>
+        <p className="mb-8 text-center text-[16px] font-normal text-gray-400">Please enter the OTP we have sent you in your Email Address.</p>
       )}
 
       <form onSubmit={handleSubmit}>

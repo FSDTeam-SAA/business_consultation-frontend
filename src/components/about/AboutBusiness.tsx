@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import AboutUsSection from "../Home/AboutUsSection";
 import ServiceSection from "../Home/ServiceSection";
@@ -33,11 +32,11 @@ export function AboutBusiness() {
         </div>
       </div> */}
       <div>
-      <ServiceSection/>
+        <ServiceSection />
       </div>
-       <div>
-       <AboutUsSection/>
-       </div>
+      <div>
+        <AboutUsSection />
+      </div>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         <div className="">
           <div className="flex items-center gap-4">
@@ -53,9 +52,9 @@ export function AboutBusiness() {
           </div>
           <div>
             <p className="text-gray-600">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident sunt in culpa.
+              Duis aute irure dolor in rere henderit in volua sintocaecat
+              cupidatat non proent sun irem frinillamassa dignssim noner manis
+              denis
             </p>
           </div>
         </div>
@@ -75,9 +74,9 @@ export function AboutBusiness() {
           </div>
           <div>
             <p className="text-gray-600">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident sunt in culpa.
+              Duis aute irure dolor in rere henderit in volua sintocaecat
+              cupidatat non proent sun irem frinillamassa dignssim noner manis
+              denis
             </p>
           </div>
         </div>
@@ -96,9 +95,9 @@ export function AboutBusiness() {
           </div>
           <div>
             <p className="text-gray-600">
-              Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-              cupidatat non proident sunt in culpa.
+              Duis aute irure dolor in rere henderit in volua sintocaecat
+              cupidatat non proent sun irem frinillamassa dignssim noner manis
+              denis
             </p>
           </div>
         </div>

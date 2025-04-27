@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import Image from "next/image";
 
 
 export default function Navbar() {
@@ -73,34 +74,7 @@ export default function Navbar() {
         <div className="container relative mx-auto flex items-center justify-between px-4 py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="mr-2">
-              <svg
-                width="40"
-                height="40"
-                viewBox="0 0 40 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="40" height="40" rx="4" fill="transparent" />
-                <path
-                  d="M10 10H22V14H10V10ZM10 16H22V20H10V16ZM10 22H22V26H10V22ZM10 28H22V32H10V28ZM24 10H30V14H24V10ZM24 16H30V32H24V16Z"
-                  fill="#09B850"
-                />
-              </svg>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-bold leading-none text-[#09B850]">
-                BUSINESS
-              </span>
-              <span
-                className={cn(
-                  "text-sm font-medium leading-none",
-                  isScrolled ? "text-gray-800" : "text-white",
-                )}
-              >
-                CONSULTATION
-              </span>
-            </div>
+            <Image src={'/logo.png'} width={100} height={100} alt="logo"/>
           </Link>
 
           {/* Mobile Menu Toggle with Sheet */}
@@ -233,7 +207,89 @@ export default function Navbar() {
               CONTACT US
             </Link>
           </nav>
-          
+          {/* search bar  */}
+
+          {/* <form
+            onSubmit={handleSubmit}
+            className="relative hidden items-center lg:flex"
+          >
+            <button type="submit" className="absolute left-2">
+              <Search
+                className={`${isScrolled ? "text-gray-800" : "text-white"} w-5`}
+              />
+            </button>
+            <Input
+              onChange={(e) => setSearchResult(e.target.value)}
+              value={searchResult || ""}
+              type="text"
+              placeholder="Search"
+              className={`rounded-xl px-8 ${
+                isScrolled ? "border border-black text-gray-800" : "text-white"
+              }`}
+            />
+          </form> */}
+          {/* model   */}
+
+          {/* <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogContent className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
+              <DialogHeader className="mb-4">
+                <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+                  Search Result
+                </DialogTitle>
+                <DialogDescription className="text-sm text-gray-600 dark:text-gray-400">
+                  Here’s the company info we found for you:
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                    Business Name:
+                  </span>
+                  <span className="text-gray-900 dark:text-gray-100">
+                    {data?.data.companyLegalName}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                    Entry Complete:
+                  </span>
+                  <span
+                    className={`font-semibold ${
+                      data?.data.isEntryComplete
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {data?.data.isEntryComplete ? "Completed" : "Not Completed"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-medium text-gray-700 dark:text-gray-300">
+                    Active Subscription:
+                  </span>
+                  <span
+                    className={`font-semibold ${
+                      data?.data.hasActiveSubscription
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {data?.data.hasActiveSubscription ? "Active" : "Inactive"}
+                  </span>
+                </div>
+              </div>
+
+              <DialogFooter className="mt-6">
+                <button
+                  className="rounded-md border-none bg-green-600 px-4 py-2 text-white outline-none transition hover:bg-green-700"
+                  onClick={() => setIsDialogOpen(false)}
+                >
+                  Close
+                </button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog> */}
 
           {/* User Profile */}
           {user ? (
@@ -272,13 +328,15 @@ export default function Navbar() {
               {/* Profile Dropdown */}
               {isProfileOpen && (
                 <div className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
-                  <Link
-                    href="/account"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
-                    Settings
-                  </Link>
+                  {!(user.role === "Admin" || user.role === "SuperAdmin") && (
+                    <Link
+                      href="/account"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsProfileOpen(false)}
+                    >
+                      Settings
+                    </Link>
+                  )}
                   <div className="my-1 border-t border-gray-100"></div>
                   <button
                     className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"

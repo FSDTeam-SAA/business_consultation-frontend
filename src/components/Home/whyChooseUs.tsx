@@ -1,4 +1,4 @@
-import { Award, BarChart2, DollarSign } from "lucide-react";
+// import { Award, BarChart2, DollarSign } from "lucide-react";
 
 export default function WhyChooseUsSection() {
   return (
@@ -12,13 +12,16 @@ export default function WhyChooseUsSection() {
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
             Why choose us
             <br />
-            business solutions?
           </h2>
 
           <p className="max-w-lg text-gray-600 md:text-base lg:text-lg">
-            Team is a diverse network of consultants and industry professionals
-            with a global mindset and a collaborative culture. We work to
-            understand your issues & are driven to ask better questions.
+            Because taking climate action should be straightforward. With our
+            fast sign-up process and easy access to all our services, getting
+            certified has never been simpler. We’ve designed every step to be
+            efficient, user-friendly, and hassle-free—so you can start making an
+            impact without unnecessary delays or complexity. Whether you&#39;re just
+            beginning your net zero journey or looking to level up your climate
+            commitments, we make it easy to get the recognition you deserve.
           </p>
 
           <button className="rounded-md bg-green-500 px-6 py-3 font-medium text-white transition-colors hover:bg-green-600">
@@ -38,7 +41,7 @@ export default function WhyChooseUsSection() {
       </div>
 
       {/* card  */}
-      <div className="grid grid-cols-1 gap-8 pt-8 md:grid-cols-3">
+      {/* <div className="grid grid-cols-1 gap-8 pt-8 md:grid-cols-3">
         <div className="flex flex-col justify-between space-y-6 md:flex-row md:items-center md:space-y-0">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-green-500 p-5 transition duration-300 hover:bg-green-600 md:mx-0 md:mb-0">
             <DollarSign className="h-10 w-10 text-white" />
@@ -83,7 +86,7 @@ export default function WhyChooseUsSection() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

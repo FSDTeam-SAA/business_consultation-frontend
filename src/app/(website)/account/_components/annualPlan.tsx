@@ -82,9 +82,9 @@ const AnnualPlan = () => {
 
   return (
     <div className="flex md:w-[570px] flex-col items-center justify-center gap-20 px-4 md:flex-row md:px-0">
-      <div className="w-full max-w-[450px] rounded-xl border p-4">
-        <h2 className="mb-4 text-[24px] font-semibold">Initial Fee</h2>
-        <Card className="mb-4">
+      <div className="w-full max-w-[450px] rounded-xl border-2 border-[#033618] p-4">
+        {/* <h2 className="mb-4 text-[24px] font-semibold">Initial Fee</h2> */}
+        {/* <Card className="mb-4">
           <CardContent className="p-4">
             <div className="mb-2 rounded-lg border border-b border-[#E6E6E6] px-3 py-3 font-semibold">
               Feature
@@ -103,7 +103,7 @@ const AnnualPlan = () => {
               <span className="text-[20px] font-semibold">$689.00</span>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
 
         <h2 className="mb-4 text-[24px] font-bold">Annual Plan</h2>
         <Card className="mb-8">

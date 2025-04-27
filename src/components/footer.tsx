@@ -167,22 +167,22 @@ export default function Footer() {
                 </h3>
               </div>
               <div className="space-y-3">
-                <div className="flex">
+                {/* <div className="flex">
                   <p className="font-bold">Address:</p>
                   <p className="ml-2">124 Gua Street 41 A, United State</p>
-                </div>
+                </div> */}
                 <div className="flex">
                   <p className="font-bold">Mail:</p>
-                  <p className="ml-2 text-green-300">info@going2zero</p>
+                  <p className="ml-2 text-[#999999]">info@going2zero</p>
                 </div>
                 <div className="flex">
                   <p className="font-bold">Phone:</p>
-                  <p className="ml-2">(+422) 145 448 458</p>
+                  <p className="ml-2 text-[#999999]">(+422) 145 448 458</p>
                 </div>
-                <div className="flex">
+                {/* <div className="flex">
                   <p className="font-bold">Fax ID:</p>
                   <p className="ml-2">(+1) 475 475 854</p>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ContactCard() {
   return (
@@ -14,9 +15,11 @@ export default function ContactCard() {
       <div className="relative z-10">
         <h3 className="mb-2 text-2xl font-bold">Ready To Get Expert</h3>
         <h4 className="mb-6 text-2xl font-bold">Our Services</h4>
-        <button className="rounded-md bg-green-500 px-6 py-2 text-white transition-colors hover:bg-green-600">
-          Contact Us
+      <Link href="/sign-up">
+      <button className="rounded-md bg-green-500 px-6 py-2 text-white transition-colors hover:bg-green-600">
+          Sing Up
         </button>
+      </Link>
       </div>
     </div>
   );

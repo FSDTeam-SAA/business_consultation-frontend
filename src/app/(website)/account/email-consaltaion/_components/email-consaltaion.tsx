@@ -257,18 +257,25 @@ export default function ConsultationPage() {
             Here What We Will Discuss:
           </h2>
           <div className="space-y-4">
-            {[1, 2, 3].map((item) => (
-              <div key={item} className="flex items-start gap-2">
-                <div className="mt-1 min-w-5">
-                  <CheckIcon className="h-5 w-5 text-green-500" />
-                </div>
-                <p className="text-gray-700">
-                  All the lorem ipsum generators on the internet tend to repeat
-                  predefined chunks as necessary, making the first true
-                  generator on internet.
-                </p>
+            <div className="flex items-start gap-2">
+              <div className="mt-1 min-w-5">
+                <CheckIcon className="h-5 w-5 text-green-500" />
               </div>
-            ))}
+              <p className="text-gray-700">
+                Any specific challenges or sectors of your business that can use
+                our help to reduce emissions.
+              </p>
+            </div>
+            <div className="flex items-start gap-2">
+              <div className="mt-1 min-w-5">
+                <CheckIcon className="h-5 w-5 text-green-500" />
+              </div>
+              <p className="text-gray-700">
+                An overall review on your emissions and/or next steps in your
+                commitment journey to ensure you the most convenient path to net
+                zero.
+              </p>
+            </div>
           </div>
         </div>
       </div>

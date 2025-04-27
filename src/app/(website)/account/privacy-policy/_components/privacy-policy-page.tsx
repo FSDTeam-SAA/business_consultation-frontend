@@ -7,10 +7,10 @@ export default function PrivacyPolicyPage() {
 
       <div className="prose prose-sm max-w-none">
         <p className="mb-4">
-          Welcome to [Your Company Name]. Your privacy is important to us, and
-          we are committed to protecting your personal information. This Privacy
-          Policy explains how we collect, use, and protect your data when you
-          use [Your Website URL].
+          Welcome to Going 2 Zero. Your privacy is important to us, and we are
+          committed to protecting your personal information. This Privacy Policy
+          explains how we collect, use, and protect your data when you visit
+          <span className="text-blue-600">{" "} going2zero.com</span> or use our services.
         </p>
 
         <h2 className="mb-2 mt-6 text-xl font-bold">

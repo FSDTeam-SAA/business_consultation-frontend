@@ -9,17 +9,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 // import { Input } from "./ui/input";
 import { useAuth } from "@/hooks/useAuth";
-// import { useQuery } from "@tanstack/react-query";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogFooter,
-//   DialogHeader,
-//   DialogTitle,
-// } from "./ui/dialog";
-// import { toast } from "sonner";
+
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import Image from "next/image";
 
 
 export default function Navbar() {
@@ -82,34 +74,7 @@ export default function Navbar() {
         <div className="container relative mx-auto flex items-center justify-between px-4 py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="mr-2">
-              <svg
-                width="40"
-                height="40"
-                viewBox="0 0 40 40"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect width="40" height="40" rx="4" fill="transparent" />
-                <path
-                  d="M10 10H22V14H10V10ZM10 16H22V20H10V16ZM10 22H22V26H10V22ZM10 28H22V32H10V28ZM24 10H30V14H24V10ZM24 16H30V32H24V16Z"
-                  fill="#09B850"
-                />
-              </svg>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-bold leading-none text-[#09B850]">
-                BUSINESS
-              </span>
-              <span
-                className={cn(
-                  "text-sm font-medium leading-none",
-                  isScrolled ? "text-gray-800" : "text-white",
-                )}
-              >
-                CONSULTATION
-              </span>
-            </div>
+            <Image src={'/logo.png'} width={100} height={100} alt="logo"/>
           </Link>
 
           {/* Mobile Menu Toggle with Sheet */}
@@ -243,7 +208,7 @@ export default function Navbar() {
             </Link>
           </nav>
           {/* search bar  */}
-       
+
           {/* <form
             onSubmit={handleSubmit}
             className="relative hidden items-center lg:flex"
@@ -363,13 +328,15 @@ export default function Navbar() {
               {/* Profile Dropdown */}
               {isProfileOpen && (
                 <div className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
-                  <Link
-                    href="/account"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
-                    Settings
-                  </Link>
+                  {!(user.role === "Admin" || user.role === "SuperAdmin") && (
+                    <Link
+                      href="/account"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsProfileOpen(false)}
+                    >
+                      Settings
+                    </Link>
+                  )}
                   <div className="my-1 border-t border-gray-100"></div>
                   <button
                     className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"

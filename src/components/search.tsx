@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
@@ -14,30 +15,37 @@ import { Search } from "lucide-react";
 import { toast } from "sonner";
 
 const SearchComponent = () => {
-  const [searchResult, setSearchResult] = useState<string>("");
+  const [searchResult, setSearchResult] = useState<string>(""); // For company name
+  const [searchCompanyResult, setSearchCompanyResult] = useState<string>(""); // For company ID
   const [token, setToken] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
-    const storedToken = sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
+    const storedToken =
+      sessionStorage.getItem("authToken") || localStorage.getItem("authToken");
     if (storedToken) {
       setToken(storedToken);
     }
   }, []);
 
   const { data, refetch } = useQuery({
-    queryKey: ["companySearch", searchResult],
-    queryFn: ({ queryKey }) =>
-      fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/search?uniqueCode=${encodeURIComponent(
-          queryKey[1] ?? ""
-        )}`,
+    queryKey: ["companySearch", searchResult, searchCompanyResult],
+    queryFn: ({ queryKey }) => {
+      const [_, companyName, companyId] = queryKey;
+
+      const searchParam =
+        companyName && companyId
+          ? `companyLegalName=${encodeURIComponent(companyName)}&uniqueCode=${encodeURIComponent(companyId)}`
+          : "";
+
+      return fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/search?${searchParam}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       )
         .then((res) => {
           if (!res.ok) throw new Error("Company not found");
@@ -45,14 +53,15 @@ const SearchComponent = () => {
         })
         .catch((error) => {
           toast.error(error.message);
-        }),
+        });
+    },
     enabled: false,
     refetchOnWindowFocus: false,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!searchResult.trim()) return;
+    if (!searchResult.trim() || !searchCompanyResult.trim()) return;
 
     try {
       const result = await refetch();
@@ -64,22 +73,41 @@ const SearchComponent = () => {
     }
   };
 
+  const isButtonDisabled = !(searchResult.trim() && searchCompanyResult.trim());
+
   return (
-    <div className="absolute lg:left-[25%] lg:top-[90%] top-[87%] z-10 lg:w-[948px] w-full">
+    <div className="absolute top-[82%] z-10 w-full lg:left-[25%] lg:top-[82%] lg:w-[948px]">
       <form
         onSubmit={handleSubmit}
-        className="bg-white h-[156px] p-6 rounded-md shadow-md flex flex-col justify-center gap-4"
+        className="flex flex-col justify-center gap-4 rounded-md bg-white p-6 shadow-md sm:h-[130px] lg:h-[200px]" // Adjusted height for small screens
       >
-        <input
-          type="text"
-          value={searchResult}
-          onChange={(e) => setSearchResult(e.target.value)}
-          placeholder="Enter company name or ID"
-          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-green-300"
-        />
+        <div>
+          <input
+            type="text"
+            value={searchResult}
+            onChange={(e) => setSearchResult(e.target.value)}
+            placeholder="Enter company name"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring focus:ring-green-300 sm:h-10 lg:h-12" // Adjusted height for small screens
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            value={searchCompanyResult}
+            onChange={(e) => setSearchCompanyResult(e.target.value)}
+            placeholder="Enter company ID"
+            className="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring focus:ring-green-300 sm:h-10 lg:h-12" // Adjusted height for small screens
+          />
+        </div>
+
         <button
           type="submit"
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
+          className={`focus:shadow-outline rounded-md px-4 py-2 font-bold text-white focus:outline-none ${
+            isButtonDisabled
+              ? "cursor-not-allowed bg-green-300"
+              : "bg-green-500 hover:bg-green-700"
+          } sm:h-10 lg:h-12`} // Adjusted height for small screens
+          disabled={isButtonDisabled}
         >
           <div className="flex items-center justify-center gap-2">
             <Search className="w-5" />
@@ -101,24 +129,36 @@ const SearchComponent = () => {
 
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="font-medium text-gray-700 dark:text-gray-300">Business Name:</span>
-              <span className="text-gray-900 dark:text-gray-100">{data?.data?.companyLegalName}</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">
+                Business Name:
+              </span>
+              <span className="text-gray-900 dark:text-gray-100">
+                {data?.data?.companyLegalName}
+              </span>
             </div>
             <div className="flex justify-between">
-              <span className="font-medium text-gray-700 dark:text-gray-300">Entry Complete:</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">
+                Entry Complete:
+              </span>
               <span
                 className={`font-semibold ${
-                  data?.data?.isEntryComplete ? "text-green-600" : "text-red-600"
+                  data?.data?.isEntryComplete
+                    ? "text-green-700"
+                    : "text-red-700"
                 }`}
               >
                 {data?.data?.isEntryComplete ? "Completed" : "Not Completed"}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="font-medium text-gray-700 dark:text-gray-300">Active Subscription:</span>
+              <span className="font-medium text-gray-700 dark:text-gray-300">
+                Active Subscription:
+              </span>
               <span
                 className={`font-semibold ${
-                  data?.data?.hasActiveSubscription ? "text-green-600" : "text-red-600"
+                  data?.data?.hasActiveSubscription
+                    ? "text-green-700"
+                    : "text-red-700"
                 }`}
               >
                 {data?.data?.hasActiveSubscription ? "Active" : "Inactive"}
@@ -141,5 +181,4 @@ const SearchComponent = () => {
 };
 
 export default SearchComponent;
-
 

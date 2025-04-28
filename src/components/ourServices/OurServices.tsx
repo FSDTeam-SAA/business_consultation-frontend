@@ -19,72 +19,49 @@ import Link from "next/link";
 type Service = {
   id: string;
   title: string;
-  description: string;
-  features: string[];
+  description?: string;
   content: React.ReactNode;
 };
 
 // Sample services data
 const services: Service[] = [
   {
-    id: "business-strategy",
-    title: "Business Strategy",
-    description:
-      "Creating a business strategy for a business consultation website involves identifying your target market, differentiating your services, and building a sustainable revenue model.",
-    features: [
-      "Business Strategy",
-      "Advanced Analytics",
-      "Finances Guidance",
-      "Perfect Precision",
-    ],
+    id: "Commitment Badge",
+    title: "Commitment Badge",
     content: (
       <>
-        <h2 className="mb-4 text-2xl font-bold">
-          Identify Your Niche and Target Market
-        </h2>
         <p className="mb-6">
-          The first step in building a successful business consultation company
-          is to identify your niche and target market. This involves
-          understanding the specific industries or types of businesses you want
-          to serve. For example, you might focus on startups, small and
-          medium-sized businesses (SMBs), or large enterprises. You could also
-          specialize in specific industries like technology, healthcare, or
-          retail, or offer expertise in particular business functions such as
-          marketing, operations, or finance. Conduct thorough market research to
-          understand the pain points, challenges, and goals of your target
-          audience. This will help you tailor your services to meet their needs
-          and differentiate yourself from competitors.
+          Show the world you&rsquo;re taking real action on sustainability. With
+          Going2Zero, every member receives a personalized Commitment Badge
+          &mdash; a unique, verified symbol of your environmental efforts.
         </p>
 
-        <h2 className="mb-4 text-2xl font-bold">
-          Develop a Unique Value Proposition
+        <h2 className="mb-4 text-[16px] font-normal">
+          A Badge That Speaks Volumes
         </h2>
         <p className="mb-6">
-          Your value proposition is the foundation of your consulting business.
-          It should clearly communicate why clients should choose your services
-          over others. Highlight what makes your company unique, whether
-          it`&lsquo;`s your industry expertise, innovative methodologies, or
-          personalized approach. For instance, you could emphasize your use of
-          data-driven strategies, your track record of delivering measurable
-          results, or your ability to provide affordable solutions for small
-          businesses. Make sure your value proposition is integrated into all
-          your marketing materials and communicated consistently across your
-          website, social media, and client interactions.
+          Whether you&rsquo;re reducing emissions, supporting climate projects,
+          or improving your practices, your badge highlights your commitment in
+          a simple, trusted way. Each badge comes with a custom code that can be
+          easily added to your website, product packaging, marketing materials,
+          and more.
+        </p>
+        <h2 className="mb-4 text-[16px] font-normal">Built for Trust</h2>
+        <p className="mb-6">
+          Your badge is a clear signal that your business is taking
+          sustainability seriously. It&rsquo;s more than just a logo &mdash;
+          it&rsquo;s a meaningful way to stand out, build trust, and show your
+          values to customers, clients, and partners.
         </p>
       </>
     ),
   },
   {
-    id: "business-planning",
-    title: "Business Planning",
+    id: "Consulting",
+    title: "Consulting",
     description:
       "Effective business planning helps organizations define their objectives and develop strategies to achieve them.",
-    features: [
-      "Strategic Planning",
-      "Financial Forecasting",
-      "Market Analysis",
-      "Risk Assessment",
-    ],
+
     content: (
       <>
         <h2 className="mb-4 text-2xl font-bold">
@@ -116,16 +93,11 @@ const services: Service[] = [
     ),
   },
   {
-    id: "finances-guidance",
-    title: "Finances Guidance",
+    id: "Constant Climate Updates",
+    title: "Constant Climate Updates",
     description:
       "Expert financial guidance to help businesses optimize their financial performance and achieve sustainable growth.",
-    features: [
-      "Financial Analysis",
-      "Budget Planning",
-      "Investment Strategy",
-      "Tax Optimization",
-    ],
+
     content: (
       <>
         <h2 className="mb-4 text-2xl font-bold">
@@ -155,124 +127,109 @@ const services: Service[] = [
         </p>
       </>
     ),
-  },
-  {
-    id: "business-campaign",
-    title: "Business Campaign",
-    description:
-      "Strategic campaign planning and execution to help businesses reach their target audience and achieve their marketing objectives.",
-    features: [
-      "Campaign Strategy",
-      "Market Research",
-      "Content Creation",
-      "Performance Analysis",
-    ],
-    content: (
-      <>
-        <h2 className="mb-4 text-2xl font-bold">
-          Strategic Campaign Development
-        </h2>
-        <p className="mb-6">
-          Our business campaign services help you create and execute effective
-          marketing campaigns that drive results. We begin by understanding your
-          business objectives, target audience, and competitive landscape. Then,
-          we develop a comprehensive campaign strategy that leverages the most
-          appropriate channels and messaging to reach your audience and achieve
-          your goals.
-        </p>
+    // },
+    // {
+    //   id: "business-campaign",
+    //   title: "Business Campaign",
+    //   description:
+    //     "Strategic campaign planning and execution to help businesses reach their target audience and achieve their marketing objectives.",
 
-        <h2 className="mb-4 text-2xl font-bold">
-          End-to-End Campaign Management
-        </h2>
-        <p className="mb-6">
-          We provide end-to-end campaign management, from initial concept
-          development to execution and performance analysis. Our team handles
-          all aspects of your campaign, including creative development, media
-          planning, content creation, and performance tracking. We continuously
-          monitor campaign performance and make data-driven adjustments to
-          optimize results and maximize your return on investment.
-        </p>
-      </>
-    ),
-  },
-  {
-    id: "audit-assurance",
-    title: "Audit Assurance",
-    description:
-      "Comprehensive audit services to help businesses ensure compliance, identify risks, and improve operational efficiency.",
-    features: [
-      "Financial Audits",
-      "Compliance Reviews",
-      "Risk Assessment",
-      "Process Improvement",
-    ],
-    content: (
-      <>
-        <h2 className="mb-4 text-2xl font-bold">Thorough Audit Services</h2>
-        <p className="mb-6">
-          Our audit assurance services provide an independent and objective
-          evaluation of your business operations, financial reporting, and
-          compliance with relevant regulations. We conduct thorough audits that
-          identify potential risks, inefficiencies, and areas for improvement.
-          Our approach is collaborative and constructive, focusing on providing
-          valuable insights that can help strengthen your business.
-        </p>
+    //   content: (
+    //     <>
+    //       <h2 className="mb-4 text-2xl font-bold">
+    //         Strategic Campaign Development
+    //       </h2>
+    //       <p className="mb-6">
+    //         Our business campaign services help you create and execute effective
+    //         marketing campaigns that drive results. We begin by understanding your
+    //         business objectives, target audience, and competitive landscape. Then,
+    //         we develop a comprehensive campaign strategy that leverages the most
+    //         appropriate channels and messaging to reach your audience and achieve
+    //         your goals.
+    //       </p>
 
-        <h2 className="mb-4 text-2xl font-bold">
-          Comprehensive Audit Approach
-        </h2>
-        <p className="mb-6">
-          We offer a range of audit services, including financial audits,
-          operational audits, compliance audits, and IT audits. Our team of
-          experienced auditors uses a systematic approach to evaluate your
-          business processes, controls, and reporting systems. We provide
-          detailed reports that highlight our findings and recommendations,
-          along with practical guidance on how to address any issues identified
-          during the audit process.
-        </p>
-      </>
-    ),
-  },
-  {
-    id: "research-planning",
-    title: "Research Planning",
-    description:
-      "Strategic research planning to help businesses gather and analyze data to inform decision-making and drive growth.",
-    features: [
-      "Market Research",
-      "Competitive Analysis",
-      "Consumer Insights",
-      "Data Analytics",
-    ],
-    content: (
-      <>
-        <h2 className="mb-4 text-2xl font-bold">
-          Data-Driven Research Solutions
-        </h2>
-        <p className="mb-6">
-          Our research planning services help businesses gather and analyze the
-          information they need to make informed decisions. We design and
-          implement comprehensive research strategies that address your specific
-          business questions and objectives. Whether you`&lsquo;`re looking to
-          understand market trends, evaluate customer preferences, or assess
-          competitive dynamics, our research experts will develop a tailored
-          approach to meet your needs.
-        </p>
+    //       <h2 className="mb-4 text-2xl font-bold">
+    //         End-to-End Campaign Management
+    //       </h2>
+    //       <p className="mb-6">
+    //         We provide end-to-end campaign management, from initial concept
+    //         development to execution and performance analysis. Our team handles
+    //         all aspects of your campaign, including creative development, media
+    //         planning, content creation, and performance tracking. We continuously
+    //         monitor campaign performance and make data-driven adjustments to
+    //         optimize results and maximize your return on investment.
+    //       </p>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   id: "audit-assurance",
+    //   title: "Audit Assurance",
+    //   description:
+    //     "Comprehensive audit services to help businesses ensure compliance, identify risks, and improve operational efficiency.",
 
-        <h2 className="mb-4 text-2xl font-bold">
-          Actionable Research Insights
-        </h2>
-        <p className="mb-6">
-          We go beyond simply collecting data to provide actionable insights
-          that can drive your business forward. Our team uses advanced
-          analytical techniques to interpret research findings and identify
-          meaningful patterns and trends. We present our findings in clear,
-          concise reports that highlight key insights and provide specific
-          recommendations for how to apply them to your business strategy and
-          operations.
-        </p>
-      </>
-    ),
+    //   content: (
+    //     <>
+    //       <h2 className="mb-4 text-2xl font-bold">Thorough Audit Services</h2>
+    //       <p className="mb-6">
+    //         Our audit assurance services provide an independent and objective
+    //         evaluation of your business operations, financial reporting, and
+    //         compliance with relevant regulations. We conduct thorough audits that
+    //         identify potential risks, inefficiencies, and areas for improvement.
+    //         Our approach is collaborative and constructive, focusing on providing
+    //         valuable insights that can help strengthen your business.
+    //       </p>
+
+    //       <h2 className="mb-4 text-2xl font-bold">
+    //         Comprehensive Audit Approach
+    //       </h2>
+    //       <p className="mb-6">
+    //         We offer a range of audit services, including financial audits,
+    //         operational audits, compliance audits, and IT audits. Our team of
+    //         experienced auditors uses a systematic approach to evaluate your
+    //         business processes, controls, and reporting systems. We provide
+    //         detailed reports that highlight our findings and recommendations,
+    //         along with practical guidance on how to address any issues identified
+    //         during the audit process.
+    //       </p>
+    //     </>
+    //   ),
+    // },
+    // {
+    //   id: "research-planning",
+    //   title: "Research Planning",
+    //   description:
+    //     "Strategic research planning to help businesses gather and analyze data to inform decision-making and drive growth.",
+    //   content: (
+    //     <>
+    //       <h2 className="mb-4 text-2xl font-bold">
+    //         Data-Driven Research Solutions
+    //       </h2>
+    //       <p className="mb-6">
+    //         Our research planning services help businesses gather and analyze the
+    //         information they need to make informed decisions. We design and
+    //         implement comprehensive research strategies that address your specific
+    //         business questions and objectives. Whether you`&lsquo;`re looking to
+    //         understand market trends, evaluate customer preferences, or assess
+    //         competitive dynamics, our research experts will develop a tailored
+    //         approach to meet your needs.
+    //       </p>
+
+    //       <h2 className="mb-4 text-2xl font-bold">
+    //         Actionable Research Insights
+    //       </h2>
+    //       <p className="mb-6">
+    //         We go beyond simply collecting data to provide actionable insights
+    //         that can drive your business forward. Our team uses advanced
+    //         analytical techniques to interpret research findings and identify
+    //         meaningful patterns and trends. We present our findings in clear,
+    //         concise reports that highlight key insights and provide specific
+    //         recommendations for how to apply them to your business strategy and
+    //         operations.
+    //       </p>
+    //     </>
+    //   ),
+    // },
   },
 ];
 
@@ -384,8 +341,8 @@ export default function OurServices({ activeTab }: Props) {
                     size="lg"
                     className="mb-6 max-w-[90px] bg-green-500 text-white hover:bg-green-600"
                   >
-                    <Link className="flex items-center" href="/contact">
-                      Contact Us
+                    <Link className="flex items-center" href="/sign-up">
+                      Sign Up
                     </Link>
                   </Button>
                 </div>
@@ -435,7 +392,7 @@ export default function OurServices({ activeTab }: Props) {
                   {activeService.description}
                 </p>
 
-                <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+                {/* <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
                   {activeService.features.map((feature, index) => (
                     <div
                       key={index}
@@ -459,7 +416,7 @@ export default function OurServices({ activeTab }: Props) {
                       <span>{feature}</span>
                     </div>
                   ))}
-                </div>
+                </div> */}
 
                 <div className="prose max-w-none">{activeService.content}</div>
               </div>

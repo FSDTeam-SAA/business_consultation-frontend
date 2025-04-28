@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import pageHeroImg from "@/../public/asset/page-hero.png";
+import pageHeroImg from "@/../public/asset/ourService.png";
 
 interface PageHeroProps {
   title: string;

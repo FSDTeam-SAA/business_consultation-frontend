@@ -57,11 +57,12 @@ function NewsletterForm() {
         <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div className="relative">
             <NextImage
+             
               src="/asset/newslater.png"
               alt="Newsletter"
               width={600}
               height={400}
-              className="rounded-lg"
+              className="rounded-lg w-[570px] h-[289px]"
             />
           </div>
 
@@ -72,8 +73,8 @@ function NewsletterForm() {
               Newsletter!
             </h2>
             <p className="mb-6 text-gray-600">
-              Stay updated with our latest insights, industry trends, and expert
-              advice delivered directly to your inbox.
+            Subscribe to our newsletter and stay
+            update.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">

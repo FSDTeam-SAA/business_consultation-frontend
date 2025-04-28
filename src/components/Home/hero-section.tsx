@@ -64,7 +64,7 @@ export default function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <NextImage
-          src={"/hero_image.jpg"}
+          src={"/hero_image2.jpg"}
           alt="Business meeting"
           fill
           className="object-cover"

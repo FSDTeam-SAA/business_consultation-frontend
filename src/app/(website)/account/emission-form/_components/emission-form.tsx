@@ -251,17 +251,24 @@ export default function EmissionForm({ initianData }: Props) {
       electricalConsumption:
         initianData?.carbon_footprint?.total_electrical_consumption_kwh ?? "",
     
-        energySources: initianData?.basic_information?.business_sector
-        ? initianData.basic_information.business_sector.map((sector: any) => ({
-            name: sector.sector, // Use `sector` as the name
-            percentage: sector.carbon_emission_percentage.toString(), // Convert percentage to string
-            isSelected: true, // Mark as selected since it’s in initialData
-          }))
-        : energySources.map((sector) => ({
-            name: sector.id,
-            percentage: "",
-            isSelected: false,
-          })),
+        energySources: initianData?.carbon_footprint?.energy_sources
+      ? energySources.map((source) => {
+          const initialSource = initianData.carbon_footprint.energy_sources.find(
+            (s: any) => s.source.toLowerCase() === source.label.toLowerCase()
+          );
+          return {
+            name: source.id,
+            percentage: initialSource
+              ? initialSource.percentage
+              : "",
+            isSelected: !!initialSource,
+          };
+        })
+      : energySources.map((source) => ({
+          name: source.id,
+          percentage: "",
+          isSelected: false,
+        })),
 
 
       renewablePercentage: "",

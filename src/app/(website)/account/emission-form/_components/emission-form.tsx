@@ -61,18 +61,18 @@ const energySources = [
 ];
 
 
-// Define the fuel types
 const fuelTypes = [
-  { id: "fuel-1", value: "petrol", label: "Petrol/Gasoline" },
-  { id: "fuel-2", value: "diesel", label: "Diesel" },
-  { id: "fuel-3", value: "electric", label: "Electric" },
-  { id: "fuel-4", value: "hybrid", label: "Hybrid" },
-  { id: "fuel-5", value: "cng", label: "Compressed Natural Gas (CNG)" },
-  { id: "fuel-6", value: "lpg", label: "Liquefied Petroleum Gas (LPG)" },
-  { id: "fuel-7", value: "hydrogen", label: "Hydrogen" },
-  { id: "fuel-8", value: "biofuel", label: "Biofuel" },
-  { id: "fuel-9", value: "mixed", label: "Mixed Fuel Types" },
+  { id: "petrol", value: "petrol", label: "Petrol/Gasoline" },
+  { id: "diesel", value: "diesel", label: "Diesel" },
+  { id: "electric", value: "electric", label: "Electric" },
+  { id: "hybrid", value: "hybrid", label: "Hybrid" },
+  { id: "cng", value: "cng", label: "Compressed Natural Gas (CNG)" },
+  { id: "lpg", value: "lpg", label: "Liquefied Petroleum Gas (LPG)" },
+  { id: "hydrogen", value: "hydrogen", label: "Hydrogen" },
+  { id: "biofuel", value: "biofuel", label: "Biofuel" },
+  { id: "mixed", value: "mixed", label: "Mixed Fuel Types" },
 ];
+
 
 // Define the transportation methods
 const transportationMethods = [
@@ -277,11 +277,26 @@ export default function EmissionForm({ initianData }: Props) {
       companyVehicles:  initianData?.carbon_footprint?.number_of_company_owned_vehicles ?? "",
    
    
-      fuelTypes: fuelTypes.map((type) => ({
+      fuelTypes: initianData?.carbon_footprint?.type_of_fuel_used_in_vehicles
+  ? fuelTypes.map((type) => {
+      const initialFuel = initianData.carbon_footprint.type_of_fuel_used_in_vehicles.find(
+        (f: any) => f.fuel_type.toLowerCase() === type.label.toLowerCase()
+      );
+
+      return {
         name: type.id,
-        percentage: "",
-        isSelected: false,
-      })),
+        percentage: initialFuel
+          ? initialFuel.usage_percentage.toString()
+          : "",
+        isSelected: !!initialFuel,
+      };
+    })
+  : fuelTypes.map((type) => ({
+      name: type.id,
+      percentage: "",
+      isSelected: false,
+    })),
+
 
 
       averageDistance:initianData?.carbon_footprint?.average_distance_travelled_per_vehicle_annually.distance ?? "",
@@ -297,6 +312,8 @@ export default function EmissionForm({ initianData }: Props) {
     },
     mode: "onChange",
   });
+
+console.log(  initianData.carbon_footprint.type_of_fuel_used_in_vehicles[0])
 
   // const businessSetorsFilldData = form.watch("businessSector");
 

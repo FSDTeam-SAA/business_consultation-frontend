@@ -249,7 +249,7 @@ export default function EmissionForm({ initianData }: Props) {
 
       carbonFootprintDescription: initianData?.finances.description ?? "",
       electricalConsumption:
-        initianData?.carbon_footprint?.total_electrical_consumption_kwh ?? "",
+        initianData?.carbon_footprint?.total_electrical_consumption_kwh.toString() ?? "",
     
         energySources: initianData?.carbon_footprint?.energy_sources
   ? energySources.map((source) => {
@@ -273,8 +273,8 @@ export default function EmissionForm({ initianData }: Props) {
 
 
 
-      renewablePercentage: initianData?.carbon_footprint?.percentage_of_energy_renewable ?? "",
-      companyVehicles:  initianData?.carbon_footprint?.number_of_company_owned_vehicles ?? "",
+      renewablePercentage: initianData?.carbon_footprint?.percentage_of_energy_renewable.toString() ?? "",
+      companyVehicles:  initianData?.carbon_footprint?.number_of_company_owned_vehicles.toString() ?? "",
    
    
       fuelTypes: initianData?.carbon_footprint?.type_of_fuel_used_in_vehicles
@@ -299,11 +299,11 @@ export default function EmissionForm({ initianData }: Props) {
 
 
 
-      averageDistance:initianData?.carbon_footprint?.average_distance_travelled_per_vehicle_annually.distance ?? "",
-      flightDistance:initianData?.carbon_footprint?.annual_business_flight_distance.distance ?? "",
-      trainDistance: initianData?.carbon_footprint?.annual_business_train_distance.distance ?? "",
+      averageDistance:initianData?.carbon_footprint?.average_distance_travelled_per_vehicle_annually.distance.toString() ?? "",
+      flightDistance:initianData?.carbon_footprint?.annual_business_flight_distance.distance.toString() ?? "",
+      trainDistance: initianData?.carbon_footprint?.annual_business_train_distance.distance.toString() ?? "",
       supplyChainNumber: "",
-      goodsVolume: initianData?.supply_chain_logistics?.volume_of_goods_transportation_tons ?? "",
+      goodsVolume: initianData?.supply_chain_logistics?.volume_of_goods_transportation_tons.toString() ?? "",
       transportationMethod: "",
       financesDescription: "",
       annualTurnover: "",

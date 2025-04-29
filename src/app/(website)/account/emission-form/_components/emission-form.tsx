@@ -173,7 +173,10 @@ const businessSectors = [
   { id: "other", label: "Other..." },
 ];
 
-export default function EmissionForm() {
+interface Props {
+  initianData?: any
+}
+export default function EmissionForm({initianData}: Props) {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
@@ -207,14 +210,14 @@ export default function EmissionForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: "",
-      email: "",
-      phoneNumber: "",
-      companyLegalName: "",
-      companyOperatingName: "",
-      website: "",
-      headquarterLocation: "",
-      organizationType: "",
+      fullName: initianData?.basic_information?.full_name ?? "",
+      email: initianData?.basic_information?.email ?? "",
+      phoneNumber:initianData?.basic_information?.phone_number ?? "",
+      companyLegalName:initianData?.basic_information?.company_legal_name ?? "",
+      companyOperatingName:initianData?.basic_information?.company_operating_name ?? "",
+      website:initianData?.basic_information?.website ?? "",
+      headquarterLocation: initianData?.basic_information?.headquarter_location ?? "",
+      organizationType: initianData?.basic_information?.type_of_organization,
       businessSector: businessSectors.map((sector) => ({
         name: sector.id,
         percentage: "",
@@ -553,7 +556,7 @@ export default function EmissionForm() {
         </p>
       </div>
 
-      <div className="mb-6 flex w-full justify-between bg-primary">
+      <div className="mb-6 flex w-full justify-between items-center bg-primary">
         <h2 className="rounded-t-md bg-primary px-4 py-2 text-lg font-semibold text-white">
           Section {currentStep} of {totalSteps}
         </h2>

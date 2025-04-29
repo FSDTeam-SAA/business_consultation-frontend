@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+// import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -47,31 +48,29 @@ const organizationTypes = [
   { id: "other", label: "Other..." },
 ];
 
-// Define the energy sources
 const energySources = [
-  { id: "source-1", value: "coal", label: "Coal" },
-  { id: "source-2", value: "natural-gas", label: "Natural Gas" },
-  { id: "source-3", value: "oil", label: "Oil" },
-  { id: "source-4", value: "nuclear", label: "Nuclear" },
-  { id: "source-5", value: "solar", label: "Solar" },
-  { id: "source-6", value: "wind", label: "Wind" },
-  { id: "source-7", value: "hydro", label: "Hydro" },
-  { id: "source-8", value: "biomass", label: "Biomass" },
-  { id: "source-9", value: "geothermal", label: "Geothermal" },
-  { id: "source-10", value: "mixed", label: "Mixed Sources" },
+  { id: "coal", label: "Coal" },
+  { id: "natural_gas", label: "Natural Gas" },
+  { id: "oil", label: "Oil" },
+  { id: "nuclear", label: "Nuclear" },
+  { id: "solar", label: "Solar" },
+  { id: "wind", label: "Wind" },
+  { id: "hydro", label: "Hydro" },
+  { id: "biomass", label: "Biomass" },
+  { id: "geothermal", label: "Geothermal" },
+  { id: "mixed_sources", label: "Mixed Sources" },
 ];
 
-// Define the fuel types
 const fuelTypes = [
-  { id: "fuel-1", value: "petrol", label: "Petrol/Gasoline" },
-  { id: "fuel-2", value: "diesel", label: "Diesel" },
-  { id: "fuel-3", value: "electric", label: "Electric" },
-  { id: "fuel-4", value: "hybrid", label: "Hybrid" },
-  { id: "fuel-5", value: "cng", label: "Compressed Natural Gas (CNG)" },
-  { id: "fuel-6", value: "lpg", label: "Liquefied Petroleum Gas (LPG)" },
-  { id: "fuel-7", value: "hydrogen", label: "Hydrogen" },
-  { id: "fuel-8", value: "biofuel", label: "Biofuel" },
-  { id: "fuel-9", value: "mixed", label: "Mixed Fuel Types" },
+  { id: "petrol", value: "petrol", label: "Petrol/Gasoline" },
+  { id: "diesel", value: "diesel", label: "Diesel" },
+  { id: "electric", value: "electric", label: "Electric" },
+  { id: "hybrid", value: "hybrid", label: "Hybrid" },
+  { id: "cng", value: "cng", label: "Compressed Natural Gas (CNG)" },
+  { id: "lpg", value: "lpg", label: "Liquefied Petroleum Gas (LPG)" },
+  { id: "hydrogen", value: "hydrogen", label: "Hydrogen" },
+  { id: "biofuel", value: "biofuel", label: "Biofuel" },
+  { id: "mixed", value: "mixed", label: "Mixed Fuel Types" },
 ];
 
 // Define the transportation methods
@@ -173,12 +172,14 @@ const businessSectors = [
   { id: "other", label: "Other..." },
 ];
 
-export default function EmissionForm() {
+interface Props {
+  initianData?: any;
+}
+export default function EmissionForm({ initianData }: Props) {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
   const [token, setToken] = useState<string | null>(null);
-
   useEffect(() => {
     const storedToken = sessionStorage.getItem("authToken");
     const lstoredToken = localStorage.getItem("authToken");
@@ -186,6 +187,8 @@ export default function EmissionForm() {
       setToken(storedToken);
     } else setToken(lstoredToken);
   }, []);
+
+  // const {user} = useAuth()
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["emmison-form-submit"],
@@ -203,56 +206,148 @@ export default function EmissionForm() {
     },
   });
 
+
+  const { mutate: edit, isPending: isEditing } = useMutation({
+    mutationKey: ["emmison-form-edit"],
+    mutationFn: (formData: FormData) =>
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/${initianData?._id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }).then((res) => res.json()),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      console.log("submmited response", data);
+    },
+  });
+
+ 
+
+
   // Initialize the form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: "",
-      email: "",
-      phoneNumber: "",
-      companyLegalName: "",
-      companyOperatingName: "",
-      website: "",
-      headquarterLocation: "",
-      organizationType: "",
-      businessSector: businessSectors.map((sector) => ({
-        name: sector.id,
-        percentage: "",
-        isSelected: false,
-      })),
-      numberOfEmployees: "",
-      businessDescription: "",
+      fullName: initianData?.basic_information?.full_name ?? "",
+      email: initianData?.basic_information?.email ?? "",
+      phoneNumber: initianData?.basic_information?.phone_number ?? "",
+      companyLegalName:
+        initianData?.basic_information?.company_legal_name ?? "",
+      companyOperatingName:
+        initianData?.basic_information?.company_operating_name ?? "",
+      website: initianData?.basic_information?.website ?? "",
+      headquarterLocation:
+        initianData?.basic_information?.headquarter_location ?? "",
+      organizationType: initianData?.basic_information?.type_of_organization,
 
-      carbonFootprintDescription: "",
-      electricalConsumption: "",
-      energySources: energySources.map((source) => ({
-        name: source.id,
-        percentage: "",
-        isSelected: false,
-      })),
-      renewablePercentage: "",
-      companyVehicles: "",
-      fuelTypes: fuelTypes.map((type) => ({
-        name: type.id,
-        percentage: "",
-        isSelected: false,
-      })),
-      averageDistance: "",
-      flightDistance: "",
-      trainDistance: "",
+      businessSector: initianData?.basic_information?.business_sector
+        ? businessSectors.map((sector) => {
+            const initialSector =
+              initianData.basic_information.business_sector.find(
+                (s: any) =>
+                  s.sector.toLowerCase() === sector.label.toLowerCase(),
+              );
+            return {
+              name: sector.id,
+              percentage: initialSector
+                ? initialSector.carbon_emission_percentage.toString()
+                : "",
+              isSelected: !!initialSector,
+            };
+          })
+        : businessSectors.map((sector) => ({
+            name: sector.id,
+            percentage: "",
+            isSelected: false,
+          })),
+      numberOfEmployees:
+        initianData?.basic_information?.number_of_employees.toString() ?? "",
+      businessDescription:
+        initianData?.basic_information?.business_description ?? "",
 
-      supplyChainNumber: "",
-      goodsVolume: "",
-      transportationMethod: "",
+      carbonFootprintDescription: initianData?.finances.description ?? "",
+      electricalConsumption:
+        initianData?.carbon_footprint?.total_electrical_consumption_kwh.toString() ??
+        "",
 
-      financesDescription: "",
-      annualTurnover: "",
-      assetsValue: "",
-      financialStatements: undefined,
+      energySources: initianData?.carbon_footprint?.energy_sources
+        ? energySources.map((source) => {
+            const initialSource =
+              initianData.carbon_footprint.energy_sources.find(
+                (s: any) =>
+                  s.source.toLowerCase() === source.label.toLowerCase(),
+              );
+
+            return {
+              name: source.id,
+              percentage: initialSource ? initialSource.usage_percentage.toString() : "",
+              isSelected: !!initialSource,
+            };
+          })
+        : energySources.map((source) => ({
+            name: source.id,
+            percentage: "",
+            isSelected: false,
+          })),
+
+      renewablePercentage:
+        initianData?.carbon_footprint?.percentage_of_energy_renewable.toString() ??
+        "",
+      companyVehicles:
+        initianData?.carbon_footprint?.number_of_company_owned_vehicles.toString() ??
+        "",
+
+      fuelTypes: initianData?.carbon_footprint?.type_of_fuel_used_in_vehicles
+        ? fuelTypes.map((type) => {
+            const initialFuel =
+              initianData.carbon_footprint.type_of_fuel_used_in_vehicles.find(
+                (f: any) =>
+                  f.fuel_type.toLowerCase() === type.label.toLowerCase(),
+              );
+
+            return {
+              name: type.id,
+              percentage: initialFuel
+                ? initialFuel.usage_percentage.toString()
+                : "",
+              isSelected: !!initialFuel,
+            };
+          })
+        : fuelTypes.map((type) => ({
+            name: type.id,
+            percentage: "",
+            isSelected: false,
+          })),
+
+      averageDistance:
+        initianData?.carbon_footprint?.average_distance_travelled_per_vehicle_annually.distance.toString() ??
+        "",
+      flightDistance:
+        initianData?.carbon_footprint?.annual_business_flight_distance.distance.toString() ??
+        "",
+      trainDistance:
+        initianData?.carbon_footprint?.annual_business_train_distance.distance.toString() ??
+        "",
+      supplyChainNumber: initianData?.supply_chain_logistics?.description ?? "",
+      goodsVolume:
+        initianData?.supply_chain_logistics?.volume_of_goods_transportation_tons.toString() ??
+        "",
+      transportationMethod:
+        initianData?.supply_chain_logistics?.primary_transportation_method ??
+        "",
+      financesDescription: initianData?.finances?.description ?? "",
+      annualTurnover: initianData?.finances?.total_annual_turnover.toString() ?? "",
+      assetsValue: initianData?.finances?.total_value_of_assets.toString() ?? "",
+      financialStatements:  undefined,
     },
-    mode: "onChange",
   });
 
+
+  console.log("Submit button states:", { isPending, isEditing });
+  console.log("Form validation errors:", form.formState.errors);
+  console.log("Multi-step form state:", { currentStep, totalSteps });
   // const businessSetorsFilldData = form.watch("businessSector");
 
   useEffect(() => {
@@ -347,17 +442,18 @@ export default function EmissionForm() {
 
   // Updated "Next" button logic
   const nextStep = async () => {
-    const fieldsToValidate = getFieldsForStep(currentStep);
-    const result = await form.trigger(
-      fieldsToValidate as (keyof z.infer<typeof formSchema>)[],
-    );
-    if (result && !isNextDisabled) {
+    const fieldsToValidate = getFieldsForStep(currentStep) as Array<keyof z.infer<typeof formSchema>>;
+    const isValid = await form.trigger(fieldsToValidate);
+  
+    if (isValid && !isNextDisabled) {
       setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
     }
   };
 
+
   // Handle form submission
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("Form submitted with values:", values);
     const formData = new FormData();
 
     // Basic Information (Step 1)
@@ -495,11 +591,17 @@ export default function EmissionForm() {
     if (values.financialStatements) {
       formData.append(
         "financial_statements",
-        values.financialStatements as File,
+         values.financialStatements as File,
       );
     }
 
-    mutate(formData);
+
+    if(initianData) {
+
+      edit(formData);
+    } else {
+      mutate(formData);
+    }
   }
 
   // Navigate to the previous step
@@ -553,7 +655,7 @@ export default function EmissionForm() {
         </p>
       </div>
 
-      <div className="mb-6 flex w-full justify-between bg-primary">
+      <div className="mb-6 flex w-full items-center justify-between bg-primary">
         <h2 className="rounded-t-md bg-primary px-4 py-2 text-lg font-semibold text-white">
           Section {currentStep} of {totalSteps}
         </h2>
@@ -566,7 +668,7 @@ export default function EmissionForm() {
       <Card>
         <CardContent className="pt-6">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
               {/* Section 1: Personal/Company Information */}
               <div className={cn(currentStep === 1 ? "block" : "hidden")}>
                 <div className="space-y-4">
@@ -1223,6 +1325,7 @@ export default function EmissionForm() {
                     )}
                   />
 
+
                   <FormField
                     control={form.control}
                     name="financialStatements"
@@ -1255,25 +1358,25 @@ export default function EmissionForm() {
 
               {/* Navigation buttons */}
               <div className="flex justify-between pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={prevStep}
-                  disabled={currentStep === 1}
-                >
-                  Previous
-                </Button>
+    <Button
+      type="button"
+      variant="outline"
+      onClick={prevStep}
+      disabled={currentStep === 1}
+    >
+      Previous
+    </Button>
 
-                {currentStep < totalSteps ? (
-                  <Button type="button" onClick={nextStep}>
-                    Next
-                  </Button>
-                ) : (
-                  <Button type="submit" disabled={isPending}>
-                    Submit
-                  </Button>
-                )}
-              </div>
+    {currentStep < totalSteps ? (
+      <Button type="button" onClick={nextStep} disabled={isNextDisabled}>
+        Next
+      </Button>
+    ) : (
+      <Button onClick={form.handleSubmit(onSubmit)} disabled={isPending || isEditing }>
+        Submit
+      </Button>
+    )}
+  </div>
             </form>
           </Form>
         </CardContent>

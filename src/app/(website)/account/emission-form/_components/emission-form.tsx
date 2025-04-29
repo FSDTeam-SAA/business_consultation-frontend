@@ -174,9 +174,9 @@ const businessSectors = [
 ];
 
 interface Props {
-  initianData?: any
+  initianData?: any;
 }
-export default function EmissionForm({initianData}: Props) {
+export default function EmissionForm({ initianData }: Props) {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
@@ -206,6 +206,8 @@ export default function EmissionForm({initianData}: Props) {
     },
   });
 
+  
+
   // Initialize the form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -213,31 +215,55 @@ export default function EmissionForm({initianData}: Props) {
       fullName: initianData?.basic_information?.full_name ?? "",
       email: initianData?.basic_information?.email ?? "",
       phoneNumber: initianData?.basic_information?.phone_number ?? "",
-      companyLegalName: initianData?.basic_information?.company_legal_name ?? "",
-      companyOperatingName: initianData?.basic_information?.company_operating_name ?? "",
+      companyLegalName:
+        initianData?.basic_information?.company_legal_name ?? "",
+      companyOperatingName:
+        initianData?.basic_information?.company_operating_name ?? "",
       website: initianData?.basic_information?.website ?? "",
-      headquarterLocation: initianData?.basic_information?.headquarter_location ?? "",
+      headquarterLocation:
+        initianData?.basic_information?.headquarter_location ?? "",
       organizationType: initianData?.basic_information?.type_of_organization,
+     
       businessSector: initianData?.basic_information?.business_sector
+  ? businessSectors.map((sector) => {
+      const initialSector = initianData.basic_information.business_sector.find(
+        (s: any) => s.sector.toLowerCase() === sector.label.toLowerCase()
+      );
+      return {
+        name: sector.id,
+        percentage: initialSector
+          ? initialSector.carbon_emission_percentage.toString()
+          : "",
+        isSelected: !!initialSector,
+      };
+    })
+  : businessSectors.map((sector) => ({
+      name: sector.id,
+      percentage: "",
+      isSelected: false,
+    })),
+      numberOfEmployees:
+        initianData?.basic_information?.number_of_employees.toString() ?? "",
+      businessDescription:
+        initianData?.basic_information?.business_description ?? "",
+
+      carbonFootprintDescription: initianData?.finances.description ?? "",
+      electricalConsumption:
+        initianData?.carbon_footprint?.total_electrical_consumption_kwh ?? "",
+    
+        energySources: initianData?.basic_information?.business_sector
         ? initianData.basic_information.business_sector.map((sector: any) => ({
             name: sector.sector, // Use `sector` as the name
             percentage: sector.carbon_emission_percentage.toString(), // Convert percentage to string
             isSelected: true, // Mark as selected since it’s in initialData
           }))
-        : businessSectors.map((sector) => ({
+        : energySources.map((sector) => ({
             name: sector.id,
             percentage: "",
             isSelected: false,
           })),
-      numberOfEmployees: "",
-      businessDescription: "",
-      carbonFootprintDescription: "",
-      electricalConsumption: "",
-      energySources: energySources.map((source) => ({
-        name: source.id,
-        percentage: "",
-        isSelected: false,
-      })),
+
+
       renewablePercentage: "",
       companyVehicles: "",
       fuelTypes: fuelTypes.map((type) => ({
@@ -559,7 +585,7 @@ export default function EmissionForm({initianData}: Props) {
         </p>
       </div>
 
-      <div className="mb-6 flex w-full justify-between items-center bg-primary">
+      <div className="mb-6 flex w-full items-center justify-between bg-primary">
         <h2 className="rounded-t-md bg-primary px-4 py-2 text-lg font-semibold text-white">
           Section {currentStep} of {totalSteps}
         </h2>

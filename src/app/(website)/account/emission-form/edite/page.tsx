@@ -23,14 +23,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import * as z from "zod";
 
 // Define the organization types
 const organizationTypes = [
@@ -86,79 +84,6 @@ const transportationMethods = [
 
 // Removed unused businessSectors variable
 
-// Define the object schema for sectors, energy sources, and fuel types
-const selectionSchema = z.object({
-  name: z.string(),
-  percentage: z.string().optional(),
-  isSelected: z.boolean().default(false),
-});
-
-// Update the form schema for energy sources and fuel types
-const formSchema = z.object({
-  // Section 1: Personal/Company Information
-  fullName: z.string().min(2, { message: "Full name is required" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  phoneNumber: z.string().min(5, { message: "Phone number is required" }),
-  companyLegalName: z
-    .string()
-    .min(2, { message: "Company legal name is required" }),
-  companyOperatingName: z
-    .string()
-    .min(2, { message: "Company operating name is required" }),
-  website: z
-    .string()
-    .url({ message: "Please enter a valid URL" })
-    .optional()
-    .or(z.literal("")),
-  headquarterLocation: z
-    .string()
-    .min(2, { message: "Headquarter location is required" }),
-  organizationType: z
-    .string()
-    .min(1, { message: "Please select an organization type" }),
-  businessSector: z.array(selectionSchema).default([]).optional(),
-  numberOfEmployees: z
-    .string()
-    .min(1, { message: "Number of employees is required" }),
-  businessDescription: z
-    .string()
-    .max(400, { message: "Description must be 400 words or less" })
-    .optional(),
-
-  // Section 2: Carbon Footprint
-  carbonFootprintDescription: z.string().optional(),
-  electricalConsumption: z
-    .string()
-    .min(1, { message: "Electrical consumption is required" }),
-  energySources: z.array(selectionSchema).default([]).optional(),
-  renewablePercentage: z.string().optional(),
-  companyVehicles: z
-    .string()
-    .min(1, { message: "Number of vehicles is required" }),
-  fuelTypes: z.array(selectionSchema).default([]).optional(),
-  averageDistance: z
-    .string()
-    .min(1, { message: "Average distance is required" }),
-  flightDistance: z.string().min(1, { message: "Flight distance is required" }),
-  trainDistance: z.string().min(1, { message: "Train distance is required" }),
-
-  // Section 3: Supply Chain & Logistics
-  supplyChainNumber: z
-    .string()
-    .min(1, { message: "Supply chain number is required" }),
-  goodsVolume: z.string().min(1, { message: "Goods volume is required" }),
-  transportationMethod: z
-    .string()
-    .min(1, { message: "Please select a transportation method" }),
-
-  // Section 4: Finances
-  financesDescription: z.string().optional(),
-  annualTurnover: z.string().min(1, { message: "Annual turnover is required" }),
-  assetsValue: z.string().min(1, { message: "Assets value is required" }),
-  // Note: File upload would be handled separately
-  financialStatements: z.any().optional(), // For file upload
-});
-
 const businessSectors = [
   { id: "manufacturing", label: "Manufacturing" },
   { id: "retail", label: "Retail" },
@@ -173,11 +98,12 @@ const businessSectors = [
   { id: "other", label: "Other..." },
 ];
 
-export default function EmissionForm() {
+export default function Edite() {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
 
   const [token, setToken] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem("authToken");
@@ -204,8 +130,7 @@ export default function EmissionForm() {
   });
 
   // Initialize the form
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm({
     defaultValues: {
       fullName: "",
       email: "",
@@ -252,6 +177,114 @@ export default function EmissionForm() {
     },
     mode: "onChange",
   });
+
+  const { reset } = form;
+
+  const { data } = useQuery({
+    queryKey: ["companydetails"],
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/by-user/${user?._id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      if (!res.ok) {
+        throw new Error("Failed to fetch companies");
+      }
+      return res.json();
+    },
+  });
+  console.log(data?.data)
+  // Update form values when data is available
+  useEffect(() => {
+    if (data?.data) {
+      reset({
+        fullName: data.data.basic_information.full_name || "",
+        email: data.data.basic_information.email || "",
+        phoneNumber: data.data.basic_information.phone_number || "",
+        companyLegalName: data.data.basic_information.company_legal_name || "",
+        companyOperatingName:
+          data.data.basic_information.company_operating_name || "",
+        website: data.data.basic_information.website || "",
+        headquarterLocation:
+          data.data.basic_information.headquarter_location || "",
+        organizationType:
+          data.data.basic_information.type_of_organization || "",
+        businessSector: businessSectors.map((sector) => ({
+          name: sector.id,
+          percentage:
+            data.data.basic_information.business_sector
+              .find((s: any) => s._id === sector.id)
+              ?.carbon_emission_percentage?.toString() || "",
+          isSelected: !!data.data.basic_information.business_sector.find(
+            (s: any) => s._id === sector.id,
+          ),
+        })),
+        numberOfEmployees:
+          data.data.basic_information.number_of_employees?.toString() || "",
+        businessDescription:
+          data.data.basic_information.business_description || "",
+
+        carbonFootprintDescription: "",
+        electricalConsumption:
+          data.data.carbon_footprint.total_electrical_consumption_kwh?.toString() ||
+          "",
+        energySources: energySources.map((source) => ({
+          name: source.id,
+          percentage:
+            data.data.carbon_footprint.energy_sources
+              .find((e: any) => e._id === source.id)
+              ?.usage_percentage?.toString() || "",
+          isSelected: !!data.data.carbon_footprint.energy_sources.find(
+            (e: any) => e._id === source.id,
+          ),
+        })),
+        renewablePercentage:
+          data.data.carbon_footprint.percentage_of_energy_renewable?.toString() ||
+          "",
+        companyVehicles:
+          data.data.carbon_footprint.number_of_company_owned_vehicles?.toString() ||
+          "",
+        fuelTypes: fuelTypes.map((type) => ({
+          name: type.id,
+          percentage:
+            data.data.carbon_footprint.type_of_fuel_used_in_vehicles
+              .find((f: any) => f._id === type.id)
+              ?.usage_percentage?.toString() || "",
+          isSelected:
+            !!data.data.carbon_footprint.type_of_fuel_used_in_vehicles.find(
+              (f: any) => f._id === type.id,
+            ),
+        })),
+        averageDistance:
+          data.data.carbon_footprint.average_distance_travelled_per_vehicle_annually.distance?.toString() ||
+          "",
+        flightDistance:
+          data.data.carbon_footprint.annual_business_flight_distance.distance?.toString() ||
+          "",
+        trainDistance:
+          data.data.carbon_footprint.annual_business_train_distance.distance?.toString() ||
+          "",
+
+        supplyChainNumber:"",
+        goodsVolume: data.data.supply_chain_logistics.volume_of_goods_transportation_tons?.toString() ||
+          "",
+        transportationMethod: "",
+
+        financesDescription: "",
+        annualTurnover:
+          data.data.finances.total_annual_turnover?.toString() || "",
+        assetsValue: data.data.finances.total_value_of_assets?.toString() || "",
+        financialStatements:
+          data.data.finances.financial_statements || undefined,
+      });
+    }
+  }, [data, reset]);
 
   // const businessSetorsFilldData = form.watch("businessSector");
 
@@ -347,17 +380,57 @@ export default function EmissionForm() {
 
   // Updated "Next" button logic
   const nextStep = async () => {
-    const fieldsToValidate = getFieldsForStep(currentStep);
-    const result = await form.trigger(
-      fieldsToValidate as (keyof z.infer<typeof formSchema>)[],
-    );
-    if (result && !isNextDisabled) {
+    if (!isNextDisabled) {
       setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
     }
   };
 
   // Handle form submission
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  interface BusinessSector {
+    name: string;
+    percentage: string;
+    isSelected: boolean;
+  }
+
+  interface EnergySource {
+    name: string;
+    percentage: string;
+    isSelected: boolean;
+  }
+
+  interface FuelType {
+    name: string;
+    percentage: string;
+    isSelected: boolean;
+  }
+
+  interface FormValues {
+    fullName: string;
+    email: string;
+    phoneNumber: string;
+    companyLegalName: string;
+    companyOperatingName: string;
+    website?: string;
+    headquarterLocation: string;
+    organizationType: string;
+    businessSector: BusinessSector[];
+    numberOfEmployees: string;
+    businessDescription: string;
+    electricalConsumption: string;
+    energySources: EnergySource[];
+    renewablePercentage: string;
+    companyVehicles: string;
+    fuelTypes: FuelType[];
+    averageDistance: string;
+    flightDistance: string;
+    trainDistance: string;
+    goodsVolume: string;
+    annualTurnover: string;
+    assetsValue: string;
+    financialStatements?: File;
+  }
+
+  function onSubmit(values: FormValues) {
     const formData = new FormData();
 
     // Basic Information (Step 1)
@@ -533,18 +606,19 @@ export default function EmissionForm() {
   return (
     <div className="container mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Emission Form</h1>
+        <h1 className="text-2xl font-bold text-gray-900">
+          Edit Your Emission Form
+        </h1>
         <p className="text-sm text-gray-600">
           This is a required form to help us track your emissions and give you
           personalized advice.
         </p>
       </div>
 
-      <div className="mb-6 flex w-full justify-between bg-primary">
+      <div className="mb-6 flex w-full items-center justify-between bg-primary">
         <h2 className="rounded-t-md bg-primary px-4 py-2 text-lg font-semibold text-white">
           Section {currentStep} of {totalSteps}
         </h2>
-   <Link href={'/account/emission-form'}>      <button  className="text-white mr-10 px-5 ">Edite</button></Link>
       </div>
 
       <Card>

@@ -212,20 +212,25 @@ export default function EmissionForm({initianData}: Props) {
     defaultValues: {
       fullName: initianData?.basic_information?.full_name ?? "",
       email: initianData?.basic_information?.email ?? "",
-      phoneNumber:initianData?.basic_information?.phone_number ?? "",
-      companyLegalName:initianData?.basic_information?.company_legal_name ?? "",
-      companyOperatingName:initianData?.basic_information?.company_operating_name ?? "",
-      website:initianData?.basic_information?.website ?? "",
+      phoneNumber: initianData?.basic_information?.phone_number ?? "",
+      companyLegalName: initianData?.basic_information?.company_legal_name ?? "",
+      companyOperatingName: initianData?.basic_information?.company_operating_name ?? "",
+      website: initianData?.basic_information?.website ?? "",
       headquarterLocation: initianData?.basic_information?.headquarter_location ?? "",
       organizationType: initianData?.basic_information?.type_of_organization,
-      businessSector: businessSectors.map((sector) => ({
-        name: sector.id,
-        percentage: "",
-        isSelected: false,
-      })),
+      businessSector: initianData?.basic_information?.business_sector
+        ? initianData.basic_information.business_sector.map((sector: any) => ({
+            name: sector.sector, // Use `sector` as the name
+            percentage: sector.carbon_emission_percentage.toString(), // Convert percentage to string
+            isSelected: true, // Mark as selected since it’s in initialData
+          }))
+        : businessSectors.map((sector) => ({
+            name: sector.id,
+            percentage: "",
+            isSelected: false,
+          })),
       numberOfEmployees: "",
       businessDescription: "",
-
       carbonFootprintDescription: "",
       electricalConsumption: "",
       energySources: energySources.map((source) => ({
@@ -243,11 +248,9 @@ export default function EmissionForm({initianData}: Props) {
       averageDistance: "",
       flightDistance: "",
       trainDistance: "",
-
       supplyChainNumber: "",
       goodsVolume: "",
       transportationMethod: "",
-
       financesDescription: "",
       annualTurnover: "",
       assetsValue: "",

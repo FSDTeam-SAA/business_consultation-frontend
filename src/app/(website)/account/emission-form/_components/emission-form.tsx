@@ -476,7 +476,20 @@ export default function EmissionForm() {
       values.goodsVolume,
     );
 
+    formData.append(
+      "supply_chain_logistics.description",
+      values.supplyChainNumber,
+    );
+    formData.append(
+      "supply_chain_logistics.primary_transportation_method",
+      values.transportationMethod,
+    );
+
     // Finances (Step 4)
+    formData.append(
+      "finances.description",
+      values.carbonFootprintDescription || "",
+    );
     formData.append("finances.total_annual_turnover", values.annualTurnover);
     formData.append("finances.total_value_of_assets", values.assetsValue);
     if (values.financialStatements) {
@@ -544,7 +557,10 @@ export default function EmissionForm() {
         <h2 className="rounded-t-md bg-primary px-4 py-2 text-lg font-semibold text-white">
           Section {currentStep} of {totalSteps}
         </h2>
-   <Link href={'/account/emission-form'}>      <button  className="text-white mr-10 px-5 ">Edite</button></Link>
+        <Link href={"/account/emission-form/edit"}>
+          {" "}
+          <button className="mr-10 px-5 text-white">Edit</button>
+        </Link>
       </div>
 
       <Card>
@@ -1087,7 +1103,7 @@ export default function EmissionForm() {
                         <FormControl>
                           <Input
                             className="py-6"
-                            placeholder="Enter Number"
+                            placeholder="Enter Description"
                             {...field}
                           />
                         </FormControl>

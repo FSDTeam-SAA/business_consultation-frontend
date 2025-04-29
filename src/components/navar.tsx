@@ -69,10 +69,10 @@ export default function Navbar() {
             : "bg-transparent",
         )}
       >
-        <div className="container relative mx-auto flex items-center justify-between px-4 py-4">
+        <div className="container relative mx-auto flex items-center justify-between  py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <Image src={"/logo.png"} width={100} height={100} alt="logo" />
+            <Image src={"/asset/logo.png"} width={100} height={100} alt="logo" />
             <p className="text-[14px] font-medium text-[#09B850]">
               {" "}
               Going 2

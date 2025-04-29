@@ -25,7 +25,7 @@ export default function ServiceSection() {
   // ];
 
   return (
-    <section className="container mx-auto px-4 py-12">
+    <section className="container mx-auto px-4 py-10">
       {/* <SearchComponent /> */}
       <div className="mb-6 mt-10 flex items-center justify-center">
         <span className="inline-block rounded-md border border-green-500 px-3 py-1 text-[16px] font-semibold text-green-500">
@@ -51,7 +51,7 @@ export default function ServiceSection() {
       <div className="flex flex-col gap-5">
         <div className="flex flex-col gap-3">
           <h1 className="text-[32px] font-semibold">Our mission</h1>
-          <p className="font-normal text-[16px]">
+          <p className="text-[16px] font-normal">
             We believe in a future where business and climate action go hand in
             hand. Our mission is to help protect the planet by driving real
             commitments to net zero. We’re motivated by the urgency of the
@@ -62,7 +62,7 @@ export default function ServiceSection() {
         </div>
         <div className="flex flex-col gap-3">
           <h1 className="text-[32px] font-semibold">Our Goal</h1>
-          <p className="font-normal text-[16px]">
+          <p className="text-[16px] font-normal">
             To become the leading force in accelerating the global shift to net
             zero by certifying and empowering businesses that are truly
             committed to climate action

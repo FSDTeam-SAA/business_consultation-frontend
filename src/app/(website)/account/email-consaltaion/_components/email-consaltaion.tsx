@@ -6,6 +6,7 @@ import { CheckIcon } from "lucide-react";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -24,7 +25,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function ConsultationPage() {
   const [token, setToken] = useState<string | null>(null);
-
+  const { user } = useAuth();
   useEffect(() => {
     const storedToken = sessionStorage.getItem("authToken");
     const localStoredToken = localStorage.getItem("authToken");
@@ -121,12 +122,14 @@ export default function ConsultationPage() {
 
   return (
     <div className="mx-auto mt-4 max-w-3xl rounded-lg border border-gray-200 p-4">
+      {!user?.isEmissionSubmitted && (
+        <p className="text-center mb-5 text-red-700">Please Submited your emaition from </p>
+      )}
+      <h1 className="mb-4 text-center text-2xl font-bold">
+        Get Free Consultation
+      </h1>
       <div className="w-full">
-        <h1 className="mb-4 text-center text-2xl font-bold">
-          Get Free Consultation
-        </h1>
-
-        <form onSubmit={handleSubmit} className="rounded-lg bg-green-500 p-4">
+        <form onSubmit={handleSubmit}   className="rounded-lg bg-green-500 p-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Name */}
             <div>
@@ -137,6 +140,7 @@ export default function ConsultationPage() {
                 type="text"
                 id="name"
                 name="name"
+                disabled={!user?.isEmissionSubmitted}
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Your Name"
@@ -156,6 +160,7 @@ export default function ConsultationPage() {
                 type="email"
                 id="email"
                 name="email"
+                disabled={!user?.isEmissionSubmitted}
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Your email"
@@ -175,6 +180,7 @@ export default function ConsultationPage() {
                 type="text"
                 id="phone"
                 name="phone"
+                disabled={!user?.isEmissionSubmitted}
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Your Number"
@@ -194,6 +200,7 @@ export default function ConsultationPage() {
                 type="text"
                 id="business"
                 name="business"
+                disabled={!user?.isEmissionSubmitted}
                 value={formData.business}
                 onChange={handleChange}
                 placeholder="Enter business"
@@ -213,6 +220,7 @@ export default function ConsultationPage() {
                 type="text"
                 id="challenge"
                 name="challenge"
+                disabled={!user?.isEmissionSubmitted}
                 value={formData.challenge}
                 onChange={handleChange}
                 placeholder="Your Challenge"
@@ -232,6 +240,7 @@ export default function ConsultationPage() {
                 type="date"
                 id="callTime"
                 name="callTime"
+                disabled={!user?.isEmissionSubmitted}
                 value={formData.callTime}
                 onChange={handleChange}
                 className={`w-full rounded-md p-2 text-green-600 ${errors.callTime ? "border-2 border-red-300" : ""}`}
@@ -243,11 +252,11 @@ export default function ConsultationPage() {
           </div>
 
           <button
-            disabled={mutation.isPending}
+            disabled={!user?.isEmissionSubmitted}
             type="submit"
-            className="mt-6 w-full rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100"
+            className={`mt-6 w-full ${user?.isEmissionSubmitted ? "cursor-pointer" : "cursor-not-allowed"} rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100`}
           >
-            {mutation.isPending ? "Please Wite" : "BOOK A CONSULTATION"}
+            {mutation.isPending ? "Please Wite" : "BOOK A  CONSULTATION"}
           </button>
         </form>
 

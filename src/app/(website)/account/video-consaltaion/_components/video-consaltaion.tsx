@@ -39,6 +39,8 @@ export default function ConsultationPage() {
   const { user }: any = useAuth();
   const [token, setToken] = useState<string | null>(null);
 
+  console.log(user);
+
   useEffect(() => {
     const storedToken = sessionStorage.getItem("authToken");
     setToken(storedToken);
@@ -146,22 +148,17 @@ export default function ConsultationPage() {
 
   return (
     <div className="mx-auto mt-4 max-w-3xl rounded-lg border border-gray-200 p-4">
+      {!user?.isEmissionSubmitted && (
+        <p className="mb-5 text-center text-red-700">
+          Please Submited your emaition from{" "}
+        </p>
+      )}
       <h1 className="mb-10 text-center text-3xl font-bold">
         Consultation Fee Per Hour $350
+        <p className="text-center text-[14px] font-normal">
+          Consultation Fee $350 per hour
+        </p>
       </h1>
-
-      <div className="mb-10 flex h-[52px] items-center justify-center rounded-md bg-[#09B850]">
-        <button
-          disabled={!!user?.videoConsultation}
-          onClick={() => user && checkoutMutation.mutate()}
-          className="text-white disabled:opacity-50"
-        >
-          <p className="flex gap-3">
-            <CreditCard />
-            <span>Pay Now</span>
-          </p>
-        </button>
-      </div>
 
       <form onSubmit={handleSubmit} className="rounded-lg bg-green-500 p-4">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -213,9 +210,9 @@ export default function ConsultationPage() {
                 name={key}
                 value={(formData as any)[key]}
                 onChange={handleChange}
-                disabled={!user?.videoConsultation}
+                disabled={ user?.videoConsultation || user?.isEmissionSubmitted === false}
                 placeholder={placeholder}
-                className={`w-full rounded-md p-2 ${errors[key as keyof FormData] ? "border-2 border-red-300" : ""}`}
+                className={`w-full rounded-md ${user?.videoConsultation || user?.isEmissionSubmitted === false ? "" : "bg-white"} p-2 ${errors[key as keyof FormData] ? "border-2 border-red-300" : ""}`}
               />
               {errors[key as keyof FormData] && (
                 <p className="mt-1 text-sm text-red-500">
@@ -228,16 +225,31 @@ export default function ConsultationPage() {
 
         <button
           type="submit"
-          disabled={!user?.videoConsultation}
+          disabled={
+            user?.videoConsultation || user?.isEmissionSubmitted === false
+          }
           className={`mt-6 w-full rounded-md py-3 font-semibold text-green-500 ${
-            !user?.videoConsultation
-              ? "cursor-not-allowed bg-gray-300 text-gray-500"
+            user?.videoConsultation || user?.isEmissionSubmitted === false
+              ? "cursor-not-allowed bg-white text-gray-500"
               : "bg-white hover:bg-gray-100"
           }`}
         >
-          BOOK A CONSULTATION
+          BOOK A CONSULTATION WITH PAYMENT
         </button>
       </form>
+
+      <div className="mb-10 mt-10 flex h-[52px] items-center justify-center rounded-md bg-[#09B850]">
+        <button
+          disabled={!user?.videoConsultation}
+          onClick={() => user && checkoutMutation.mutate()}
+          className="text-white disabled:opacity-50"
+        >
+          <p className="flex gap-3">
+            <CreditCard />
+            <span>Pay Now</span>
+          </p>
+        </button>
+      </div>
 
       <div className="mt-4 space-y-4">
         <div className="flex items-start gap-2">

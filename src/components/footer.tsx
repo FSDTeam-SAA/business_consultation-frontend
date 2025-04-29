@@ -42,8 +42,8 @@ export default function Footer() {
                 <div className="font-bold">CONSULTATION</div>
               </div>
             </div> */}
-              <Link href="/" className="flex items-center">
-                <Image src={"/logo.png"} width={100} height={100} alt="logo" />
+              <Link href="/" className="flex items-center -ml-8">
+                <Image src={"/asset/logo.png"} width={100} height={100} alt="logo" />
                 <p className="text-[14px] font-medium text-[#09B850]">
                   {" "}
                   Going 2

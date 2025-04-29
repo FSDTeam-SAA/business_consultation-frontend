@@ -14,6 +14,7 @@ interface User {
   profileImage: string;
   hasActiveSubscription: boolean;
   subscriptionExpireDate: string | null;
+  isEmissionSubmitted:boolean
   // Add other properties as needed
 }
 

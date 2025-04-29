@@ -26,6 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -475,7 +476,20 @@ export default function EmissionForm() {
       values.goodsVolume,
     );
 
+    formData.append(
+      "supply_chain_logistics.description",
+      values.supplyChainNumber,
+    );
+    formData.append(
+      "supply_chain_logistics.primary_transportation_method",
+      values.transportationMethod,
+    );
+
     // Finances (Step 4)
+    formData.append(
+      "finances.description",
+      values.carbonFootprintDescription || "",
+    );
     formData.append("finances.total_annual_turnover", values.annualTurnover);
     formData.append("finances.total_value_of_assets", values.assetsValue);
     if (values.financialStatements) {
@@ -487,16 +501,6 @@ export default function EmissionForm() {
 
     mutate(formData);
   }
-
-  // Navigate to the next step
-  // const nextStep = async () => {
-  //   const fieldsToValidate = getFieldsForStep(currentStep);
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   const result = await form.trigger(fieldsToValidate as any);
-  //   if (result) {
-  //     setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
-  //   }
-  // };
 
   // Navigate to the previous step
   const prevStep = () => {
@@ -549,10 +553,14 @@ export default function EmissionForm() {
         </p>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-6 flex w-full justify-between bg-primary">
         <h2 className="rounded-t-md bg-primary px-4 py-2 text-lg font-semibold text-white">
           Section {currentStep} of {totalSteps}
         </h2>
+        <Link href={"/account/emission-form/edit"}>
+          {" "}
+          <button className="mr-10 px-5 text-white">Edit</button>
+        </Link>
       </div>
 
       <Card>
@@ -1095,7 +1103,7 @@ export default function EmissionForm() {
                         <FormControl>
                           <Input
                             className="py-6"
-                            placeholder="Enter Number"
+                            placeholder="Enter Description"
                             {...field}
                           />
                         </FormControl>

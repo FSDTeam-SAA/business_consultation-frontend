@@ -43,13 +43,26 @@ export default function LoginForm() {
       <div className="w-full max-w-xl rounded-3xl border border-[#09B850] bg-white p-8 pb-[79px]">
         <div className="mb-6 flex justify-center">
           <div className="flex items-center">
-            <Image
+             <Link href="/" className="flex items-center">
+                        <Image src={"/asset/logo.png"} width={500} height={500} alt="logo" className="w-[150px]" />
+                        <p className="text-[14px] font-medium text-[#09B850] -ml-[30px]">
+                          {" "}
+                          Going 2
+                          <br />
+                          <span
+                            className={"text-gray-800"}
+                          >
+                            Zero
+                          </span>
+                        </p>
+                      </Link>
+            {/* <Image
               src="/asset/fomrLogo.png"
               alt="Business Consultation Logo"
               width={140}
               height={140}
               className="mr-2"
-            />
+            /> */}
           </div>
         </div>
 

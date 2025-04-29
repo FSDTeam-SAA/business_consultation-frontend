@@ -13,10 +13,6 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 
-interface EnergySource {
-  source: string;
-  value: number;
-}
 
 export default function CompanyDashboard() {
   // State for active slice
@@ -65,6 +61,7 @@ export default function CompanyDashboard() {
       return res.json();
     },
   });
+  console.log(data?.data)
 
   // Function to render the active shape with enhanced appearance
 
@@ -479,7 +476,7 @@ export default function CompanyDashboard() {
               </Card> */}
 
             {/* Energy Sources */}
-            {data?.data?.carbon_footprint?.energy_sources.length !== 0 && (
+            {/* {data?.data?.carbon_footprint?.energy_sources.length !== 0 && (
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base font-medium">
@@ -498,7 +495,7 @@ export default function CompanyDashboard() {
                   )}
                 </CardContent>
               </Card>
-            )}
+            )} */}
             {/* Average Business Flight Distance */}
             <Card>
               <CardHeader className="pb-2">
@@ -507,7 +504,7 @@ export default function CompanyDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">50 miles</p>
+                <p className="text-2xl font-bold">{data?.data.carbon_footprint.annual_business_flight_distance.distance}</p>
               </CardContent>
             </Card>
 
@@ -566,7 +563,7 @@ export default function CompanyDashboard() {
               </Card>
             )}
 
-            {/* Volume of Goods Transportation Method */}
+            {/* Volume of Goods Transportation Method
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base font-medium">
@@ -576,7 +573,7 @@ export default function CompanyDashboard() {
               <CardContent>
                 <p className="text-2xl font-bold">10</p>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Average Distance Travelled per Vehicle Annually */}
             {data?.data?.carbon_footprint
@@ -608,19 +605,7 @@ export default function CompanyDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">10</p>
-              </CardContent>
-            </Card>
-
-            {/* Total Annual Turnover in the last Financial Year (duplicate in original) */}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base font-medium">
-                  Total Annual Turnover in the last Financial Year
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-2xl font-bold">10</p>
+                <p className="text-2xl font-bold">{data?.data.finances.total_annual_turnover}</p>
               </CardContent>
             </Card>
 
@@ -700,20 +685,7 @@ export default function CompanyDashboard() {
               </Card>
             )}
 
-            {/* Primary Transportation Method */}
-            <Card>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base font-medium">
-                  Primary Transportation Method
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-1">
-                  <p>Traditional Grid</p>
-                  <p>Solar</p>
-                </div>
-              </CardContent>
-            </Card>
+      
           </div>
         </div>
       )}

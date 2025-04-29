@@ -5,12 +5,12 @@ export default function TermsConditionPage() {
         Terms & Conditions
       </h1>
 
-      <div className="prose prose-sm max-w-none">
+      <div className="prose prose-sm max-w-none  mb-10">
         <p className="mb-4">
           Welcome to Going 2 Zero. Your privacy is important to us, and we are
           committed to protecting your personal information. This Privacy Policy
           explains how we collect, use, and protect your data when you visit
-          <span className="text-blue-600"> going2zero.com</span> or use our
+          <span className="text-blue-600"> <a href="https://going2zero.com" target="_blank">going2zero.com</a></span> or use our
           services.
         </p>
 

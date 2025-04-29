@@ -1,5 +1,7 @@
 // import { Award, BarChart2, DollarSign } from "lucide-react";
 
+import Image from "next/image";
+
 export default function WhyChooseUsSection() {
   return (
     <section className="container mx-auto px-4 py-12 md:py-16 lg:py-20">
@@ -30,13 +32,14 @@ export default function WhyChooseUsSection() {
         </div>
 
         <div className="relative order-first h-[300px] w-full overflow-hidden rounded-lg md:h-[400px] lg:order-last lg:h-[350px]">
-          <video className="h-full w-full object-cover" muted autoPlay>
+         <Image src="/asset/WhyChooseUs.jpg" alt="image" width={600} height={600} className="h-full w-full object-cover"/>
+          {/* <video className="h-full w-full object-cover" muted autoPlay>
             <source
               src="https://s3-figma-videos-production-sig.figma.com/video/TEAM/1461204755658353120/2720cb9358fdcd4909cebcb97d5ccbb1aa85378d?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=g5693EXf-WKw6pCsrwmEcWpSepIsIEa0H3Jexq~0iYcnZ52HRZ74gGU1YIEU1qsjc0MHpxFZqStXTP-2YmZboeC7TXtfIlyVCRNpQfhh76juJRwuZTTqKbFDE~dLimbrORSrm52fu9432o4V9drX4t~hyNeYEhoXf6ZQrgfG7iDnemvjd1-6tBPz53j~EAUOHkkQjCinLm1JT454n7ZWrjaz~xTCkzrE2PNi9RF~b~W-rqNPIGlGPiMxDeeuCuRcPqe2nZ56BWgs8UhXexCj3pRItraGm3muljSxAw9FRecAKJOZ~wXKhsHrg3-GGio48YoyFuh2atEC3og7UkmOmg__"
               type="video/mp4"
             />
             Your browser does not support the video tag.
-          </video>
+          </video> */}
         </div>
       </div>
 

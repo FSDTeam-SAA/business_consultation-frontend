@@ -74,7 +74,7 @@ export default function ContactForm() {
 
   return (
     <div>
-      <div className="mx-auto max-w-7xl p-4 md:p-8">
+      <div className="mx-auto mb-5 max-w-7xl p-4 md:p-8">
         <div className="flex flex-col gap-6 md:flex-row">
           {/* Left Side - Contact Form */}
           <div className="flex-1 rounded-lg border border-gray-100 bg-white p-8 shadow-sm">
@@ -161,23 +161,23 @@ export default function ContactForm() {
                     {...register("phone")}
                   />
                 </div>
-                <div>
-                  <label htmlFor="message" className="mb-2 block font-medium">
-                    Message <span className="text-red-500">*</span>
-                  </label>
-                  <Textarea
-                    id="message"
-                    placeholder="Write here..."
-                    className={`w-full rounded-md border p-3 ${errors.message ? "border-red-500" : "border-gray-300"}`}
-                    {...register("message")}
-                  />
-                </div>
+              </div>
+              <div className="mb-5">
+                <label htmlFor="message" className="mb-2 block font-medium">
+                  Message <span className="text-red-500">*</span>
+                </label>
+                <Textarea
+                  id="message"
+                  placeholder="Write here..."
+                  className={`w-full rounded-md border p-3 ${errors.message ? "border-red-500" : "border-gray-300"}`}
+                  {...register("message")}
+                />
               </div>
 
               <button
                 type="submit"
                 disabled={isPending}
-                className="rounded-md bg-emerald-500 px-6 py-3 font-medium text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-70"
+                className="rounded-md bg-[#09B850] px-6 py-3 font-medium text-white hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {isPending ? "Sending..." : "Send Message"}
               </button>
@@ -217,7 +217,7 @@ export default function ContactForm() {
         </div>
       </div>
       {/* map  */}
-      <div className="py-16">
+      {/* <div className="py-16">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7442091.00120873!2d-101.53139790392929!3d40.01564936580569!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1742456496888!5m2!1sen!2sbd"
           width="100%"
@@ -225,7 +225,7 @@ export default function ContactForm() {
           style={{ border: 0 }}
           loading="lazy"
         ></iframe>
-      </div>
+      </div> */}
     </div>
   );
 }

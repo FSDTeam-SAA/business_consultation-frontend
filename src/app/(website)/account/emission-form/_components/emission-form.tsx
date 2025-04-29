@@ -252,71 +252,108 @@ export default function EmissionForm() {
     mode: "onChange",
   });
 
-  const businessSetorsFilldData = form.watch("businessSector");
+  // const businessSetorsFilldData = form.watch("businessSector");
 
   useEffect(() => {
-    // Watch the "businessSector" field in the form
+    // Watch the "businessSector", "fuelTypes", and "energySources" fields in the form
     const businessSetorsFilldData = form.watch("businessSector");
+    const fuelTypesFilledData = form.watch("fuelTypes");
+    const energySourcesFilledData = form.watch("energySources");
 
-    if (!businessSetorsFilldData) return;
+    const validateAndAdjustPercentages = (
+      filledData: typeof businessSetorsFilldData,
+      fieldName: "businessSector" | "fuelTypes" | "energySources",
+    ) => {
+      if (!filledData) return;
 
-    // Calculate the total percentage of selected sectors (excluding "other")
-    const totalPercentage = businessSetorsFilldData.reduce((acc, sector) => {
-      if (sector.isSelected && sector.name !== "other") {
-        return acc + Number(sector.percentage || 0); // Add the percentage if isSelected is true and it's not "other"
-      }
-      return acc;
-    }, 0);
-
-    console.log({ totalPercentage });
-
-    // Check if the total percentage exceeds 100%
-    if ((totalPercentage || 0) > 100) {
-      // Set an error in the form for the "businessSector" field
-      form.setError("businessSector", {
-        type: "manual",
-        message: "The total percentage cannot exceed 100%.",
-      });
-      toast.warning("The total percentage cannot exceed 100%.");
-    } else {
-      // Clear the error if the total percentage is valid
-      form.clearErrors("businessSector");
-
-      // Find the "other" object
-      const otherSector = businessSetorsFilldData.find(
-        (sector) => sector.name === "other",
-      );
-
-      // If totalPercentage is less than 100, assign the rest to the "other" object
-      if (totalPercentage < 100 && otherSector) {
-        const remainingPercentage = 100 - totalPercentage;
-
-        // Update the "other" object's percentage only if it differs
-        if (otherSector.percentage !== remainingPercentage.toString()) {
-          form.setValue(
-            "businessSector",
-            businessSetorsFilldData.map((sector) =>
-              sector.name === "other"
-                ? { ...sector, percentage: remainingPercentage.toString() }
-                : sector,
-            ),
-            { shouldValidate: false }, // Prevent re-triggering validation
-          );
+      // Calculate the total percentage of selected items (excluding "other")
+      const totalPercentage = filledData.reduce((acc, item) => {
+        if (item.isSelected && item.name !== "other") {
+          return acc + Number(item.percentage || 0);
         }
-      } else if (otherSector) {
-        // Reset the "other" object's percentage to 0 if totalPercentage is exactly 100
-        if (otherSector.percentage !== "0") {
-          form.setValue(
-            "businessSector",
-            businessSetorsFilldData.map((sector) =>
-              sector.name === "other" ? { ...sector, percentage: "0" } : sector,
-            ),
-            { shouldValidate: false }, // Prevent re-triggering validation
-          );
+        return acc;
+      }, 0);
+
+      // Check if the total percentage exceeds 100%
+      if ((totalPercentage || 0) > 100) {
+        // Set an error in the form for the respective field
+        form.setError(fieldName, {
+          type: "manual",
+          message: "The total percentage cannot exceed 100%.",
+        });
+        toast.warning("The total percentage cannot exceed 100%.");
+      } else {
+        // Clear the error if the total percentage is valid
+        form.clearErrors(fieldName);
+        // Find the "other" object
+        const otherItem = filledData.find((item) => item.name === "other");
+
+        // If totalPercentage is less than 100, assign the rest to the "other" object
+        if (totalPercentage < 100 && otherItem) {
+          const remainingPercentage = 100 - totalPercentage;
+
+          // Update the "other" object's percentage only if it differs
+          if (otherItem.percentage !== remainingPercentage.toString()) {
+            form.setValue(
+              fieldName,
+              filledData.map((item) =>
+                item.name === "other"
+                  ? { ...item, percentage: remainingPercentage.toString() }
+                  : item,
+              ),
+              { shouldValidate: false }, // Prevent re-triggering validation
+            );
+          }
+        } else if (otherItem) {
+          // Reset the "other" object's percentage to 0 if totalPercentage is exactly 100
+          if (otherItem.percentage !== "0") {
+            form.setValue(
+              fieldName,
+              filledData.map((item) =>
+                item.name === "other" ? { ...item, percentage: "0" } : item,
+              ),
+              { shouldValidate: false }, // Prevent re-triggering validation
+            );
+          }
         }
       }
+
+      // Update the state to disable the "Next" button if total percentage exceeds 100%
+      setIsNextDisabled(totalPercentage > 100);
+    };
+
+    // Validate and adjust percentages for each section
+    validateAndAdjustPercentages(businessSetorsFilldData, "businessSector");
+    validateAndAdjustPercentages(fuelTypesFilledData, "fuelTypes");
+    validateAndAdjustPercentages(energySourcesFilledData, "energySources");
+  }, [
+    form.watch("businessSector"),
+    form.watch("fuelTypes"),
+    form.watch("energySources"),
+  ]); // Dependency array ensures this runs when any of these fields change
+
+  // State to manage the "Next" button's disabled state
+  const [isNextDisabled, setIsNextDisabled] = useState(false);
+
+  // Input validation for percentage fields
+  const validatePercentageInput = (value: string) => {
+    const percentage = Number(value);
+    if (isNaN(percentage) || percentage < 0 || percentage > 100) {
+      return "Percentage must be a number between 0 and 100.";
     }
-  }, [businessSetorsFilldData]); // Dependency array ensures this runs when "businessSector" changes
+    return true;
+  };
+
+  // Updated "Next" button logic
+  const nextStep = async () => {
+    const fieldsToValidate = getFieldsForStep(currentStep);
+    const result = await form.trigger(
+      fieldsToValidate as (keyof z.infer<typeof formSchema>)[],
+    );
+    if (result && !isNextDisabled) {
+      setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
+    }
+  };
 
   // Handle form submission
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -452,14 +489,14 @@ export default function EmissionForm() {
   }
 
   // Navigate to the next step
-  const nextStep = async () => {
-    const fieldsToValidate = getFieldsForStep(currentStep);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await form.trigger(fieldsToValidate as any);
-    if (result) {
-      setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
-    }
-  };
+  // const nextStep = async () => {
+  //   const fieldsToValidate = getFieldsForStep(currentStep);
+  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   const result = await form.trigger(fieldsToValidate as any);
+  //   if (result) {
+  //     setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
+  //   }
+  // };
 
   // Navigate to the previous step
   const prevStep = () => {
@@ -729,11 +766,17 @@ export default function EmissionForm() {
                                   }
                                   onChange={(e) => {
                                     const newValue = [...(field.value || [])];
-                                    newValue[index] = {
-                                      ...newValue[index],
-                                      percentage: e.target.value,
-                                    };
-                                    field.onChange(newValue);
+                                    const validationMessage =
+                                      validatePercentageInput(e.target.value);
+                                    if (validationMessage === true) {
+                                      newValue[index] = {
+                                        ...newValue[index],
+                                        percentage: e.target.value,
+                                      };
+                                      field.onChange(newValue);
+                                    } else {
+                                      toast.error(validationMessage);
+                                    }
                                   }}
                                 />
                               )}
@@ -900,26 +943,6 @@ export default function EmissionForm() {
 
                   <FormField
                     control={form.control}
-                    name="renewablePercentage"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          Percentage of Energy Renewable (If Applicable)
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            className="py-6"
-                            placeholder="Percentage"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
                     name="companyVehicles"
                     render={({ field }) => (
                       <FormItem>
@@ -980,11 +1003,17 @@ export default function EmissionForm() {
                                   }
                                   onChange={(e) => {
                                     const newValue = [...(field.value || [])];
-                                    newValue[index] = {
-                                      ...newValue[index],
-                                      percentage: e.target.value,
-                                    };
-                                    field.onChange(newValue);
+                                    const validationMessage =
+                                      validatePercentageInput(e.target.value);
+                                    if (validationMessage === true) {
+                                      newValue[index] = {
+                                        ...newValue[index],
+                                        percentage: e.target.value,
+                                      };
+                                      field.onChange(newValue);
+                                    } else {
+                                      toast.error(validationMessage);
+                                    }
                                   }}
                                 />
                               )}
@@ -1040,10 +1069,6 @@ export default function EmissionForm() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Annual Business Train Distance</FormLabel>
-                        <FormDescription>
-                          Specify whether you are using miles or kilometers in
-                          your answer
-                        </FormDescription>
                         <FormControl>
                           <Input
                             className="py-6"

@@ -6,7 +6,7 @@ export default function ContactCard() {
     <div className="relative overflow-hidden rounded-md bg-gray-800 p-6 text-white">
       <div className="absolute inset-0 opacity-30">
         <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Rectangle%2018-i5cy9EkrnJD18OH8XGXM8QNqx8WibZ.png"
+          src="/asset/serviceContact.png"
           alt="Business consultation"
           fill
           className="object-cover"

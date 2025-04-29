@@ -47,19 +47,19 @@ const organizationTypes = [
   { id: "other", label: "Other..." },
 ];
 
-// Define the energy sources
 const energySources = [
-  { id: "source-1", value: "coal", label: "Coal" },
-  { id: "source-2", value: "natural-gas", label: "Natural Gas" },
-  { id: "source-3", value: "oil", label: "Oil" },
-  { id: "source-4", value: "nuclear", label: "Nuclear" },
-  { id: "source-5", value: "solar", label: "Solar" },
-  { id: "source-6", value: "wind", label: "Wind" },
-  { id: "source-7", value: "hydro", label: "Hydro" },
-  { id: "source-8", value: "biomass", label: "Biomass" },
-  { id: "source-9", value: "geothermal", label: "Geothermal" },
-  { id: "source-10", value: "mixed", label: "Mixed Sources" },
+  { id: "coal", label: "Coal" },
+  { id: "natural_gas", label: "Natural Gas" },
+  { id: "oil", label: "Oil" },
+  { id: "nuclear", label: "Nuclear" },
+  { id: "solar", label: "Solar" },
+  { id: "wind", label: "Wind" },
+  { id: "hydro", label: "Hydro" },
+  { id: "biomass", label: "Biomass" },
+  { id: "geothermal", label: "Geothermal" },
+  { id: "mixed_sources", label: "Mixed Sources" },
 ];
+
 
 // Define the fuel types
 const fuelTypes = [
@@ -206,7 +206,7 @@ export default function EmissionForm({ initianData }: Props) {
     },
   });
 
-  
+  console.log(initianData?.carbon_footprint?.energy_sources[0])
 
   // Initialize the form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -252,37 +252,43 @@ export default function EmissionForm({ initianData }: Props) {
         initianData?.carbon_footprint?.total_electrical_consumption_kwh ?? "",
     
         energySources: initianData?.carbon_footprint?.energy_sources
-      ? energySources.map((source) => {
-          const initialSource = initianData.carbon_footprint.energy_sources.find(
-            (s: any) => s.source.toLowerCase() === source.label.toLowerCase()
-          );
-          return {
-            name: source.id,
-            percentage: initialSource
-              ? initialSource.percentage
-              : "",
-            isSelected: !!initialSource,
-          };
-        })
-      : energySources.map((source) => ({
-          name: source.id,
-          percentage: "",
-          isSelected: false,
-        })),
+  ? energySources.map((source) => {
+      const initialSource = initianData.carbon_footprint.energy_sources.find(
+        (s: any) => s.source.toLowerCase() === source.label.toLowerCase()
+      );
+
+      return {
+        name: source.id,
+        percentage: initialSource
+          ? initialSource.usage_percentage
+          : "",
+        isSelected: !!initialSource,
+      };
+    })
+  : energySources.map((source) => ({
+      name: source.id,
+      percentage: "",
+      isSelected: false,
+    })),
 
 
-      renewablePercentage: "",
-      companyVehicles: "",
+
+      renewablePercentage: initianData?.carbon_footprint?.percentage_of_energy_renewable ?? "",
+      companyVehicles:  initianData?.carbon_footprint?.number_of_company_owned_vehicles ?? "",
+   
+   
       fuelTypes: fuelTypes.map((type) => ({
         name: type.id,
         percentage: "",
         isSelected: false,
       })),
-      averageDistance: "",
-      flightDistance: "",
-      trainDistance: "",
+
+
+      averageDistance:initianData?.carbon_footprint?.average_distance_travelled_per_vehicle_annually.distance ?? "",
+      flightDistance:initianData?.carbon_footprint?.annual_business_flight_distance.distance ?? "",
+      trainDistance: initianData?.carbon_footprint?.annual_business_train_distance.distance ?? "",
       supplyChainNumber: "",
-      goodsVolume: "",
+      goodsVolume: initianData?.supply_chain_logistics?.volume_of_goods_transportation_tons ?? "",
       transportationMethod: "",
       financesDescription: "",
       annualTurnover: "",

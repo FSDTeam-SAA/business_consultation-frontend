@@ -4,10 +4,8 @@ import type { NextRequest } from "next/server";
 // Define protected routes
 const protectedRoutes = [
   "/notifications",
-  "/challenges",
   "/profile",
   "/dashboard",
-  "/"
 ];
 
 export function middleware(request: NextRequest) {
@@ -37,9 +35,8 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/notifications/:path*",
-    "/challenges/:path*",
     "/profile/:path*",
     "/dashboard/:path*",
-    "/:path*"
+  
   ],
 };

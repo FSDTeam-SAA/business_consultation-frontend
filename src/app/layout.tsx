@@ -32,10 +32,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AppProvider>
-       
           <ConsoleMessage />
           {children}
-         
         </AppProvider>
       </body>
     </html>

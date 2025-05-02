@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import {  Twitter, Instagram, Linkedin } from "lucide-react";
 import Hideon from "@/provider/Hideon";
 import NewsletterSection from "./newsletter-section";
 import Image from "next/image";
@@ -44,12 +44,11 @@ export default function Footer() {
             </div> */}
               <Link href="/" className="flex items-center -ml-8">
                 <Image src={"/asset/logo.png"} width={100} height={100} alt="logo" />
-                <p className="text-[14px] font-medium text-[#09B850]">
+                <p className="text-[14px] font-medium text-[#09B850] whitespace-nowrap">
                   {" "}
-                  Going 2
-                  <br />
+                  Going 2 
                   <span
-                    className= "text-white">
+                    className= "text-white ml-1">
                     Zero
                   </span>
                 </p>
@@ -63,12 +62,12 @@ export default function Footer() {
               <div className="space-y-2">
                 <p>Follow us on</p>
                 <div className="flex space-x-2">
-                  <Link
+                  {/* <Link
                     href="#"
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
                   >
                     <Facebook className="text-[#09B850]" size={16} />
-                  </Link>
+                  </Link> */}
                   <Link
                     href="#"
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
@@ -76,13 +75,13 @@ export default function Footer() {
                     <Twitter className="text-[#09B850]" size={16} />
                   </Link>
                   <Link
-                    href="#"
+                    href="https://www.linkedin.com/company/going-2-zero-ltd"
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
                   >
                     <Linkedin className="text-[#09B850]" size={16} />
                   </Link>
                   <Link
-                    href="#"
+                    href="https://www.instagram.com/going2zeroltd/"
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
                   >
                     <Instagram className="text-[#09B850]" size={16} />
@@ -101,38 +100,38 @@ export default function Footer() {
               <ul className="space-y-2">
                 <li>
                   <Link
-                    href="#"
+                    href="/service"
                     className="flex items-center transition-colors hover:text-green-300"
                   >
-                    <span className="mr-2 text-[16px] font-normal">»</span> Make
-                    Appointment
+                    <span className="mr-2 text-[16px] font-normal">»</span> Services
+
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/about"
                     className="flex items-center transition-colors hover:text-green-300"
                   >
-                    <span className="mr-2">»</span> Customer Services
+                    <span className="mr-2">»</span> About us
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/contact"
                     className="flex items-center transition-colors hover:text-green-300"
                   >
-                    <span className="mr-2">»</span> Department Services
+                    <span className="mr-2">»</span> Contact us
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="#"
+                    href="/sign-up"
                     className="flex items-center transition-colors hover:text-green-300"
                   >
-                    <span className="mr-2">»</span> About Company
+                    <span className="mr-2">»</span> Sign up now
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     href="#"
                     className="flex items-center transition-colors hover:text-green-300"
@@ -155,7 +154,7 @@ export default function Footer() {
                   >
                     <span className="mr-2">»</span> Meet Our Experts
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </div>
 

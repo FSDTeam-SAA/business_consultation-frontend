@@ -76,10 +76,9 @@ export default function Navbar() {
             <p className="text-[14px] font-medium text-[#09B850]">
               {" "}
               Going 2
-              <br />
               <span
                 className={cn(
-                  isScrolled ? "text-gray-800" : "text-white",
+                  isScrolled ? "text-gray-800 ml-1" : "text-white ml-1",
                 )}
               >
                 Zero

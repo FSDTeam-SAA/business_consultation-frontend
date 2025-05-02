@@ -60,14 +60,14 @@ export default function ServiceSection() {
             more sustainable, resilient world for generations to come.
           </p>
         </div>
-        <div className="flex flex-col gap-3">
+        {/* <div className="flex flex-col gap-3">
           <h1 className="text-[32px] font-semibold">Our Goal</h1>
           <p className="text-[16px] font-normal">
             To become the leading force in accelerating the global shift to net
             zero by certifying and empowering businesses that are truly
             committed to climate action
           </p>
-        </div>
+        </div> */}
       </div>
 
       {/* <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">

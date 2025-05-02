@@ -1,6 +1,7 @@
 "use client";
 
 import AboutUsSection from "@/components/Home/AboutUsSection";
+import DescrptionText from "@/components/Home/DescrptionText";
 import HeroSection from "@/components/Home/hero-section";
 import Services from "@/components/Home/Services";
 import ServiceSection from "@/components/Home/ServiceSection";
@@ -19,6 +20,9 @@ export default function Home() {
       {/* Add padding to account for fixed navbar */}
     
       <HeroSection />
+      <div>
+        <DescrptionText />
+      </div>
       <div className="">
         <SearchComponent />
       </div>

@@ -105,8 +105,8 @@ export default function AboutBusiness() {
             </span>
           </div>
 
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
-            Driving Business Success Through Innovation!
+          <h2 className="text-3xl lg:leading-[60px] font-bold tracking-tight sm:text-4xl lg:text-5xl">
+            Empowering  Businesses to Achieve Net Zero
           </h2>
 
           <div className="space-y-4 pt-2">
@@ -115,8 +115,11 @@ export default function AboutBusiness() {
                 <BookmarkCheck className="h-5 w-5" />
               </div>
               <div>
-                <span className="font-semibold">Growth Strategies</span> –
-                Scalable solutions for sustainable expansion.
+                <span className="font-semibold">
+                  Carbon Reduction Certification
+                </span>{" "}
+                – Guiding your journey to verified net zero emissions with
+                confidence
               </div>
             </div>
 
@@ -125,8 +128,8 @@ export default function AboutBusiness() {
                 <BookmarkCheck className="h-5 w-5" />
               </div>
               <div>
-                <span className="font-semibold">Efficiency Optimization</span> –
-                Streamlining operations for maximum productivity.
+                <span className="font-semibold"> Sustainability Strategy</span>{" "}
+                – Crafting actionable plans tailored to your industry and goals.
               </div>
             </div>
 
@@ -135,12 +138,13 @@ export default function AboutBusiness() {
                 <BookmarkCheck className="h-5 w-5" />
               </div>
               <div>
-                <span className="font-semibold">Customer Engagement</span> –
-                Building lasting relationships through value-driven.
+                <span className="font-semibold">Green Badge Recognition</span> –
+                Showcasing your climate commitment with our trusted Going 2 Zero
+                Badge.
               </div>
             </div>
 
-            <div className="flex items-start gap-1">
+            {/* <div className="flex items-start gap-1">
               <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-green-600">
                 <BookmarkCheck className="h-5 w-5" />
               </div>
@@ -158,7 +162,7 @@ export default function AboutBusiness() {
                 <span className="font-semibold">Technology Integration</span> –
                 Leveraging digital tools for competitive advantage.
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="pt-2">

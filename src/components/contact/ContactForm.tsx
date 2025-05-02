@@ -87,8 +87,8 @@ export default function ContactForm() {
             <h1 className="mb-4 text-4xl font-bold">Get in touch</h1>
 
             <p className="mb-8 text-gray-700">
-              Let us know who you are and what you`&apos;`re looking for below,
-              and we`&apos;`ll get back to you within 24 hours.
+              Let us know who you are and what you&apos;re looking for below,
+              and we&apos;ll get back to you within 24 hours.
             </p>
 
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -191,7 +191,7 @@ export default function ContactForm() {
                 <Mail className="h-6 w-6 text-emerald-500" />
               </div>
               <h3 className="mb-2 text-xl font-semibold">Email Address</h3>
-              <p className="text-gray-700">info@going2zero</p>
+              <p className="text-gray-700">info@going2zero.com</p>
             </div>
 
             <div className="mx-8 my-4 border-t border-gray-400" />

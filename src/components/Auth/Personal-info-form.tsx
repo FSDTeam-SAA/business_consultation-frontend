@@ -112,7 +112,7 @@ export default function PersonalInfoForm({
       <div className="mx-auto max-w-md rounded-lg border border-[#09B850] p-6">
         <h1 className="mb-2 text-center text-2xl font-bold">Sign Up</h1>
         <p className="mb-6 text-center text-sm text-gray-500">
-          Continue to register as a admin, Please provide the information.
+          Continue to register, Please provide the information.
         </p>
 
         <form onSubmit={handleSubmit}>

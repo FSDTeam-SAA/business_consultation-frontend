@@ -1,6 +1,7 @@
 // import { Award, BarChart2, DollarSign } from "lucide-react";
 
 import Image from "next/image";
+import Link from "next/link";
 
 export default function WhyChooseUsSection() {
   return (
@@ -21,18 +22,29 @@ export default function WhyChooseUsSection() {
             fast sign-up process and easy access to all our services, getting
             certified has never been simpler. We’ve designed every step to be
             efficient, user-friendly, and hassle-free—so you can start making an
-            impact without unnecessary delays or complexity. Whether you&#39;re just
-            beginning your net zero journey or looking to level up your climate
-            commitments, we make it easy to get the recognition you deserve.
+            impact without unnecessary delays or complexity. Whether you&#39;re
+            just beginning your net zero journey or looking to level up your
+            climate commitments, we make it easy to get the recognition you
+            deserve.
           </p>
 
-          <button className="rounded-md bg-green-500 px-6 py-3 font-medium text-white transition-colors hover:bg-green-600">
-            More About Us
-          </button>
+          <div className="mt-5">
+            <Link className="" href="/about">
+              <button className="rounded-md bg-green-500 px-6 py-3 font-medium text-white transition-colors hover:bg-green-600">
+                More About Us
+              </button>
+            </Link>
+          </div>
         </div>
 
         <div className="relative order-first h-[300px] w-full overflow-hidden rounded-lg md:h-[400px] lg:order-last lg:h-[350px]">
-         <Image src="/asset/WhyChooseUs.jpg" alt="image" width={600} height={600} className="h-full w-full object-cover"/>
+          <Image
+            src="/asset/figma3.png"
+            alt="image"
+            width={600}
+            height={600}
+            className="h-full w-full object-cover"
+          />
           {/* <video className="h-full w-full object-cover" muted autoPlay>
             <source
               src="https://s3-figma-videos-production-sig.figma.com/video/TEAM/1461204755658353120/2720cb9358fdcd4909cebcb97d5ccbb1aa85378d?Expires=1745798400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=g5693EXf-WKw6pCsrwmEcWpSepIsIEa0H3Jexq~0iYcnZ52HRZ74gGU1YIEU1qsjc0MHpxFZqStXTP-2YmZboeC7TXtfIlyVCRNpQfhh76juJRwuZTTqKbFDE~dLimbrORSrm52fu9432o4V9drX4t~hyNeYEhoXf6ZQrgfG7iDnemvjd1-6tBPz53j~EAUOHkkQjCinLm1JT454n7ZWrjaz~xTCkzrE2PNi9RF~b~W-rqNPIGlGPiMxDeeuCuRcPqe2nZ56BWgs8UhXexCj3pRItraGm3muljSxAw9FRecAKJOZ~wXKhsHrg3-GGio48YoyFuh2atEC3og7UkmOmg__"

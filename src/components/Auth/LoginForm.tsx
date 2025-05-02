@@ -43,19 +43,21 @@ export default function LoginForm() {
       <div className="w-full max-w-xl rounded-3xl border border-[#09B850] bg-white p-8 pb-[79px]">
         <div className="mb-6 flex justify-center">
           <div className="flex items-center">
-             <Link href="/" className="flex items-center">
-                        <Image src={"/asset/logo.png"} width={500} height={500} alt="logo" className="w-[150px]" />
-                        <p className="text-[14px] font-medium text-[#09B850] -ml-[30px]">
-                          {" "}
-                          Going 2
-                          <br />
-                          <span
-                            className={"text-gray-800"}
-                          >
-                            Zero
-                          </span>
-                        </p>
-                      </Link>
+            <Link href="/" className="flex items-center">
+              <Image
+                src={"/asset/logo.png"}
+                width={500}
+                height={500}
+                alt="logo"
+                className="w-[150px]"
+              />
+              <p className="-ml-[30px] text-[14px] font-medium text-[#09B850]">
+                {" "}
+                Going 2
+                <br />
+                <span className={"text-gray-800"}>Zero</span>
+              </p>
+            </Link>
             {/* <Image
               src="/asset/fomrLogo.png"
               alt="Business Consultation Logo"
@@ -68,7 +70,7 @@ export default function LoginForm() {
 
         <h1 className="mb-2 text-center text-3xl font-bold">Log In</h1>
         <p className="mb-8 text-center text-gray-400">
-          Continue to register as a admin, Please provide the information.
+          Continue to Login , Please provide the information.
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -156,7 +158,6 @@ export default function LoginForm() {
           </button>
         </form>
 
-        
         <div>
           <p className="mt-6 text-center text-gray-400">
             Don&apos;t have an account?{" "}

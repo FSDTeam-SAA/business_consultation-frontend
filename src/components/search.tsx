@@ -76,10 +76,10 @@ const SearchComponent = () => {
   const isButtonDisabled = !(searchResult.trim() && searchCompanyResult.trim());
 
   return (
-    <div className="absolute top-[82%] z-10 w-full lg:left-[25%] lg:top-[82%] lg:w-[948px]">
+    <div className="z-10 w-full lg:w-[948px] lg:mx-auto">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col justify-center gap-4 rounded-md bg-white p-6 shadow-md sm:h-[130px] lg:h-[200px]" // Adjusted height for small screens
+        className="flex flex-col justify-center gap-4 rounded-md p-6 sm:h-[130px] lg:h-[200px]" // Adjusted height for small screens
       >
         <div>
           <input

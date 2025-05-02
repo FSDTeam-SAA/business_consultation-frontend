@@ -2,6 +2,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
 import { Check } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -19,8 +20,7 @@ export default function Pricing() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            amount: payment,
-            subscriptionType: "Subscription_fee",
+            subscriptionType: JSON.parse(payment),
             email: user?.email,
           }),
         },
@@ -55,22 +55,23 @@ export default function Pricing() {
 
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-8">
-      <div className="mb-4 inline-block">
-        <span className="flex items-center rounded-full border border-green-500 px-3 py-1 text-sm font-medium text-green-500">
-          <span className="mr-1 h-2 w-2 rounded-full bg-green-500"></span>
-          Flexible Pricing
-        </span>
+      <div className="mb-6 inline-block">
+        <Link href="/login">
+          <span className="flex items-center rounded-full border border-green-500 px-3 py-1 text-sm font-medium text-green-500">
+            <span className="mr-1 h-2 w-2 rounded-full bg-green-500"></span>
+            Sign Up Now
+          </span>
+        </Link>
       </div>
+      <p className="mb-8 text-center text-gray-700">
+        Are you ready to show your commitment towards net zero? Sign up now and
+        let us assist you on your journey to becoming carbon-neutral.
+      </p>
 
       <div className="grid gap-8 md:grid-cols-2">
         {/* Monthly Plan */}
         <div className="flex flex-col">
           <h2 className="mb-4 text-2xl font-bold">Monthly Plan</h2>
-          <p className="mb-6 text-gray-700">
-            Are you ready to show your commitment towards net zero? Sign up now
-            and let us assist you on your journey to becoming carbon-neutral.
-          </p>
-
           <div className="mt-auto flex-1 rounded-lg bg-gray-100 p-6">
             <div className="mb-4 text-lg font-medium">Feature</div>
 
@@ -96,20 +97,31 @@ export default function Pricing() {
               </div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 flex flex-col gap-2">
               <div className="flex items-center">
-                <div className="text-sm text-green-500">Price</div>
+                <div className="text-sm text-green-500">Monthly Fee</div>
                 <div className="ml-auto">
                   <span className="align-top text-xs">$</span>
                   <span className="text-2xl font-bold">110.00</span>
                 </div>
               </div>
-
+              <div className="flex items-center">
+                <div className="text-sm text-green-500">Initial Fee</div>
+                <div className="ml-auto">
+                  <span className="align-top text-xs">$</span>
+                  <span className="text-2xl font-bold">689.00</span>
+                </div>
+              </div>
               <div className="mt-4 flex items-center">
                 <div className="text-sm text-green-500">Package</div>
                 <button
                   onClick={() => {
-                    handleBuyNow("110");
+                    handleBuyNow(
+                      JSON.stringify([
+                        { name: "Initial_Fee", amount: 689.0 },
+                        { name: "Monthly_Fee", amount: 110.0 },
+                      ]),
+                    );
                   }}
                   className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600"
                 >
@@ -123,11 +135,6 @@ export default function Pricing() {
         {/* Annually Plan */}
         <div className="flex flex-col">
           <h2 className="mb-4 text-2xl font-bold">Annually Plan</h2>
-          <p className="mb-6 text-gray-700">
-            Are you ready to show your commitment towards net zero? Sign up now
-            and let us assist you on your journey to becoming carbon-neutral.
-          </p>
-
           <div className="mt-auto flex-1 rounded-lg bg-gray-100 p-6">
             <div className="mb-4 text-lg font-medium">Feature</div>
 
@@ -153,13 +160,20 @@ export default function Pricing() {
               </div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 flex flex-col gap-2">
               <div className="flex items-center">
-                <div className="text-sm text-green-500">Price</div>
+                <div className="text-sm text-green-500">Monthly Fee</div>
                 <div className="ml-auto">
                   <span className="align-top text-xs">$</span>
                   <span className="text-2xl font-bold">96.00</span>
                   <span className="text-sm">*12</span>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="text-sm text-green-500">Initial Fee</div>
+                <div className="ml-auto">
+                  <span className="align-top text-xs">$</span>
+                  <span className="text-2xl font-bold">689.00</span>
                 </div>
               </div>
 
@@ -167,7 +181,12 @@ export default function Pricing() {
                 <div className="text-sm text-green-500">Package</div>
                 <button
                   onClick={() => {
-                    handleBuyNow("1152");
+                    handleBuyNow(
+                      JSON.stringify([
+                        { name: "Initial_Fee", amount: 689.0 },
+                        { name: "Monthly_Fee", amount: 1152.0 },
+                      ]),
+                    );
                   }}
                   className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600"
                 >

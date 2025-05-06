@@ -60,7 +60,7 @@ export default function Footer() {
               </p> */}
 
               <div className="space-y-2">
-                <p>Follow us on</p>
+                <p>Follow us</p>
                 <div className="flex space-x-2">
                   {/* <Link
                     href="#"
@@ -69,7 +69,7 @@ export default function Footer() {
                     <Facebook className="text-[#09B850]" size={16} />
                   </Link> */}
                   <Link
-                    href="#"
+                    href="https://x.com/going2zeroltd"
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
                   >
                     <Twitter className="text-[#09B850]" size={16} />

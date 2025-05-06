@@ -98,6 +98,7 @@ const formSchema = z.object({
   fullName: z.string().min(2, { message: "Full name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   phoneNumber: z.string().min(5, { message: "Phone number is required" }),
+  totalCarbonEmmision: z.string({message: "Total carbon emmision is required"}),
   companyLegalName: z
     .string()
     .min(2, { message: "Company legal name is required" }),
@@ -210,15 +211,15 @@ export default function EmissionForm({ initianData }: Props) {
   const { mutate: edit, isPending: isEditing } = useMutation({
     mutationKey: ["emmison-form-edit"],
     mutationFn: (formData: FormData) =>
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/${initianData?._id}`, {
-        method: "PUT",
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions`, {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
         body: formData,
       }).then((res) => res.json()),
     onSuccess: (data) => {
-      toast.success(data.message);
+      toast.success("Updated successfully");
       console.log("submmited response", data);
     },
   });
@@ -233,6 +234,7 @@ export default function EmissionForm({ initianData }: Props) {
       fullName: initianData?.basic_information?.full_name ?? "",
       email: initianData?.basic_information?.email ?? "",
       phoneNumber: initianData?.basic_information?.phone_number ?? "",
+      totalCarbonEmmision: initianData?.basic_information?.total_carbon_emissions ?? "",
       companyLegalName:
         initianData?.basic_information?.company_legal_name ?? "",
       companyOperatingName:
@@ -345,9 +347,7 @@ export default function EmissionForm({ initianData }: Props) {
   });
 
 
-  console.log("Submit button states:", { isPending, isEditing });
-  console.log("Form validation errors:", form.formState.errors);
-  console.log("Multi-step form state:", { currentStep, totalSteps });
+ 
   // const businessSetorsFilldData = form.watch("businessSector");
 
   useEffect(() => {
@@ -460,6 +460,7 @@ export default function EmissionForm({ initianData }: Props) {
     formData.append("basic_information.full_name", values.fullName);
     formData.append("basic_information.email", values.email);
     formData.append("basic_information.phone_number", values.phoneNumber);
+    formData.append("basic_information.total_carbon_emissions", Number(values.totalCarbonEmmision).toString());
     formData.append(
       "basic_information.company_legal_name",
       values.companyLegalName,
@@ -773,6 +774,23 @@ export default function EmissionForm({ initianData }: Props) {
                           <Input
                             className="py-6"
                             placeholder="URL"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                    <FormField
+                    control={form.control}
+                    name="totalCarbonEmmision"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Total Cardon Emmision</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="py-6"
+                            placeholder="Enter carbon emmision"
                             {...field}
                           />
                         </FormControl>

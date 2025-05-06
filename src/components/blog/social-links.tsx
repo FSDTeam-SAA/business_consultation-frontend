@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Twitter, Linkedin, Instagram } from "lucide-react";
 
 export default function SocialLinks() {
   return (
@@ -7,25 +7,19 @@ export default function SocialLinks() {
       <h3 className="mb-4 text-xl font-bold">Follow us on</h3>
       <div className="flex gap-4">
         <Link
-          href="#"
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-green-500 transition-colors hover:bg-green-500 hover:text-white"
-        >
-          <Facebook className="h-4 w-4" />
-        </Link>
-        <Link
-          href="#"
+          href="https://x.com/going2zeroltd"
           className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-green-500 transition-colors hover:bg-green-500 hover:text-white"
         >
           <Twitter className="h-4 w-4" />
         </Link>
         <Link
-          href="#"
+          href="https://www.linkedin.com/company/going-2-zero-ltd"
           className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-green-500 transition-colors hover:bg-green-500 hover:text-white"
         >
           <Linkedin className="h-4 w-4" />
         </Link>
         <Link
-          href="#"
+          href="https://www.instagram.com/going2zeroltd/"
           className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-green-500 transition-colors hover:bg-green-500 hover:text-white"
         >
           <Instagram className="h-4 w-4" />

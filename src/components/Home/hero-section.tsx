@@ -93,7 +93,7 @@ export default function HeroSection() {
               {/* <p className="mb-8 max-w-xl text-base text-white/90 md:text-lg">
                 {item.description}
               </p> */}
-              <Link href="/services">
+              <Link href="/service">
                 <p className="inline-block rounded-md bg-[#09B850] px-8 py-3 font-medium uppercase text-white transition-colors hover:bg-[#09B850]/90">
                   LEARN MORE
                 </p>

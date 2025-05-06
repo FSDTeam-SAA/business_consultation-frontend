@@ -9,7 +9,7 @@ interface BlogCardProps {
 }
 
 export default function BlogCard({ post }: BlogCardProps) {
-  console.log(post);
+
   return (
     <div>
       <div className="relative h-[610px] w-full overflow-hidden rounded-md p-4 shadow-[0px_0px_6px_0px_#00000040]">

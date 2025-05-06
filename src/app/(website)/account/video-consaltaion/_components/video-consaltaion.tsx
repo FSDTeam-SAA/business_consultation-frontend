@@ -39,8 +39,6 @@ export default function ConsultationPage() {
   const { user }: any = useAuth();
   const [token, setToken] = useState<string | null>(null);
 
-  console.log(user);
-
   useEffect(() => {
     const storedToken = sessionStorage.getItem("authToken");
     setToken(storedToken);

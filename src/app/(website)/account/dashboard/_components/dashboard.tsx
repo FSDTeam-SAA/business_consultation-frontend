@@ -1,18 +1,35 @@
 "use client";
 import { Factory, Globe, Mail, MapPin, Phone } from "lucide-react";
 
-import { Cell, Pie, PieChart, ResponsiveContainer, Sector } from "recharts";
+import {
+  CartesianGrid,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Sector,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Chart, ChartLegend, ChartLegendItem } from "@/components/ui/chart";
+import {
+  Chart,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendItem,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 // import { CustomProgress } from "./custom-progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
-
 
 export default function CompanyDashboard() {
   // State for active slice
@@ -61,7 +78,25 @@ export default function CompanyDashboard() {
       return res.json();
     },
   });
-  console.log(data?.data)
+  
+
+  // Sample CO2 emissions data - replace with your dynamic data source
+  const emissionsData = [
+    { year: 1960, emissions: 2.9 },
+    { year: 1965, emissions: 3.2 },
+    { year: 1970, emissions: 3.7 },
+    { year: 1975, emissions: 4.2 },
+    { year: 1980, emissions: 4.8 },
+    { year: 1985, emissions: 4.5 },
+    { year: 1990, emissions: 4.9 },
+    { year: 1995, emissions: 5.1 },
+    { year: 2000, emissions: 5.6 },
+    { year: 2005, emissions: 5.5 },
+    { year: 2010, emissions: 5.2 },
+    { year: 2015, emissions: 5.0 },
+    { year: 2020, emissions: 4.9 },
+    
+  ];
 
   // Function to render the active shape with enhanced appearance
 
@@ -102,7 +137,8 @@ export default function CompanyDashboard() {
       </g>
     );
   };
-  console.log(data?.data.basic_information.business_sector.length);
+  
+
   return (
     <>
       {!data?.data ? (
@@ -418,6 +454,64 @@ export default function CompanyDashboard() {
               </CardContent>
             </Card>
 
+            {/* Carbon Emission2 Percentage */}
+            <Card className="w-full ">
+              <CardHeader>
+                <CardTitle className="text-center">
+                  CO2 Emissions Over the Years
+                </CardTitle>
+              </CardHeader>
+              <CardContent >
+                <div className="h-[350px] w-full">
+                  <ChartContainer
+                    config={{
+                      emissions: {
+                        label: "CO2 Emissions",
+                        color: "#A855F7", // Blue color similar to the image
+                      },
+                    }}
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart
+                        data={emissionsData}
+                        margin={{ top: 20, right: 10, left: 0, bottom: 20 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis
+                          dataKey="year"
+                          label={{
+                            value: "Year",
+                            position: "insideBottom",
+                            offset: -10,
+                          }}
+                          tickCount={7}
+                          domain={["dataMin", "dataMax"]}
+                        />
+                        <YAxis
+                          label={{
+                            value: "CO2 Emissions (in metric tons)",
+                            angle: -90,
+                            position: "insideLeft",
+                          }}
+                          domain={[2.5, 6]}
+                        />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Line
+                          type="monotone"
+                          dataKey="emissions"
+                          stroke="var(--color-emissions)"
+                          strokeWidth={2}
+                          dot={{ r: 4, fill: "var(--color-emissions)" }}
+                          activeDot={{ r: 6 }}
+                          name="CO2 Emissions"
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Primary Transportation Method */}
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 text-center shadow-[0px_0px_6px_0px_#00000040]">
               <h1 className="text-[20px] font-medium">
@@ -504,7 +598,12 @@ export default function CompanyDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">{data?.data.carbon_footprint.annual_business_flight_distance.distance}</p>
+                <p className="text-2xl font-bold">
+                  {
+                    data?.data.carbon_footprint.annual_business_flight_distance
+                      .distance
+                  }
+                </p>
               </CardContent>
             </Card>
 
@@ -605,9 +704,12 @@ export default function CompanyDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">{data?.data.finances.total_annual_turnover}</p>
+                <p className="text-2xl font-bold">
+                  {data?.data.finances.total_annual_turnover}
+                </p>
               </CardContent>
             </Card>
+
 
             {/* Annual Business Train Distance */}
             {data?.data?.carbon_footprint?.annual_business_train_distance && (
@@ -684,8 +786,6 @@ export default function CompanyDashboard() {
                 </CardContent>
               </Card>
             )}
-
-      
           </div>
         </div>
       )}

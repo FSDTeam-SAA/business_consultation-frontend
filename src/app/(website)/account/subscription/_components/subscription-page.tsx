@@ -161,7 +161,6 @@ export default function SubscriptionPage() {
     ? data.data.subscriptions
     : [];
 
-  console.log("subscriptions",subscriptions);
 
   const totalPages = data?.pagination?.totalPages || 1;
 

@@ -74,7 +74,7 @@ function NewsletterForm() {
             </h2>
             <p className="mb-6 text-gray-600">
             Subscribe to our newsletter and stay
-            updated.
+            updates .
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">

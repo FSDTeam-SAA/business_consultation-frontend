@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 const Usershowdashboard = () => {
     const router = useRouter();
   const { user } = useAuth();
-  console.log(user);
+
+  
   if (user && (user.role === "Admin" || user.role === "SuperAdmin")) {
     router.push("/");
   }

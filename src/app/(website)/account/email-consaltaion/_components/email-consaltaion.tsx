@@ -123,13 +123,15 @@ export default function ConsultationPage() {
   return (
     <div className="mx-auto mt-4 max-w-3xl rounded-lg border border-gray-200 p-4">
       {!user?.isEmissionSubmitted && (
-        <p className="text-center mb-5 text-red-700">Please Submited your emaition from </p>
+        <p className="mb-5 text-center text-red-700">
+          Please Submited your Emission Form{" "}
+        </p>
       )}
       <h1 className="mb-4 text-center text-2xl font-bold">
         Get Free Consultation
       </h1>
       <div className="w-full">
-        <form onSubmit={handleSubmit}   className="rounded-lg bg-green-500 p-4">
+        <form onSubmit={handleSubmit} className="rounded-lg bg-green-500 p-4">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {/* Name */}
             <div>

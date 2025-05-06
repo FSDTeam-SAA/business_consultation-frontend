@@ -1,4 +1,4 @@
-import Image from "next/image";
+// import Image from "next/image";
 import AboutUsSection from "../Home/AboutUsSection";
 import ServiceSection from "../Home/ServiceSection";
 // import { Button } from "@/components/ui/button";
@@ -37,7 +37,7 @@ export function AboutBusiness() {
       <div>
         <AboutUsSection />
       </div>
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+      {/* <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
         <div className="">
           <div className="flex items-center gap-4">
             <div className="h-16 w-16 text-2xl">
@@ -101,7 +101,7 @@ export function AboutBusiness() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

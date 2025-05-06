@@ -55,7 +55,7 @@ export default function CompanyDashboard() {
   const { user } = useAuth();
 
   // console.log(user?._id)
-
+console.log(user)
   const { data, isLoading } = useQuery({
     queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available
@@ -79,24 +79,41 @@ export default function CompanyDashboard() {
     },
   });
   
+  const { data:co2, } = useQuery({
+    queryKey: ["co2details"],
+    // enabled: token !== null, // Only run query when token is available
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/per-year/${user?._id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch companies");
+      }
+      // setCompanies(res.json())
+      return res.json();
+    },
+  });
+
+  const transformedCo2Data = co2?.data?.map((item: any) => ({
+    year: item.year,
+    emissions: item.totalCarbonEmissions,
+  }));
+
 
   // Sample CO2 emissions data - replace with your dynamic data source
-  const emissionsData = [
-    { year: 1960, emissions: 2.9 },
-    { year: 1965, emissions: 3.2 },
-    { year: 1970, emissions: 3.7 },
-    { year: 1975, emissions: 4.2 },
-    { year: 1980, emissions: 4.8 },
-    { year: 1985, emissions: 4.5 },
-    { year: 1990, emissions: 4.9 },
-    { year: 1995, emissions: 5.1 },
-    { year: 2000, emissions: 5.6 },
-    { year: 2005, emissions: 5.5 },
-    { year: 2010, emissions: 5.2 },
-    { year: 2015, emissions: 5.0 },
-    { year: 2020, emissions: 4.9 },
+  // const emissionsData = [
+   
+  //   { year: 2020, emissions: 4.9 },
     
-  ];
+  // ];
 
   // Function to render the active shape with enhanced appearance
 
@@ -473,7 +490,7 @@ export default function CompanyDashboard() {
                   >
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart
-                        data={emissionsData}
+                        data={transformedCo2Data} 
                         margin={{ top: 20, right: 10, left: 0, bottom: 20 }}
                       >
                         <CartesianGrid strokeDasharray="3 3" />

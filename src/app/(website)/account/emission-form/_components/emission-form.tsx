@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/useAuth";
 // import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -98,7 +99,9 @@ const formSchema = z.object({
   fullName: z.string().min(2, { message: "Full name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   phoneNumber: z.string().min(5, { message: "Phone number is required" }),
-  totalCarbonEmmision: z.string({message: "Total carbon emmision is required"}),
+  totalCarbonEmmision: z.string({
+    message: "Total carbon emmision is required",
+  }),
   companyLegalName: z
     .string()
     .min(2, { message: "Company legal name is required" }),
@@ -189,43 +192,45 @@ export default function EmissionForm({ initianData }: Props) {
     } else setToken(lstoredToken);
   }, []);
 
-  // const {user} = useAuth()
+  const { user } = useAuth();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["emmison-form-submit"],
     mutationFn: (formData: FormData) =>
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
+      fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/${user?._id}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         },
-        body: formData,
-      }).then((res) => res.json()),
+      ).then((res) => res.json()),
     onSuccess: (data) => {
       toast.success(data.message);
       console.log("submmited response", data);
     },
   });
 
-
   const { mutate: edit, isPending: isEditing } = useMutation({
     mutationKey: ["emmison-form-edit"],
     mutationFn: (formData: FormData) =>
-      fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
+      fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/${user?._id}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
         },
-        body: formData,
-      }).then((res) => res.json()),
+      ).then((res) => res.json()),
     onSuccess: (data) => {
       toast.success("Updated successfully");
       console.log("submmited response", data);
     },
   });
-
- 
-
 
   // Initialize the form
   const form = useForm<z.infer<typeof formSchema>>({
@@ -234,7 +239,8 @@ export default function EmissionForm({ initianData }: Props) {
       fullName: initianData?.basic_information?.full_name ?? "",
       email: initianData?.basic_information?.email ?? "",
       phoneNumber: initianData?.basic_information?.phone_number ?? "",
-      totalCarbonEmmision: initianData?.basic_information?.total_carbon_emissions ?? "",
+      totalCarbonEmmision:
+        initianData?.basic_information?.total_carbon_emissions.toString() ?? "",
       companyLegalName:
         initianData?.basic_information?.company_legal_name ?? "",
       companyOperatingName:
@@ -284,7 +290,9 @@ export default function EmissionForm({ initianData }: Props) {
 
             return {
               name: source.id,
-              percentage: initialSource ? initialSource.usage_percentage.toString() : "",
+              percentage: initialSource
+                ? initialSource.usage_percentage.toString()
+                : "",
               isSelected: !!initialSource,
             };
           })
@@ -340,14 +348,14 @@ export default function EmissionForm({ initianData }: Props) {
         initianData?.supply_chain_logistics?.primary_transportation_method ??
         "",
       financesDescription: initianData?.finances?.description ?? "",
-      annualTurnover: initianData?.finances?.total_annual_turnover.toString() ?? "",
-      assetsValue: initianData?.finances?.total_value_of_assets.toString() ?? "",
-      financialStatements:  undefined,
+      annualTurnover:
+        initianData?.finances?.total_annual_turnover.toString() ?? "",
+      assetsValue:
+        initianData?.finances?.total_value_of_assets.toString() ?? "",
+      financialStatements: undefined,
     },
   });
 
-
- 
   // const businessSetorsFilldData = form.watch("businessSector");
 
   useEffect(() => {
@@ -442,14 +450,15 @@ export default function EmissionForm({ initianData }: Props) {
 
   // Updated "Next" button logic
   const nextStep = async () => {
-    const fieldsToValidate = getFieldsForStep(currentStep) as Array<keyof z.infer<typeof formSchema>>;
+    const fieldsToValidate = getFieldsForStep(currentStep) as Array<
+      keyof z.infer<typeof formSchema>
+    >;
     const isValid = await form.trigger(fieldsToValidate);
-  
+
     if (isValid && !isNextDisabled) {
       setCurrentStep((prev) => Math.min(prev + 1, totalSteps));
     }
   };
-
 
   // Handle form submission
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -460,7 +469,10 @@ export default function EmissionForm({ initianData }: Props) {
     formData.append("basic_information.full_name", values.fullName);
     formData.append("basic_information.email", values.email);
     formData.append("basic_information.phone_number", values.phoneNumber);
-    formData.append("basic_information.total_carbon_emissions", Number(values.totalCarbonEmmision).toString());
+    formData.append(
+      "basic_information.total_carbon_emissions",
+      Number(values.totalCarbonEmmision).toString(),
+    );
     formData.append(
       "basic_information.company_legal_name",
       values.companyLegalName,
@@ -592,13 +604,11 @@ export default function EmissionForm({ initianData }: Props) {
     if (values.financialStatements) {
       formData.append(
         "financial_statements",
-         values.financialStatements as File,
+        values.financialStatements as File,
       );
     }
 
-
-    if(initianData) {
-
+    if (initianData) {
       edit(formData);
     } else {
       mutate(formData);
@@ -660,10 +670,12 @@ export default function EmissionForm({ initianData }: Props) {
         <h2 className="rounded-t-md bg-primary px-4 py-2 text-lg font-semibold text-white">
           Section {currentStep} of {totalSteps}
         </h2>
-        <Link href={"/account/emission-form/edit"}>
-          {" "}
-          <button className="mr-10 px-5 text-white">Edit</button>
-        </Link>
+        {!initianData && (
+          <Link href={"/account/emission-form/edit"}>
+            {" "}
+            <button className="mr-10 px-5 text-white">Edit</button>
+          </Link>
+        )}
       </div>
 
       <Card>
@@ -781,7 +793,7 @@ export default function EmissionForm({ initianData }: Props) {
                       </FormItem>
                     )}
                   />
-                    <FormField
+                  <FormField
                     control={form.control}
                     name="totalCarbonEmmision"
                     render={({ field }) => (
@@ -1343,7 +1355,6 @@ export default function EmissionForm({ initianData }: Props) {
                     )}
                   />
 
-
                   <FormField
                     control={form.control}
                     name="financialStatements"
@@ -1376,25 +1387,32 @@ export default function EmissionForm({ initianData }: Props) {
 
               {/* Navigation buttons */}
               <div className="flex justify-between pt-4">
-    <Button
-      type="button"
-      variant="outline"
-      onClick={prevStep}
-      disabled={currentStep === 1}
-    >
-      Previous
-    </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={prevStep}
+                  disabled={currentStep === 1}
+                >
+                  Previous
+                </Button>
 
-    {currentStep < totalSteps ? (
-      <Button type="button" onClick={nextStep} disabled={isNextDisabled}>
-        Next
-      </Button>
-    ) : (
-      <Button onClick={form.handleSubmit(onSubmit)} disabled={isPending || isEditing }>
-        Submit
-      </Button>
-    )}
-  </div>
+                {currentStep < totalSteps ? (
+                  <Button
+                    type="button"
+                    onClick={nextStep}
+                    disabled={isNextDisabled}
+                  >
+                    Next
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={form.handleSubmit(onSubmit)}
+                    disabled={isPending || isEditing}
+                  >
+                    Submit
+                  </Button>
+                )}
+              </div>
             </form>
           </Form>
         </CardContent>

@@ -2,13 +2,7 @@
 
 import type React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import {
-  ArrowRight,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Twitter,
-} from "lucide-react";
+import { ArrowRight, Instagram, Linkedin, Twitter } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -80,8 +74,12 @@ const services: Service[] = [
             </li>
           </ul>
           <h1 className="text-xl font-bold">Why Book a Consultation?</h1>
-          <p className="pl-5">✓ Personalized advice tailored to your situation</p>
-          <p className="pl-5">✓ Actionable steps you can implement immediately</p>
+          <p className="pl-5">
+            ✓ Personalized advice tailored to your situation
+          </p>
+          <p className="pl-5">
+            ✓ Actionable steps you can implement immediately
+          </p>
           <p className="pl-5">
             ✓ Opportunity to discuss long-term goals and strategy
           </p>
@@ -111,7 +109,9 @@ const services: Service[] = [
           <p>✓ Make better decisions based on real-time data</p>
           <p>✓ Understand new environmental regulations and initiatives</p>
           <p>✓ Get inspired by success stories and new sustainability trends</p>
-          <p>✓ Stay connected to a global community passionate about the planet</p>
+          <p>
+            ✓ Stay connected to a global community passionate about the planet
+          </p>
         </div>
       </>
     ),
@@ -168,16 +168,24 @@ export default function OurServices({ activeTab }: Props) {
                 <div className="my-8 bg-[#E6E6E6] p-4">
                   <h3 className="mb-4 text-sm font-medium">Follow us on</h3>
                   <div className="flex space-x-4">
-                    {[Facebook, Twitter, Linkedin, Instagram].map((Icon, idx) => (
-                      <a
-                        key={idx}
-                        href="#"
-                        className="rounded-full bg-gray-100 p-2 hover:bg-gray-200"
-                      >
-                        <Icon className="h-5 w-5 text-green-500" />
-                        <span className="sr-only">Social Icon</span>
-                      </a>
-                    ))}
+                    <Link
+                      href="https://x.com/going2zeroltd"
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
+                    >
+                      <Twitter className="text-[#09B850]" size={16} />
+                    </Link>
+                    <Link
+                      href="https://www.linkedin.com/company/going-2-zero-ltd"
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
+                    >
+                      <Linkedin className="text-[#09B850]" size={16} />
+                    </Link>
+                    <Link
+                      href="https://www.instagram.com/going2zeroltd/"
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
+                    >
+                      <Instagram className="text-[#09B850]" size={16} />
+                    </Link>
                   </div>
                 </div>
 
@@ -242,9 +250,13 @@ export default function OurServices({ activeTab }: Props) {
               </div>
 
               <div className="mb-8">
-                <h1 className="mb-4 text-3xl font-bold">{activeService.title}</h1>
+                <h1 className="mb-4 text-3xl font-bold">
+                  {activeService.title}
+                </h1>
                 {activeService.description && (
-                  <p className="mb-6 text-gray-700">{activeService.description}</p>
+                  <p className="mb-6 text-gray-700">
+                    {activeService.description}
+                  </p>
                 )}
                 <div className="prose max-w-none">{activeService.content}</div>
               </div>

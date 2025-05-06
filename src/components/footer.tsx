@@ -188,7 +188,7 @@ export default function Footer() {
 
           <div className="mt-12 border-t border-gray-700 pt-6 text-center">
             <p className="text-gray-400">
-              Copyright ©2023 Business Consultative. All Right Reserved.
+              Copyright ©2025 Business Consultative. All Right Reserved.
             </p>
             <div className="flex items-center justify-center gap-3">
               <Link href="/about">

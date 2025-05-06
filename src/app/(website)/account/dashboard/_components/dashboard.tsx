@@ -1,18 +1,35 @@
 "use client";
 import { Factory, Globe, Mail, MapPin, Phone } from "lucide-react";
 
-import { Cell, Pie, PieChart, ResponsiveContainer, Sector } from "recharts";
+import {
+  CartesianGrid,
+  Cell,
+  Line,
+  LineChart,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Sector,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Chart, ChartLegend, ChartLegendItem } from "@/components/ui/chart";
+import {
+  Chart,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendItem,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 // import { CustomProgress } from "./custom-progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
-
 
 export default function CompanyDashboard() {
   // State for active slice
@@ -38,7 +55,7 @@ export default function CompanyDashboard() {
   const { user } = useAuth();
 
   // console.log(user?._id)
-
+console.log(user)
   const { data, isLoading } = useQuery({
     queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available
@@ -61,7 +78,42 @@ export default function CompanyDashboard() {
       return res.json();
     },
   });
-  console.log(data?.data)
+  
+  const { data:co2, } = useQuery({
+    queryKey: ["co2details"],
+    // enabled: token !== null, // Only run query when token is available
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/per-year/${user?._id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch companies");
+      }
+      // setCompanies(res.json())
+      return res.json();
+    },
+  });
+
+  const transformedCo2Data = co2?.data?.map((item: any) => ({
+    year: item.year,
+    emissions: item.totalCarbonEmissions,
+  }));
+
+
+  // Sample CO2 emissions data - replace with your dynamic data source
+  // const emissionsData = [
+   
+  //   { year: 2020, emissions: 4.9 },
+    
+  // ];
 
   // Function to render the active shape with enhanced appearance
 
@@ -102,7 +154,8 @@ export default function CompanyDashboard() {
       </g>
     );
   };
-  console.log(data?.data.basic_information.business_sector.length);
+  
+
   return (
     <>
       {!data?.data ? (
@@ -418,6 +471,64 @@ export default function CompanyDashboard() {
               </CardContent>
             </Card>
 
+            {/* Carbon Emission2 Percentage */}
+            <Card className="w-full ">
+              <CardHeader>
+                <CardTitle className="text-center">
+                  CO2 Emissions Over the Years
+                </CardTitle>
+              </CardHeader>
+              <CardContent >
+                <div className="h-[350px] w-full">
+                  <ChartContainer
+                    config={{
+                      emissions: {
+                        label: "CO2 Emissions",
+                        color: "#A855F7", // Blue color similar to the image
+                      },
+                    }}
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart
+                        data={transformedCo2Data} 
+                        margin={{ top: 20, right: 10, left: 0, bottom: 20 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis
+                          dataKey="year"
+                          label={{
+                            value: "Year",
+                            position: "insideBottom",
+                            offset: -10,
+                          }}
+                          tickCount={7}
+                          domain={["dataMin", "dataMax"]}
+                        />
+                        <YAxis
+                          label={{
+                            value: "CO2 Emissions (in metric tons)",
+                            angle: -90,
+                            position: "insideLeft",
+                          }}
+                          domain={[2.5, 6]}
+                        />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Line
+                          type="monotone"
+                          dataKey="emissions"
+                          stroke="var(--color-emissions)"
+                          strokeWidth={2}
+                          dot={{ r: 4, fill: "var(--color-emissions)" }}
+                          activeDot={{ r: 6 }}
+                          name="CO2 Emissions"
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Primary Transportation Method */}
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 text-center shadow-[0px_0px_6px_0px_#00000040]">
               <h1 className="text-[20px] font-medium">
@@ -504,7 +615,12 @@ export default function CompanyDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">{data?.data.carbon_footprint.annual_business_flight_distance.distance}</p>
+                <p className="text-2xl font-bold">
+                  {
+                    data?.data.carbon_footprint.annual_business_flight_distance
+                      .distance
+                  }
+                </p>
               </CardContent>
             </Card>
 
@@ -605,9 +721,12 @@ export default function CompanyDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">{data?.data.finances.total_annual_turnover}</p>
+                <p className="text-2xl font-bold">
+                  {data?.data.finances.total_annual_turnover}
+                </p>
               </CardContent>
             </Card>
+
 
             {/* Annual Business Train Distance */}
             {data?.data?.carbon_footprint?.annual_business_train_distance && (
@@ -684,8 +803,6 @@ export default function CompanyDashboard() {
                 </CardContent>
               </Card>
             )}
-
-      
           </div>
         </div>
       )}

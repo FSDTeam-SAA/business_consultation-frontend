@@ -60,7 +60,7 @@ export default function Footer() {
               </p> */}
 
               <div className="space-y-2">
-                <p>Follow us on</p>
+                <p>Follow us</p>
                 <div className="flex space-x-2">
                   {/* <Link
                     href="#"
@@ -69,7 +69,7 @@ export default function Footer() {
                     <Facebook className="text-[#09B850]" size={16} />
                   </Link> */}
                   <Link
-                    href="#"
+                    href="https://x.com/going2zeroltd"
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
                   >
                     <Twitter className="text-[#09B850]" size={16} />
@@ -188,7 +188,7 @@ export default function Footer() {
 
           <div className="mt-12 border-t border-gray-700 pt-6 text-center">
             <p className="text-gray-400">
-              Copyright ©2023 Business Consultative. All Right Reserved.
+              Copyright ©2025 Business Consultative. All Right Reserved.
             </p>
             <div className="flex items-center justify-center gap-3">
               <Link href="/about">

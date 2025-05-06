@@ -153,7 +153,7 @@ const AboutUsSection = () => {
         <Image
           width={500}
           height={500}
-          src="/api/placeholder/800/300"
+          src="/image-20.jpg"
           alt="Nature background"
           className="h-full w-full bg-slate-500 object-cover brightness-50 saturate-150"
         />
@@ -161,7 +161,7 @@ const AboutUsSection = () => {
 
       {/* Content */}
       <div className="z-10 px-4">
-        <h1 className="mb-4 text-3xl font-bold">Our Goal</h1>
+        <h1 className="mb-4 text-5xl font-bold ">Our Goal</h1>
         <p className="max-w-lg text-lg font-light leading-relaxed">
           To become the leading force in accelerating
           <br />

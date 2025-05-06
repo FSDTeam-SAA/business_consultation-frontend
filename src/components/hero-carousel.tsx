@@ -22,7 +22,7 @@ const carouselItems = [
     description:
       "Our strategic planning services help you navigate complex business challenges and create a roadmap for sustainable growth and success.",
     buttonText: "LEARN MORE",
-    buttonLink: "/services",
+    buttonLink: "/service",
   },
   {
     id: 3,

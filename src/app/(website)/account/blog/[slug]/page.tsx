@@ -53,7 +53,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     enabled: !!slug, // only run when slug is available
   });
 
-  console.log(postData);
 
   if (isLoading) return <Loading />;
 

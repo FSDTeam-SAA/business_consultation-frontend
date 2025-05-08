@@ -5,7 +5,7 @@ const services = [
   {
     id: 1,
     title: "Commitment Badge",
-    description: `Show the world you're taking real action on sustainability. With Going2Zero, every member receives a personalized Commitment Badge — a unique, verified symbol of your environmental efforts.
+    description: `Show the world you're taking real action on sustainability. With Going 2 Zero, every member receives a personalized Commitment Badge — a unique, verified symbol of your environmental efforts.
 A Badge That Speaks Volumes
 Whether you're reducing emissions, supporting climate projects, or improving your practices, your badge highlights your commitment in a simple, trusted way. Each badge comes with a custom code that can be easily added to your website, product packaging, marketing materials, and more.
 

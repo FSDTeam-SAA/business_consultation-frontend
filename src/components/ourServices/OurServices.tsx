@@ -28,7 +28,7 @@ const services: Service[] = [
       <>
         <p className="mb-6">
           Show the world you&rsquo;re taking real action on sustainability. With
-          Going2Zero, every member receives a personalized Commitment Badge
+          Going 2 Zero, every member receives a personalized Commitment Badge
           &mdash; a unique, verified symbol of your environmental efforts.
         </p>
 

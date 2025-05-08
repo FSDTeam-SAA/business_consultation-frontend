@@ -172,7 +172,7 @@ export default function Footer() {
                 </div> */}
                 <div className="flex">
                   <p className="font-bold">Mail:</p>
-                  <p className="ml-2 text-[#999999]">info@going2zero</p>
+                  <p className="ml-2 text-[#999999]">info@going2zero.com</p>
                 </div>
                 <div className="flex">
                   <p className="font-bold">Phone:</p>

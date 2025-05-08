@@ -35,7 +35,7 @@ export default function ServiceSection() {
       <div className="mb-12 text-center">
         <h1 className="mb-4 text-4xl font-bold">Welcome to Going 2 Zero</h1>
         <p className="text-center text-lg font-normal text-[#595959]">
-          At Going2Zero, we help businesses take real action toward achieving
+          At Going 2 Zero, we help businesses take real action toward achieving
           net zero. Through our innovative AI-powered platform, we provide
           businesses with the tools to measure, track, and reduce their carbon
           footprint. Our three-step approach—emissions tracking, personalized

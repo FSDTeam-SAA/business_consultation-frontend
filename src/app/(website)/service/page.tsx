@@ -1,4 +1,5 @@
 import Services from "@/components/Home/Services";
+import NewsletterSection from "@/components/newsletter-section";
 import PageHero from "@/components/page-hero";
 import AboutBusiness from "@/components/service/AboutBusiness";
 import Pricing from "@/components/service/Pricing";
@@ -15,6 +16,7 @@ export default function ServicePage() {
 
       <Services />
       <Pricing />
+      <NewsletterSection/>
     </main>
   );
 }

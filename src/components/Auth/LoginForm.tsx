@@ -27,13 +27,13 @@ export default function LoginForm() {
       const success = await login({ email, password }, rememberMe);
 
       if (success) {
-        toast.success("Login successful!");
+        toast.success( "Login successful!");
         window.location.href = "/";
       } else {
         toast.error("Login failed. Please check your credentials.");
       }
-    } catch {
-      toast.error("Login failed. Please try again.");
+    } catch(error:any) {
+      toast.error(error.message || "Please complete your entry payment before logging in.");
       router.push("/subscription");
     }
   };
@@ -164,6 +164,13 @@ export default function LoginForm() {
             <Link href="/sign-up" className="text-green-500 hover:underline">
               Register
             </Link>
+          </p>
+          <p className="mt-2 text-center text-gray-400">
+            already have an account but haven&apos;t made a{" "}
+            <Link href="/subscription" className="text-green-500 hover:underline">
+              payment
+            </Link>{" "}
+            yet, please proceed with the subscription to get full access.{" "}
           </p>
         </div>
       </div>

@@ -18,7 +18,7 @@ export default function BlogPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 3;
   const { user } = useAuth();
-  console.log("user", user);
+  
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem("authToken");
@@ -74,7 +74,7 @@ export default function BlogPage() {
   });
 
   const singleUser = getUser?.data || [];
-  console.log("singleUser", singleUser);
+  
 
   // console.log(posts);
 

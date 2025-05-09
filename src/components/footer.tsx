@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {  Twitter, Instagram, Linkedin } from "lucide-react";
 import Hideon from "@/provider/Hideon";
-import NewsletterSection from "./newsletter-section";
+// import NewsletterSection from "./newsletter-section";
 import Image from "next/image";
 
 export default function Footer() {
@@ -15,7 +15,10 @@ export default function Footer() {
         "/forget-password",
       ]}
     >
-      <NewsletterSection />
+      {
+
+      }
+      
       <footer className="bg-[#033618] text-white">
         <div className="container mx-auto px-4 py-12">
           {/* top sec  */}

@@ -273,8 +273,7 @@ export default function ConsultationPage() {
                 <CheckIcon className="h-5 w-5 text-green-500" />
               </div>
               <p className="text-gray-700">
-                Any specific challenges or sectors of your business that can use
-                our help to reduce emissions.
+             A brief overview of your business&apos;s emissions based on the information you provide.
               </p>
             </div>
             <div className="flex items-start gap-2">
@@ -282,9 +281,7 @@ export default function ConsultationPage() {
                 <CheckIcon className="h-5 w-5 text-green-500" />
               </div>
               <p className="text-gray-700">
-                An overall review on your emissions and/or next steps in your
-                commitment journey to ensure you the most convenient path to net
-                zero.
+              General suggestions and initial steps you can take to start reducing emissions all  delivered by email at no cost.
               </p>
             </div>
           </div>

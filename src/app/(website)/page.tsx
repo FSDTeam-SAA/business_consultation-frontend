@@ -6,6 +6,7 @@ import HeroSection from "@/components/Home/hero-section";
 import Services from "@/components/Home/Services";
 import ServiceSection from "@/components/Home/ServiceSection";
 import WhyChooseUsSection from "@/components/Home/whyChooseUs";
+import NewsletterSection from "@/components/newsletter-section";
 import SearchComponent from "@/components/search";
 // import ProtectedRoute from "@/components/Auth/ProtectedRoute";
 // import BlogSection from "@/components/blog/BlogSection";
@@ -30,6 +31,7 @@ export default function Home() {
       <AboutUsSection />
       <Services />
       <WhyChooseUsSection />
+      <NewsletterSection/>
     </main>
   );
 }

@@ -166,7 +166,7 @@ export default function LoginForm() {
             </Link>
           </p>
           <p className="mt-2 text-center text-gray-400">
-            already have an account but haven&apos;t made a{" "}
+            Already have an account but haven&apos;t made a{" "}
             <Link href="/subscription" className="text-green-500 hover:underline">
               payment
             </Link>{" "}

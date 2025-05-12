@@ -54,8 +54,8 @@ export default function CompanyDashboard() {
 
   const { user } = useAuth();
 
-  // console.log(user?._id)
-  console.log(user);
+
+  
   const { data, isLoading } = useQuery({
     queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available

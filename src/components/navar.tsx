@@ -12,7 +12,6 @@ import { useAuth } from "@/hooks/useAuth";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,9 +19,8 @@ export default function Navbar() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const pathName = usePathname();
   const profileRef = useRef<HTMLDivElement>(null);
-  const [token, setToken] = useState<string | null>(null);
   // const [searchResult, setSearchResult] = useState<string | null>(null);
-  const { user, logout, checkSession } = useAuth();
+  const { user, logout, checkSession,isSubscriptionExpiredGracePeriod } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,37 +50,6 @@ export default function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  useEffect(() => {
-    const storedToken = sessionStorage.getItem("authToken");
-    setToken(storedToken);
-  }, []);
-  const { data: getUser } = useQuery({
-    queryKey: ["user", token],
-    queryFn: async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/${user?._id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (!res.ok) {
-        throw new Error("Failed to fetch blogs");
-      }
-      return res.json();
-    },
-    enabled: !!token,
-  });
-
-  const singleUser = getUser?.data || [];
-
-  const isSubscriptionExpiredGracePeriod =
-    singleUser?.hasActiveSubscription &&
-    singleUser?.subscriptionExpireDate &&
-    new Date(singleUser.subscriptionExpireDate) > new Date();
 
   return (
     <Hideon

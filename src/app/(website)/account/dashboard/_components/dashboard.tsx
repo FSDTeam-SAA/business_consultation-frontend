@@ -54,8 +54,6 @@ export default function CompanyDashboard() {
 
   const { user } = useAuth();
 
-
-  
   const { data, isLoading } = useQuery({
     queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available
@@ -153,7 +151,7 @@ export default function CompanyDashboard() {
       </g>
     );
   };
-
+  console.log(data?.data);
   return (
     <>
       {!data?.data ? (
@@ -199,7 +197,7 @@ export default function CompanyDashboard() {
             </Card>
           ) : (
             <Card className="bg-[#033618] text-white">
-              <CardContent className="flex  justify-between gap-4 p-6">
+              <CardContent className="flex justify-between gap-4 p-6">
                 {/* <Avatar className="h-24 w-24 border-4 border-white">
                   <AvatarImage
                     src="/placeholder.svg?height=96&width=96"
@@ -268,10 +266,12 @@ export default function CompanyDashboard() {
                     </div>
                   )}
                 </div>
-              <Link href={"/account/emission-form/edit"}>
-                {" "}
-                <button className="mr-10 px-5 text-white">Edit Emission</button>
-              </Link>
+                <Link href={"/account/emission-form/edit"}>
+                  {" "}
+                  <button className="mr-10 px-5 text-white">
+                    Edit Emission
+                  </button>
+                </Link>
               </CardContent>
             </Card>
           )}
@@ -611,6 +611,87 @@ export default function CompanyDashboard() {
               </Card>
             )} */}
             {/* Average Business Flight Distance */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Total CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.totalCO2_kg}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Total CO2_tonnes
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.totalCO2_tonnes}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Electricity CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {
+                    data?.data?.calculated_emissions?.breakdown
+                      ?.electricityCO2_kg
+                  }
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Goods CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.breakdown?.goodsCO2_kg}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Travel CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.breakdown?.travelCO2_kg}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Vehicle CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.breakdown?.vehicleCO2_kg}
+                </p>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base font-medium">

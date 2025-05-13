@@ -13,7 +13,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   const router = useRouter();
   const pathname = usePathname();
-
+ 
   useEffect(() => {
     if (!isLoading) {
       if (!isLoggedIn) {

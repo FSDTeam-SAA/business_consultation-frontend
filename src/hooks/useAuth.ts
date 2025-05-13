@@ -225,54 +225,57 @@ export function useAuth() {
     }
   }, [checkSession]);
 
-  const login = async (
-    credentials: LoginCredentials,
-    rememberMe = false,
-  ): Promise<boolean> => {
-    try {
-      setLoginPending(true);
+const login = async (
+  credentials: LoginCredentials,
+  rememberMe = false,
+): Promise<LoginResponse | null> => {
+  try {
+    setLoginPending(true);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify(credentials),
+      },
+    );
+
+    const data: LoginResponse = await response.json();
+
+    // console.log(data)
+
+    if (!response.ok) {
+      throw new Error(data.message || "Login failed");
+    }
+
+    if (data.status && data.data.accessToken) {
+      const userId = data.data.user._id;
+
+      setUser(data.data.user);
+      setIsLoggedIn(true);
+
+      storeAuthInfo(
+        data.data.accessToken,
+        userId,
+        data.data.refreshToken,
+        rememberMe,
+        data.data.user,
       );
 
-      const data: LoginResponse = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-
-      if (data.status && data.data.accessToken) {
-        const userId = data.data.user._id;
-
-        setUser(data.data.user);
-        setIsLoggedIn(true);
-
-        storeAuthInfo(
-          data.data.accessToken,
-          userId,
-          data.data.refreshToken,
-          rememberMe,
-          data.data.user,
-        );
-
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Login error:", error);
-      return false;
-    } finally {
-      setLoginPending(false);
+      return data; // Return the entire response
     }
-  };
+    return data;
+  } catch (error) {
+    console.error("Login error:", error);
+    return null;
+  } finally {
+    setLoginPending(false);
+  }
+};
+
 
   const logout = () => {
     clearAuthInfo();

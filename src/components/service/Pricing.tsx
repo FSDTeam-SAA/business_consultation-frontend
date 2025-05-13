@@ -20,8 +20,9 @@ export default function Pricing() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            subscriptionType: JSON.parse(payment),
             email: user?.email,
+            subcriptioType: "Entry_free",
+            amount: Number(payment),
           }),
         },
       );
@@ -115,14 +116,7 @@ export default function Pricing() {
               <div className="mt-4 flex items-center">
                 <div className="text-sm text-green-500">Package</div>
                 <button
-                  onClick={() => {
-                    handleBuyNow(
-                      JSON.stringify([
-                        { name: "Initial_Fee", amount: 689.0 },
-                        { name: "Monthly_Fee", amount: 110.0 },
-                      ]),
-                    );
-                  }}
+                  onClick={() => handleBuyNow("799")}
                   className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600"
                 >
                   Buy Plan
@@ -180,14 +174,7 @@ export default function Pricing() {
               <div className="mt-4 flex items-center">
                 <div className="text-sm text-green-500">Package</div>
                 <button
-                  onClick={() => {
-                    handleBuyNow(
-                      JSON.stringify([
-                        { name: "Initial_Fee", amount: 689.0 },
-                        { name: "Monthly_Fee", amount: 1152.0 },
-                      ]),
-                    );
-                  }}
+                   onClick={() => handleBuyNow("1841")}
                   className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600"
                 >
                   Buy Plan

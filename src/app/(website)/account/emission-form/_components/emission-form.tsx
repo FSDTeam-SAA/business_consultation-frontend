@@ -208,7 +208,7 @@ export default function EmissionForm({ initianData }: Props) {
       ).then((res) => res.json()),
     onSuccess: (data) => {
       toast.success(data.message);
-      console.log("submmited response", data);
+      
     },
   });
 
@@ -226,8 +226,8 @@ export default function EmissionForm({ initianData }: Props) {
         },
       ).then((res) => res.json()),
     onSuccess: (data) => {
-      toast.success("Updated successfully");
-      console.log("submmited response", data);
+      toast.success(data.message || "Updated successfully");
+    
     },
   });
 

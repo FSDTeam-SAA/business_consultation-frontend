@@ -14,8 +14,8 @@ interface User {
   profileImage: string;
   hasActiveSubscription: boolean;
   subscriptionExpireDate: string | null;
-  isEmissionSubmitted:boolean
-  // Add other properties as needed
+  isEmissionSubmitted: boolean;
+  isEntryComplete: boolean;
 }
 
 interface LoginResponse {
@@ -41,12 +41,10 @@ export function useAuth() {
   const [loginPending, setLoginPending] = useState<boolean>(false);
   const router = useRouter();
 
-  // Get auth info in a consistent way across the hook
   const getAuthInfo = useCallback(() => {
     if (typeof window === "undefined")
       return { token: null, userId: null, refreshToken: null };
 
-    // Check localStorage first, then sessionStorage as fallback
     const token =
       localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
     const userId = localStorage.getItem("userId");
@@ -55,7 +53,6 @@ export function useAuth() {
     return { token, userId, refreshToken };
   }, []);
 
-  // Store auth info in a consistent way
   const storeAuthInfo = useCallback(
     (
       accessToken: string,
@@ -64,7 +61,6 @@ export function useAuth() {
       rememberMe: boolean,
       userData?: User,
     ) => {
-      // If rememberMe, store in localStorage, else sessionStorage
       if (rememberMe) {
         localStorage.setItem("authToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
@@ -73,13 +69,9 @@ export function useAuth() {
         sessionStorage.setItem("refreshToken", refreshToken);
       }
 
-      // Always store userId in localStorage for consistent access
       localStorage.setItem("userId", userId);
+      document.cookie = `authToken=${accessToken}; path=/; max-age=${60 * 60 * 24 * 7}`;
 
-      // Set cookie for middleware if needed
-      document.cookie = `authToken=${accessToken}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 days
-
-      // Immediately update the state with user data if provided
       if (userData) {
         setUser(userData);
         setIsLoggedIn(true);
@@ -99,7 +91,6 @@ export function useAuth() {
     document.cookie = "authToken=; path=/; max-age=0";
   }, []);
 
-  // Refresh token function
   const refreshAuthToken = useCallback(async (): Promise<boolean> => {
     const { refreshToken, userId } = getAuthInfo();
 
@@ -122,14 +113,13 @@ export function useAuth() {
       const data = await response.json();
 
       if (data.status && data.data.accessToken) {
-        // Store in the same storage that had the previous token
         const rememberMe = !!localStorage.getItem("authToken");
         storeAuthInfo(
           data.data.accessToken,
           userId,
           data.data.refreshToken || refreshToken,
           rememberMe,
-          data.data.user, // Pass user data if available in refresh response
+          data.data.user,
         );
         return true;
       }
@@ -154,7 +144,6 @@ export function useAuth() {
         );
 
         if (response.status === 401) {
-          // Try to refresh the token and retry
           const refreshed = await refreshAuthToken();
           if (refreshed) {
             const { token: newToken } = getAuthInfo();
@@ -168,7 +157,6 @@ export function useAuth() {
         if (response.ok) {
           const responseData = await response.json();
           if (responseData.status) {
-            // Immediately update the user state when profile is fetched successfully
             setUser(responseData.data);
             return responseData.data;
           }
@@ -200,25 +188,21 @@ export function useAuth() {
       const userData = await fetchUserProfile(userId, token);
 
       if (userData) {
-        // fetchUserProfile now handles setting the user state
         setIsLoggedIn(true);
         return true;
       } else {
-        // Try token refresh as a last resort
         const refreshed = await refreshAuthToken();
         if (refreshed) {
           const { token: newToken } = getAuthInfo();
           if (newToken) {
             const refreshedUserData = await fetchUserProfile(userId, newToken);
             if (refreshedUserData) {
-              // fetchUserProfile now handles setting the user state
               setIsLoggedIn(true);
               return true;
             }
           }
         }
 
-        // If we get here, authentication failed
         clearAuthInfo();
         setIsLoggedIn(false);
         setUser(null);
@@ -235,66 +219,63 @@ export function useAuth() {
     }
   }, [getAuthInfo, fetchUserProfile, refreshAuthToken, clearAuthInfo]);
 
-  // Initialize on mount
   useEffect(() => {
-    // Don't run during SSR
     if (typeof window !== "undefined") {
       checkSession();
     }
   }, [checkSession]);
 
-  const login = async (
-    credentials: LoginCredentials,
-    rememberMe = false,
-  ): Promise<boolean> => {
-    try {
-      setLoginPending(true);
+const login = async (
+  credentials: LoginCredentials,
+  rememberMe = false,
+): Promise<LoginResponse | null> => {
+  try {
+    setLoginPending(true);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(credentials),
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/user/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify(credentials),
+      },
+    );
+
+    const data: LoginResponse = await response.json();
+
+    // console.log(data)
+
+    if (!response.ok) {
+      throw new Error(data.message || "Login failed");
+    }
+
+    if (data.status && data.data.accessToken) {
+      const userId = data.data.user._id;
+
+      setUser(data.data.user);
+      setIsLoggedIn(true);
+
+      storeAuthInfo(
+        data.data.accessToken,
+        userId,
+        data.data.refreshToken,
+        rememberMe,
+        data.data.user,
       );
 
-      const data: LoginResponse = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-
-      if (data.status && data.data.accessToken) {
-        // Store user ID from the user object
-        const userId = data.data.user._id;
-
-        // First update the state to ensure immediate access to user data
-        setUser(data.data.user);
-        setIsLoggedIn(true);
-
-        // Then store the auth info
-        storeAuthInfo(
-          data.data.accessToken,
-          userId,
-          data.data.refreshToken,
-          rememberMe,
-          data.data.user, // Pass user data to storeAuthInfo
-        );
-
-        // router.push("/");
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error("Login error:", error);
-      return false;
-    } finally {
-      setLoginPending(false);
+      return data; // Return the entire response
     }
-  };
+    return data;
+  } catch (error) {
+    console.error("Login error:", error);
+    return null;
+  } finally {
+    setLoginPending(false);
+  }
+};
+
 
   const logout = () => {
     clearAuthInfo();
@@ -303,7 +284,6 @@ export function useAuth() {
     router.push("/");
   };
 
-  // Update user data (for profile updates)
   const updateUserData = async () => {
     if (isLoggedIn) {
       const { token, userId } = getAuthInfo();
@@ -315,6 +295,13 @@ export function useAuth() {
     return false;
   };
 
+  const isSubscriptionExpiredGracePeriod = !!(
+    user?.hasActiveSubscription &&
+    user?.isEntryComplete &&
+    user?.subscriptionExpireDate &&
+    new Date(user.subscriptionExpireDate) > new Date()
+  );
+
   return {
     isLoggedIn,
     user,
@@ -325,7 +312,6 @@ export function useAuth() {
     checkSession,
     updateUserData,
     refreshAuthToken,
+    isSubscriptionExpiredGracePeriod, // ✅ Added here
   };
 }
-
-

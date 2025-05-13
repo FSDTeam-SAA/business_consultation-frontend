@@ -20,20 +20,21 @@ export default function LoginForm() {
   // Use the auth hook
   const { login, loginPending } = useAuth();
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const success = await login({ email, password }, rememberMe);
-
-      if (success) {
-        toast.success( "Login successful!");
+      const dataResponse = await login({ email, password }, rememberMe);
+      // console.log("success",dataResponse)
+      if (dataResponse?.status) {
+        toast.success("Login successful!");
         window.location.href = "/";
       } else {
-        toast.error("Login failed. Please check your credentials.");
+        toast.error(dataResponse?.message);
       }
-    } catch(error:any) {
-      toast.error(error.message || "Please complete your entry payment before logging in.");
+    } catch (error: any) {
+      toast.error(error.message || "");
       router.push("/subscription");
     }
   };
@@ -166,8 +167,11 @@ export default function LoginForm() {
             </Link>
           </p>
           <p className="mt-2 text-center text-gray-400">
-            already have an account but haven&apos;t made a{" "}
-            <Link href="/subscription" className="text-green-500 hover:underline">
+            Already have an account but haven&apos;t made a{" "}
+            <Link
+              href="/subscription"
+              className="text-green-500 hover:underline"
+            >
               payment
             </Link>{" "}
             yet, please proceed with the subscription to get full access.{" "}

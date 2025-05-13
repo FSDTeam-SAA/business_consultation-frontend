@@ -17,8 +17,8 @@ import { toast } from "sonner";
 const SearchComponent = () => {
   const [searchResult, setSearchResult] = useState<string>(""); // For company name
   const [searchCompanyResult, setSearchCompanyResult] = useState<string>(""); // For company ID
-  const [token, setToken] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const storedToken =

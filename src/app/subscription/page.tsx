@@ -6,16 +6,18 @@ import OneMonthPlan from "../(website)/account/_components/oneMonthPlan";
 
 export default function PricingPlanPage() {
   return (
-    <div className="relative mt-10 flex min-h-screen flex-col items-center justify-center gap-20 md:flex-row md:gap-0">
-      <div className="px-4 md:px-0">
+    <div className="relative mt-10  min-h-screen  items-center justify-center gap-20 md:flex-row md:gap-0">
+     <div className="flex items-center justify-center">
+       <div className="px-4 md:px-0 ">
         <OneMonthPlan />
       </div>
       <div className="px-4 md:px-0">
         <AnnualPlan />
       </div>
+     </div>
 
       {/* Fixed bottom login text */}
-      <div className="fixed bottom-5 text-center">
+      <div className=" py-7  text-center">
         Already Completed? Go to{" "}
         <Link href="/login" className="text-green-500 underline">
           Login

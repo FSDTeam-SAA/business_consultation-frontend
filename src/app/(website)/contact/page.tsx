@@ -1,5 +1,6 @@
 import PageHero from "@/components/page-hero";
 import ContactForm from "@/components/contact/ContactForm";
+import NewsletterSection from "@/components/newsletter-section";
 
 export default function ContactPage() {
   return (
@@ -11,6 +12,7 @@ export default function ContactPage() {
       />
     
     <ContactForm/>
+    <NewsletterSection/>
     </main>
   );
 }

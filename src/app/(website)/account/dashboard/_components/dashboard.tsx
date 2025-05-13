@@ -54,8 +54,6 @@ export default function CompanyDashboard() {
 
   const { user } = useAuth();
 
-  // console.log(user?._id)
-console.log(user)
   const { data, isLoading } = useQuery({
     queryKey: ["companydetails"],
     // enabled: token !== null, // Only run query when token is available
@@ -78,8 +76,8 @@ console.log(user)
       return res.json();
     },
   });
-  
-  const { data:co2, } = useQuery({
+
+  const { data: co2 } = useQuery({
     queryKey: ["co2details"],
     // enabled: token !== null, // Only run query when token is available
     queryFn: async () => {
@@ -107,12 +105,11 @@ console.log(user)
     emissions: item.totalCarbonEmissions,
   }));
 
-
   // Sample CO2 emissions data - replace with your dynamic data source
   // const emissionsData = [
-   
+
   //   { year: 2020, emissions: 4.9 },
-    
+
   // ];
 
   // Function to render the active shape with enhanced appearance
@@ -154,8 +151,7 @@ console.log(user)
       </g>
     );
   };
-  
-
+  console.log(data?.data);
   return (
     <>
       {!data?.data ? (
@@ -201,7 +197,7 @@ console.log(user)
             </Card>
           ) : (
             <Card className="bg-[#033618] text-white">
-              <CardContent className="flex items-center gap-4 p-6">
+              <CardContent className="flex justify-between gap-4 p-6">
                 {/* <Avatar className="h-24 w-24 border-4 border-white">
                   <AvatarImage
                     src="/placeholder.svg?height=96&width=96"
@@ -270,11 +266,76 @@ console.log(user)
                     </div>
                   )}
                 </div>
+                <Link href={"/account/emission-form/edit"}>
+                  {" "}
+                  <button className="mr-10 px-5 text-white">
+                    Edit Emission
+                  </button>
+                </Link>
               </CardContent>
             </Card>
           )}
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-1">
+            {/* Carbon Emission2 Percentage */}
+            <Card className="h-full w-full">
+              <CardHeader>
+                <CardTitle className="text-center">
+                  CO2 Emissions Over the Years
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[350px] w-full">
+                  <ChartContainer
+                    className="h-full w-full"
+                    config={{
+                      emissions: {
+                        label: "CO2 Emissions",
+                        color: "#A855F7", // Blue color similar to the image
+                      },
+                    }}
+                  >
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart
+                        data={transformedCo2Data}
+                        margin={{ top: 20, right: 10, left: 0, bottom: 20 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis
+                          dataKey="year"
+                          label={{
+                            value: "Year",
+                            position: "insideBottom",
+                            offset: -10,
+                          }}
+                          tickCount={7}
+                          domain={["dataMin", "dataMax"]}
+                        />
+                        <YAxis
+                          label={{
+                            value: "CO2 Emissions (in metric tons)",
+                            angle: -90,
+                            position: "insideLeft",
+                          }}
+                          domain={[2.5, 6]}
+                        />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Line
+                          type="monotone"
+                          dataKey="emissions"
+                          stroke="var(--color-emissions)"
+                          strokeWidth={2}
+                          dot={{ r: 4, fill: "var(--color-emissions)" }}
+                          activeDot={{ r: 6 }}
+                          name="CO2 Emissions"
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </ChartContainer>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Energy Sources Chart */}
             <Card>
               <CardHeader className="pb-2">
@@ -471,64 +532,6 @@ console.log(user)
               </CardContent>
             </Card>
 
-            {/* Carbon Emission2 Percentage */}
-            <Card className="w-full ">
-              <CardHeader>
-                <CardTitle className="text-center">
-                  CO2 Emissions Over the Years
-                </CardTitle>
-              </CardHeader>
-              <CardContent >
-                <div className="h-[350px] w-full">
-                  <ChartContainer
-                    config={{
-                      emissions: {
-                        label: "CO2 Emissions",
-                        color: "#A855F7", // Blue color similar to the image
-                      },
-                    }}
-                  >
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart
-                        data={transformedCo2Data} 
-                        margin={{ top: 20, right: 10, left: 0, bottom: 20 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis
-                          dataKey="year"
-                          label={{
-                            value: "Year",
-                            position: "insideBottom",
-                            offset: -10,
-                          }}
-                          tickCount={7}
-                          domain={["dataMin", "dataMax"]}
-                        />
-                        <YAxis
-                          label={{
-                            value: "CO2 Emissions (in metric tons)",
-                            angle: -90,
-                            position: "insideLeft",
-                          }}
-                          domain={[2.5, 6]}
-                        />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Line
-                          type="monotone"
-                          dataKey="emissions"
-                          stroke="var(--color-emissions)"
-                          strokeWidth={2}
-                          dot={{ r: 4, fill: "var(--color-emissions)" }}
-                          activeDot={{ r: 6 }}
-                          name="CO2 Emissions"
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                </div>
-              </CardContent>
-            </Card>
-
             {/* Primary Transportation Method */}
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg bg-white p-6 text-center shadow-[0px_0px_6px_0px_#00000040]">
               <h1 className="text-[20px] font-medium">
@@ -608,6 +611,87 @@ console.log(user)
               </Card>
             )} */}
             {/* Average Business Flight Distance */}
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Total CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.totalCO2_kg}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Total CO2_tonnes
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.totalCO2_tonnes}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Electricity CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {
+                    data?.data?.calculated_emissions?.breakdown
+                      ?.electricityCO2_kg
+                  }
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Goods CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.breakdown?.goodsCO2_kg}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Travel CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.breakdown?.travelCO2_kg}
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-base font-medium">
+                  Vehicle CO2_kg
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {data?.data?.calculated_emissions?.breakdown?.vehicleCO2_kg}
+                </p>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-base font-medium">
@@ -726,7 +810,6 @@ console.log(user)
                 </p>
               </CardContent>
             </Card>
-
 
             {/* Annual Business Train Distance */}
             {data?.data?.carbon_footprint?.annual_business_train_distance && (

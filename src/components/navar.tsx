@@ -20,7 +20,7 @@ export default function Navbar() {
   const pathName = usePathname();
   const profileRef = useRef<HTMLDivElement>(null);
   // const [searchResult, setSearchResult] = useState<string | null>(null);
-  const { user, logout, checkSession } = useAuth();
+  const { user, logout, checkSession,isSubscriptionExpiredGracePeriod } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,16 +69,21 @@ export default function Navbar() {
             : "bg-transparent",
         )}
       >
-        <div className="container relative mx-auto flex items-center justify-between  py-4">
+        <div className="container relative mx-auto flex items-center justify-between py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <Image src={"/asset/logo.png"} width={100} height={100} alt="logo" />
+            <Image
+              src={"/asset/logo.png"}
+              width={100}
+              height={100}
+              alt="logo"
+            />
             <p className="text-[14px] font-medium text-[#09B850]">
               {" "}
               Going 2
               <span
                 className={cn(
-                  isScrolled ? "text-gray-800 ml-1" : "text-white ml-1",
+                  isScrolled ? "ml-1 text-gray-800" : "ml-1 text-white",
                 )}
               >
                 Zero
@@ -216,88 +221,6 @@ export default function Navbar() {
           </nav>
           {/* search bar  */}
 
-          {/* <form
-            onSubmit={handleSubmit}
-            className="relative hidden items-center lg:flex"
-          >
-            <button type="submit" className="absolute left-2">
-              <Search
-                className={`${isScrolled ? "text-gray-800" : "text-white"} w-5`}
-              />
-            </button>
-            <Input
-              onChange={(e) => setSearchResult(e.target.value)}
-              value={searchResult || ""}
-              type="text"
-              placeholder="Search"
-              className={`rounded-xl px-8 ${
-                isScrolled ? "border border-black text-gray-800" : "text-white"
-              }`}
-            />
-          </form> */}
-          {/* model   */}
-
-          {/* <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogContent className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
-              <DialogHeader className="mb-4">
-                <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-gray-100">
-                  Search Result
-                </DialogTitle>
-                <DialogDescription className="text-sm text-gray-600 dark:text-gray-400">
-                  Here’s the company info we found for you:
-                </DialogDescription>
-              </DialogHeader>
-
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="font-medium text-gray-700 dark:text-gray-300">
-                    Business Name:
-                  </span>
-                  <span className="text-gray-900 dark:text-gray-100">
-                    {data?.data.companyLegalName}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium text-gray-700 dark:text-gray-300">
-                    Entry Complete:
-                  </span>
-                  <span
-                    className={`font-semibold ${
-                      data?.data.isEntryComplete
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {data?.data.isEntryComplete ? "Completed" : "Not Completed"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium text-gray-700 dark:text-gray-300">
-                    Active Subscription:
-                  </span>
-                  <span
-                    className={`font-semibold ${
-                      data?.data.hasActiveSubscription
-                        ? "text-green-600"
-                        : "text-red-600"
-                    }`}
-                  >
-                    {data?.data.hasActiveSubscription ? "Active" : "Inactive"}
-                  </span>
-                </div>
-              </div>
-
-              <DialogFooter className="mt-6">
-                <button
-                  className="rounded-md border-none bg-green-600 px-4 py-2 text-white outline-none transition hover:bg-green-700"
-                  onClick={() => setIsDialogOpen(false)}
-                >
-                  Close
-                </button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog> */}
-
           {/* User Profile */}
           {user ? (
             <div className="relative" ref={profileRef}>
@@ -331,20 +254,23 @@ export default function Navbar() {
                   </div>
                 </div>
               </div>
-
               {/* Profile Dropdown */}
               {isProfileOpen && (
                 <div className="absolute right-0 z-50 mt-2 w-48 rounded-md bg-white py-1 shadow-lg">
-                  {!(user.role === "Admin" || user.role === "SuperAdmin") && (
-                    <Link
-                      href="/account"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      onClick={() => setIsProfileOpen(false)}
-                    >
-                      Settings
-                    </Link>
-                  )}
-                  <div className="my-1 border-t border-gray-100"></div>
+                  {!(user.role === "Admin" || user.role === "SuperAdmin") &&
+                    isSubscriptionExpiredGracePeriod && (
+                      <Link
+                        href="/account"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setIsProfileOpen(false)}
+                      >
+                        My account
+                      </Link>
+                    )}
+                  {!(user.role === "Admin" || user.role === "SuperAdmin") &&
+                    isSubscriptionExpiredGracePeriod && (
+                      <div className="my-1 border-t border-gray-100"></div>
+                    )}
                   <button
                     className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100"
                     onClick={() => {

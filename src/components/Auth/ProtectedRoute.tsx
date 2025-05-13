@@ -2,27 +2,34 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter, usePathname } from "next/navigation";
-import { useEffect } from "react";
-import { ReactNode } from "react";
+import { useEffect, ReactNode } from "react";
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isLoggedIn, isLoading } = useAuth();
+  const { isSubscriptionExpiredGracePeriod, isLoading, isLoggedIn } = useAuth();
+
   const router = useRouter();
   const pathname = usePathname();
-
+ 
   useEffect(() => {
-    // Wait until auth state is loaded
-    if (!isLoading && !isLoggedIn) {
-      // Redirect to login with return URL
-      router.push(`/login`);
+    if (!isLoading) {
+      if (!isLoggedIn) {
+        router.push(`/login?returnUrl=${pathname}`);
+      } else if (!isSubscriptionExpiredGracePeriod) {
+        router.push("/"); // Change this to your desired fallback
+      }
     }
-  }, [isLoggedIn, isLoading, router, pathname]);
+  }, [
+    isLoggedIn,
+    isLoading,
+    pathname,
+    router,
+    isSubscriptionExpiredGracePeriod,
+  ]);
 
-  // Show loading state or nothing while checking auth
   if (isLoading || !isLoggedIn) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -31,6 +38,5 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     );
   }
 
-  // If logged in, show the protected content
   return <>{children}</>;
 }

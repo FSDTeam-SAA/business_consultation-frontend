@@ -1,5 +1,6 @@
 import PageHero from "@/components/page-hero";
 import { AboutBusiness } from "@/components/about/AboutBusiness";
+import NewsletterSection from "@/components/newsletter-section";
 // import { TestimonialsCarousel } from "@/components/about/TestimonialsCarousel";
 // import FlexiblePricing from "@/components/about/FlexiblePricing";
 
@@ -10,6 +11,7 @@ export default function AboutPage() {
       <AboutBusiness />
       {/* <TestimonialsCarousel /> */}
       {/* <FlexiblePricing /> */}
+      <NewsletterSection/>
     </main>
   );
 }

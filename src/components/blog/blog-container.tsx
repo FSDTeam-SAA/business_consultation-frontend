@@ -17,8 +17,7 @@ export default function BlogPage() {
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 3;
-  const { user } = useAuth();
-  console.log("user", user);
+  const { isSubscriptionExpiredGracePeriod } = useAuth();
 
   useEffect(() => {
     const storedToken = sessionStorage.getItem("authToken");
@@ -52,29 +51,6 @@ export default function BlogPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const posts = postsResponse?.data || [];
 
-  // get user
-  const { data: getUser } = useQuery({
-    queryKey: ["user", token],
-    queryFn: async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/profile/${user?._id}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      if (!res.ok) {
-        throw new Error("Failed to fetch blogs");
-      }
-      return res.json();
-    },
-    enabled: !!token,
-  });
-
-  const singleUser = getUser?.data || [];
-  console.log("singleUser", singleUser);
 
   // console.log(posts);
 
@@ -105,10 +81,7 @@ export default function BlogPage() {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-  const isSubscriptionExpiredGracePeriod =
-    singleUser?.hasActiveSubscription &&
-    singleUser?.subscriptionExpireDate &&
-    new Date(singleUser.subscriptionExpireDate) > new Date();
+
 
   if (isLoading) return <p className="text-center">Loading...</p>;
   if (isError)
@@ -203,8 +176,8 @@ export default function BlogPage() {
       ) : (
         <div className="rounded-lg bg-gray-50 p-6 text-center">
           <p className="mb-3 text-xl">
-            Don&apos;t miss out! Subscribe to our blog and get the latest updates,
-            tips, and insights delivered straight to your inbox.
+            Don&apos;t miss out! Subscribe to our blog and get the latest
+            updates, tips, and insights delivered straight to your inbox.
           </p>
           <a href="/service" className="font-medium text-blue-600 underline">
             Subscribe Now

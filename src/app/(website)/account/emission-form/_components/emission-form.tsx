@@ -28,7 +28,6 @@ import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -99,9 +98,9 @@ const formSchema = z.object({
   fullName: z.string().min(2, { message: "Full name is required" }),
   email: z.string().email({ message: "Invalid email address" }),
   phoneNumber: z.string().min(5, { message: "Phone number is required" }),
-  totalCarbonEmmision: z.string({
-    message: "Total carbon emmision is required",
-  }),
+  // totalCarbonEmmision: z.string({
+  //   message: "Total carbon emmision is required",
+  // }),
   companyLegalName: z
     .string()
     .min(2, { message: "Company legal name is required" }),
@@ -239,8 +238,8 @@ export default function EmissionForm({ initianData }: Props) {
       fullName: initianData?.basic_information?.full_name ?? "",
       email: initianData?.basic_information?.email ?? "",
       phoneNumber: initianData?.basic_information?.phone_number ?? "",
-      totalCarbonEmmision:
-        initianData?.basic_information?.total_carbon_emissions.toString() ?? "",
+      // totalCarbonEmmision:
+      //   initianData?.basic_information?.total_carbon_emissions.toString() ?? "",
       companyLegalName:
         initianData?.basic_information?.company_legal_name ?? "",
       companyOperatingName:
@@ -469,10 +468,10 @@ export default function EmissionForm({ initianData }: Props) {
     formData.append("basic_information.full_name", values.fullName);
     formData.append("basic_information.email", values.email);
     formData.append("basic_information.phone_number", values.phoneNumber);
-    formData.append(
-      "basic_information.total_carbon_emissions",
-      Number(values.totalCarbonEmmision).toString(),
-    );
+    // formData.append(
+    //   "basic_information.total_carbon_emissions",
+    //   Number(values.totalCarbonEmmision).toString(),
+    // );
     formData.append(
       "basic_information.company_legal_name",
       values.companyLegalName,
@@ -670,12 +669,6 @@ export default function EmissionForm({ initianData }: Props) {
         <h2 className="rounded-t-md bg-primary px-4 py-2 text-lg font-semibold text-white">
           Section {currentStep} of {totalSteps}
         </h2>
-        {!initianData && (
-          <Link href={"/account/emission-form/edit"}>
-            {" "}
-            <button className="mr-10 px-5 text-white">Edit</button>
-          </Link>
-        )}
       </div>
 
       <Card>
@@ -693,6 +686,7 @@ export default function EmissionForm({ initianData }: Props) {
                         <FormLabel>Full Name</FormLabel>
                         <FormControl>
                           <Input
+                            type="string"
                             className="py-6"
                             placeholder="Enter your name"
                             {...field}
@@ -748,6 +742,7 @@ export default function EmissionForm({ initianData }: Props) {
                         <FormLabel>Company Legal Name</FormLabel>
                         <FormControl>
                           <Input
+                            type="string"
                             className="py-6"
                             placeholder="Enter company legal name"
                             {...field}
@@ -766,6 +761,7 @@ export default function EmissionForm({ initianData }: Props) {
                         <FormLabel>Company Operating Name</FormLabel>
                         <FormControl>
                           <Input
+                            type="string"
                             className="py-6"
                             placeholder="Enter company operating name"
                             {...field}
@@ -784,6 +780,7 @@ export default function EmissionForm({ initianData }: Props) {
                         <FormLabel>Website</FormLabel>
                         <FormControl>
                           <Input
+                            type="string"
                             className="py-6"
                             placeholder="URL"
                             {...field}
@@ -793,23 +790,24 @@ export default function EmissionForm({ initianData }: Props) {
                       </FormItem>
                     )}
                   />
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="totalCarbonEmmision"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Total Cardon Emmision</FormLabel>
+                        <FormLabel>Total Carbon Emissions</FormLabel>
                         <FormControl>
                           <Input
+                            type="number"
                             className="py-6"
-                            placeholder="Enter carbon emmision"
+                            placeholder="Enter carbon emissions"
                             {...field}
                           />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
                   <FormField
                     control={form.control}
@@ -819,6 +817,7 @@ export default function EmissionForm({ initianData }: Props) {
                         <FormLabel>Headquarter Location</FormLabel>
                         <FormControl>
                           <Input
+                            type="string"
                             className="py-6"
                             placeholder="Enter headquarter location"
                             {...field}
@@ -899,6 +898,7 @@ export default function EmissionForm({ initianData }: Props) {
                               </div>
                               {(field.value ?? [])[index]?.isSelected && (
                                 <Input
+                                  type="number"
                                   className="ml-6 w-[calc(100%-1.5rem)] py-6"
                                   placeholder="Enter Percentage"
                                   value={
@@ -936,6 +936,7 @@ export default function EmissionForm({ initianData }: Props) {
                         <FormLabel>Number of Employees</FormLabel>
                         <FormControl>
                           <Input
+                            type="number"
                             className="py-6"
                             placeholder="Enter number of employees"
                             {...field}
@@ -991,6 +992,7 @@ export default function EmissionForm({ initianData }: Props) {
                         </FormLabel>
                         <FormControl>
                           <Input
+                            type="number"
                             className="py-6"
                             placeholder="Enter total"
                             {...field}
@@ -1038,6 +1040,7 @@ export default function EmissionForm({ initianData }: Props) {
                               </div>
                               {field.value?.[index]?.isSelected && (
                                 <Input
+                                  type="number"
                                   className="ml-6 w-[calc(100%-1.5rem)] py-6"
                                   placeholder="Enter Percentage"
                                   value={
@@ -1071,6 +1074,7 @@ export default function EmissionForm({ initianData }: Props) {
                         </FormLabel>
                         <FormControl>
                           <Input
+                            type="number"
                             className="py-6"
                             placeholder="Percentage"
                             {...field}
@@ -1089,6 +1093,7 @@ export default function EmissionForm({ initianData }: Props) {
                         <FormLabel>Number of Company Owned Vehicles</FormLabel>
                         <FormControl>
                           <Input
+                            type="number"
                             className="py-6"
                             placeholder="Enter Number"
                             {...field}
@@ -1136,6 +1141,7 @@ export default function EmissionForm({ initianData }: Props) {
                               </div>
                               {(field.value ?? [])[index]?.isSelected && (
                                 <Input
+                                  type="number"
                                   className="ml-6 w-[calc(100%-1.5rem)] py-6"
                                   placeholder="Enter Percentage"
                                   value={
@@ -1178,7 +1184,11 @@ export default function EmissionForm({ initianData }: Props) {
                           your answer
                         </FormDescription>
                         <FormControl>
-                          <Input placeholder="Enter Number" {...field} />
+                          <Input
+                            type="number"
+                            placeholder="Enter Number"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1196,7 +1206,11 @@ export default function EmissionForm({ initianData }: Props) {
                           your answer
                         </FormDescription>
                         <FormControl>
-                          <Input placeholder="Enter Number" {...field} />
+                          <Input
+                            type="number"
+                            placeholder="Enter Number"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -1211,6 +1225,7 @@ export default function EmissionForm({ initianData }: Props) {
                         <FormLabel>Annual Business Train Distance</FormLabel>
                         <FormControl>
                           <Input
+                            type="number"
                             className="py-6"
                             placeholder="Enter Number"
                             {...field}
@@ -1231,7 +1246,10 @@ export default function EmissionForm({ initianData }: Props) {
                     name="supplyChainNumber"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Supply Chain & Logistics</FormLabel>
+                        <FormLabel>
+                          Shortly describe the transport and delivery methods
+                          used in your supply chain
+                        </FormLabel>
                         <FormControl>
                           <Input
                             className="py-6"
@@ -1254,6 +1272,7 @@ export default function EmissionForm({ initianData }: Props) {
                         </FormLabel>
                         <FormControl>
                           <Input
+                          type="number"
                             className="py-6"
                             placeholder="Enter Number"
                             {...field}
@@ -1324,6 +1343,7 @@ export default function EmissionForm({ initianData }: Props) {
                         </FormLabel>
                         <FormControl>
                           <Input
+                          type="number"
                             className="py-6"
                             placeholder="Total amount"
                             {...field}
@@ -1345,6 +1365,7 @@ export default function EmissionForm({ initianData }: Props) {
                         </FormLabel>
                         <FormControl>
                           <Input
+                          type="number"
                             className="py-6"
                             placeholder="Total value"
                             {...field}

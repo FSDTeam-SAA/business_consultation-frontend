@@ -148,7 +148,7 @@ export default function ConsultationPage() {
     <div className="mx-auto mt-4 max-w-3xl rounded-lg border border-gray-200 p-4">
       {!user?.isEmissionSubmitted && (
         <p className="mb-5 text-center text-red-700">
-        Please Submited your Emission Form{" "}
+          Please Submited your Emission Form{" "}
         </p>
       )}
       <h1 className="mb-10 text-center text-3xl font-bold">
@@ -208,7 +208,9 @@ export default function ConsultationPage() {
                 name={key}
                 value={(formData as any)[key]}
                 onChange={handleChange}
-                disabled={ user?.videoConsultation || user?.isEmissionSubmitted === false}
+                disabled={
+                  user?.videoConsultation || user?.isEmissionSubmitted === false
+                }
                 placeholder={placeholder}
                 className={`w-full rounded-md ${user?.videoConsultation || user?.isEmissionSubmitted === false ? "" : "bg-white"} p-2 ${errors[key as keyof FormData] ? "border-2 border-red-300" : ""}`}
               />
@@ -255,8 +257,8 @@ export default function ConsultationPage() {
             <CheckIcon className="h-5 w-5 text-green-500" />
           </div>
           <p className="text-gray-700">
-            Any specific challenges or sectors of your business that can use our
-            help to reduce emissions.
+            A thorough review of your business operations to identify key
+            opportunities for reducing emissions.
           </p>
         </div>
         <div className="flex items-start gap-2">
@@ -264,9 +266,9 @@ export default function ConsultationPage() {
             <CheckIcon className="h-5 w-5 text-green-500" />
           </div>
           <p className="text-gray-700">
-            An overall review on your emissions and/or next steps in your
-            commitment journey to ensure you the most convenient path to net
-            zero.
+            Clear, step-by-step guidance provided during the consultation call,
+            covering each area of your emissions and how to reduce them
+            effectively.
           </p>
         </div>
       </div>

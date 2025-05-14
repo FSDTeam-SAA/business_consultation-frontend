@@ -2,27 +2,27 @@
 import { Factory, Globe, Mail, MapPin, Phone } from "lucide-react";
 
 import {
-  CartesianGrid,
+  // CartesianGrid,
   Cell,
-  Line,
-  LineChart,
+  // Line,
+  // LineChart,
   Pie,
   PieChart,
   ResponsiveContainer,
   Sector,
-  XAxis,
-  YAxis,
+  // XAxis,
+  // YAxis,
 } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Chart,
-  ChartContainer,
+  // ChartContainer,
   ChartLegend,
   ChartLegendItem,
-  ChartTooltip,
-  ChartTooltipContent,
+  // ChartTooltip,
+  // ChartTooltipContent,
 } from "@/components/ui/chart";
 // import { CustomProgress } from "./custom-progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -77,33 +77,33 @@ export default function CompanyDashboard() {
     },
   });
 
-  const { data: co2 } = useQuery({
-    queryKey: ["co2details"],
-    // enabled: token !== null, // Only run query when token is available
-    queryFn: async () => {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/per-year/${user?._id}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        },
-      );
+  // const { data: co2 } = useQuery({
+  //   queryKey: ["co2details"],
+  //   // enabled: token !== null, // Only run query when token is available
+  //   queryFn: async () => {
+  //     const res = await fetch(
+  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/per-year/${user?._id}`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       },
+  //     );
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch companies");
-      }
-      // setCompanies(res.json())
-      return res.json();
-    },
-  });
+  //     if (!res.ok) {
+  //       throw new Error("Failed to fetch companies");
+  //     }
+  //     // setCompanies(res.json())
+  //     return res.json();
+  //   },
+  // });
 
-  const transformedCo2Data = co2?.data?.map((item: any) => ({
-    year: item.year,
-    emissions: item.totalCarbonEmissions,
-  }));
+  // const transformedCo2Data = co2?.data?.map((item: any) => ({
+  //   year: item.year,
+  //   emissions: item.totalCarbonEmissions,
+  // }));
 
   // Sample CO2 emissions data - replace with your dynamic data source
   // const emissionsData = [
@@ -278,7 +278,7 @@ export default function CompanyDashboard() {
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-1">
             {/* Carbon Emission2 Percentage */}
-            <Card className="h-full w-full">
+            {/* <Card className="h-full w-full">
               <CardHeader>
                 <CardTitle className="text-center">
                   CO2 Emissions Over the Years
@@ -334,7 +334,7 @@ export default function CompanyDashboard() {
                   </ChartContainer>
                 </div>
               </CardContent>
-            </Card>
+            </Card> */}
 
             {/* Energy Sources Chart */}
             <Card>

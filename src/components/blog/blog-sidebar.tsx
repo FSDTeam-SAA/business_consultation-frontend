@@ -3,7 +3,7 @@
 import RecentPosts from "./recent-posts";
 // import PopularTags from "./popular-tags";
 import SocialLinks from "./social-links";
-import ContactCard from "./contact-card";
+// import ContactCard from "./contact-card";
 import { Suspense } from "react";
 // import { Post } from "@/lib/types";
 
@@ -21,7 +21,7 @@ export default function Sidebar() {
         {/* <PopularTags /> */}
       </Suspense>
       <SocialLinks />
-      <ContactCard />
+      {/* <ContactCard /> */}
     </div>
   );
 }

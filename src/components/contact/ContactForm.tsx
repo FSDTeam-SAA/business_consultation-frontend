@@ -151,7 +151,7 @@ export default function ContactForm() {
 
                 <div>
                   <label htmlFor="phone" className="mb-2 block font-medium">
-                    Contact Number
+                    Contact Number <span className="text-red-500">*</span>
                   </label>
                   <input
                     id="phone"

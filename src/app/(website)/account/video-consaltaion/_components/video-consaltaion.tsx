@@ -234,7 +234,7 @@ export default function ConsultationPage() {
               : "bg-white hover:bg-gray-100"
           }`}
         >
-          BOOK A CONSULTATION WITH PAYMENT
+          {formMutation.isPending ? 'Please wait' : 'BOOK A CONSULTATION WITH PAYMENT'}
         </button>
       </form>
 

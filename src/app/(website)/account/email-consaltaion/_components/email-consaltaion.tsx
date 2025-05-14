@@ -3,7 +3,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import { CheckIcon } from "lucide-react";
-import { z } from "zod";
+import {  z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
@@ -15,10 +15,11 @@ const formSchema = z.object({
     .string()
     .min(1, { message: "Email is required" })
     .email({ message: "Invalid email address" }),
-  phone: z.string().min(1, { message: "Phone number is required" }),
-  challenge: z.string().min(1, { message: "This field is required" }),
-  business: z.string().min(1, { message: "This field is required" }),
-  callTime: z.string().min(1, { message: "This field is required" }),
+  phone_number: z.string().min(1, { message: "Phone number is required" }),
+  biggest_challenge: z.string().min(1, { message: "This field is required" }),
+  business_nature: z.string().min(1, { message: "This field is required" }),
+  best_time_to_call: z.number().optional(),
+  bookingType:z.string()
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -39,10 +40,11 @@ export default function ConsultationPage() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
-    phone: "",
-    challenge: "",
-    business: "",
-    callTime: "",
+    phone_number: "",
+    biggest_challenge: "",
+    business_nature: "",
+    best_time_to_call: Date.now(),
+    bookingType:'free'
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>(
@@ -102,10 +104,11 @@ export default function ConsultationPage() {
       setFormData({
         name: "",
         email: "",
-        phone: "",
-        challenge: "",
-        business: "",
-        callTime: "",
+        phone_number: "",
+        biggest_challenge: "",
+        business_nature: "",
+        best_time_to_call: Date.now(),
+        bookingType:'free'
       });
     },
     onError: (err) => {
@@ -132,11 +135,14 @@ export default function ConsultationPage() {
       </h1>
       <div className="w-full">
         <form onSubmit={handleSubmit} className="rounded-lg bg-green-500 p-4">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2">
             {/* Name */}
             <div>
-              <label htmlFor="name" className="mb-1 block text-white">
-                Name
+              <label
+                htmlFor="name"
+                className="mb-2 block font-medium text-white"
+              >
+                Your Name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -155,8 +161,11 @@ export default function ConsultationPage() {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="mb-1 block text-white">
-                Email
+              <label
+                htmlFor="email"
+                className="mb-2 block font-medium text-white"
+              >
+                Your Email <span className="text-red-500">*</span>
               </label>
               <input
                 type="email"
@@ -165,7 +174,7 @@ export default function ConsultationPage() {
                 disabled={!user?.isEmissionSubmitted}
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Your email"
+                placeholder="Your Email"
                 className={`w-full rounded-md p-2 ${errors.email ? "border-2 border-red-300" : ""}`}
               />
               {errors.email && (
@@ -173,68 +182,56 @@ export default function ConsultationPage() {
               )}
             </div>
 
-            {/* Phone */}
+            {/*  Your Subject */}
             <div>
-              <label htmlFor="phone" className="mb-1 block text-white">
-                Phone Number
+              <label
+                htmlFor="business_nature"
+                className="mb-2 block font-medium text-white"
+              >
+                Your Subject <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                id="phone"
-                name="phone"
+                id="business_nature"
+                name="business_nature"
                 disabled={!user?.isEmissionSubmitted}
-                value={formData.phone}
+                value={formData.business_nature}
                 onChange={handleChange}
-                placeholder="Your Number"
-                className={`w-full rounded-md p-2 ${errors.phone ? "border-2 border-red-300" : ""}`}
+                placeholder="Enter Subject"
+                className={`w-full rounded-md p-2 ${errors.business_nature ? "border-2 border-red-300" : ""}`}
               />
-              {errors.phone && (
-                <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+              {errors.business_nature && (
+                <p className="mt-1 text-sm text-red-500">{errors.business_nature}</p>
               )}
             </div>
 
-            {/* Business */}
+            {/* Phone */}
             <div>
-              <label htmlFor="business" className="mb-1 block text-white">
-                What&apos;s the nature of your business?
+              <label
+                htmlFor="phone_number"
+                className="mb-2 block font-medium text-white"
+              >
+                Contact Number <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
-                id="business"
-                name="business"
+                id="phone_number"
+                name="phone_number"
                 disabled={!user?.isEmissionSubmitted}
-                value={formData.business}
+                value={formData.phone_number}
                 onChange={handleChange}
-                placeholder="Enter business"
-                className={`w-full rounded-md p-2 ${errors.business ? "border-2 border-red-300" : ""}`}
+                placeholder="Your Number"
+                className={`w-full rounded-md p-2 ${errors.phone_number ? "border-2 border-red-300" : ""}`}
               />
-              {errors.business && (
-                <p className="mt-1 text-sm text-red-500">{errors.business}</p>
+              {errors.phone_number && (
+                <p className="mt-1 text-sm text-red-500">{errors.phone_number}</p>
               )}
             </div>
 
             {/* Challenge */}
-            <div>
-              <label htmlFor="challenge" className="mb-1 block text-white">
-                What&apos;s your biggest challenge now?
-              </label>
-              <input
-                type="text"
-                id="challenge"
-                name="challenge"
-                disabled={!user?.isEmissionSubmitted}
-                value={formData.challenge}
-                onChange={handleChange}
-                placeholder="Your Challenge"
-                className={`w-full rounded-md p-2 ${errors.challenge ? "border-2 border-red-300" : ""}`}
-              />
-              {errors.challenge && (
-                <p className="mt-1 text-sm text-red-500">{errors.challenge}</p>
-              )}
-            </div>
 
             {/* Call Time */}
-            <div>
+            {/* <div>
               <label htmlFor="callTime" className="mb-1 block text-white">
                 What&apos;s the best time to call you?
               </label>
@@ -250,7 +247,28 @@ export default function ConsultationPage() {
               {errors.callTime && (
                 <p className="mt-1 text-sm text-red-500">{errors.callTime}</p>
               )}
-            </div>
+            </div> */}
+          </div>
+          <div>
+            <label
+              htmlFor="biggest_challenge"
+              className="mb-2 block font-medium text-white"
+            >
+              Message <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="biggest_challenge"
+              name="biggest_challenge"
+              disabled={!user?.isEmissionSubmitted}
+              value={formData.biggest_challenge}
+              onChange={handleChange}
+              placeholder="Enter Message"
+              className={`w-full rounded-md p-2 ${errors.biggest_challenge ? "border-2 border-red-300" : ""}`}
+            />
+            {errors.biggest_challenge && (
+              <p className="mt-1 text-sm text-red-500">{errors.biggest_challenge}</p>
+            )}
           </div>
 
           <button
@@ -258,7 +276,7 @@ export default function ConsultationPage() {
             type="submit"
             className={`mt-6 w-full ${user?.isEmissionSubmitted ? "cursor-pointer" : "cursor-not-allowed"} rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100`}
           >
-            {mutation.isPending ? "Please Wite" : "BOOK A  CONSULTATION"}
+            {mutation.isPending ? "Please wait" : "BOOK A  CONSULTATION"}
           </button>
         </form>
 
@@ -273,7 +291,8 @@ export default function ConsultationPage() {
                 <CheckIcon className="h-5 w-5 text-green-500" />
               </div>
               <p className="text-gray-700">
-             A brief overview of your business&apos;s emissions based on the information you provide.
+                A brief overview of your business&apos;s emissions based on the
+                information you provide.
               </p>
             </div>
             <div className="flex items-start gap-2">
@@ -281,7 +300,8 @@ export default function ConsultationPage() {
                 <CheckIcon className="h-5 w-5 text-green-500" />
               </div>
               <p className="text-gray-700">
-              General suggestions and initial steps you can take to start reducing emissions all  delivered by email at no cost.
+                General suggestions and initial steps you can take to start
+                reducing emissions all delivered by email at no cost.
               </p>
             </div>
           </div>

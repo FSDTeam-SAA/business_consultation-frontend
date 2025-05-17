@@ -71,24 +71,27 @@ export default function Footer() {
                   >
                     <Facebook className="text-[#09B850]" size={16} />
                   </Link> */}
-                  <Link
+                  <a
+                  target="_blank"
                     href="https://x.com/going2zeroltd"
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
                   >
                     <Twitter className="text-[#09B850]" size={16} />
-                  </Link>
-                  <Link
+                  </a>
+                  <a
+                  target="_blank"
                     href="https://www.linkedin.com/company/going-2-zero-ltd"
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
                   >
                     <Linkedin className="text-[#09B850]" size={16} />
-                  </Link>
-                  <Link
+                  </a>
+                  <a
+                  target="_blank"
                     href="https://www.instagram.com/going2zeroltd/"
                     className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#004225]"
                   >
                     <Instagram className="text-[#09B850]" size={16} />
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>

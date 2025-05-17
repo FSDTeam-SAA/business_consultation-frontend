@@ -140,13 +140,13 @@ export default function PersonalInformationPage() {
 
       return res.json();
     },
-    onSuccess: () => {
-      toast.success("Your profile image has been updated successfully.");
+    onSuccess: (success) => {
+      toast.success(success.message || "Your profile image has been updated successfully.");
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },
     onError: (errr) => {
       console.log(errr);
-      toast.error("Failed to upload image");
+      toast.error(errr.message || "Failed to upload image");
     },
   });
 

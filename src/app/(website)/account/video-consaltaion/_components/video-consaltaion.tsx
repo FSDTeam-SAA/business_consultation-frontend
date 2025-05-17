@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckIcon,  } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import { z } from "zod";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
@@ -104,7 +104,7 @@ export default function ConsultationPage() {
         biggest_challenge: "",
         best_time_to_call: "",
       });
-      checkoutMutation.mutate()
+      checkoutMutation.mutate();
     },
     onError: (err) => {
       console.error("Error submitting form:", err);
@@ -226,22 +226,22 @@ export default function ConsultationPage() {
 
         <button
           type="submit"
-          // disabled={
-          //   user?.videoConsultation || user?.isEmissionSubmitted === false
-          // }
+          disabled={!user?.isEmissionSubmitted}
           // className={`mt-6 w-full rounded-md py-3 font-semibold text-green-500 ${
           //   user?.videoConsultation || user?.isEmissionSubmitted === false
           //     ? "cursor-not-allowed bg-white text-gray-500"
           //     : "bg-white hover:bg-gray-100"
           // }`}
-          className="mt-6 w-full rounded-md py-3 font-semibold text-green-500   bg-white hover:bg-gray-100"
+          className={`mt-6 w-full ${user?.isEmissionSubmitted  ? "cursor-pointer" : "cursor-not-allowed"}  rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100`}
         >
-          {formMutation.isPending ? 'Please wait' : 'BOOK A CONSULTATION WITH PAYMENT'}
+          {formMutation.isPending
+            ? "Please wait"
+            : "BOOK A CONSULTATION WITH PAYMENT"}
         </button>
       </form>
 
       {/* <div className="mb-10 mt-10 flex h-[52px] items-center justify-center rounded-md bg-[#09B850]"> */}
-        {/* <button
+      {/* <button
           disabled={!user?.videoConsultation}
           onClick={() => user && checkoutMutation.mutate()}
           className="text-white disabled:opacity-50"

@@ -14,15 +14,29 @@ export default function PaymentSuccessPage() {
     <div className="flex min-h-screen items-center justify-center bg-white p-4">
       <Card className="w-full max-w-md rounded-xl border border-green-500">
         <CardHeader className="flex flex-col items-center space-y-2 pt-8">
-          <div className="mb-1 flex justify-center">
+          <div className="mb-6 flex justify-center">
             <div className="flex items-center">
-              <Image
-                src="/asset/logo.png"
-                alt="Business Consultation Logo"
-                width={140}
-                height={140}
-                className="mr-2"
-              />
+              <Link href="/" className="flex items-center">
+                <Image
+                  src={"/asset/logo.png"}
+                  width={500}
+                  height={500}
+                  alt="logo"
+                  className="w-[150px]"
+                />
+                <p className="-ml-[30px] text-[14px] font-medium text-[#09B850]">
+                  {" "}
+                  Going 2{"  "}
+                  <span className={"text-gray-800"}>Zero</span>
+                </p>
+              </Link>
+              {/* <Image
+              src="/asset/fomrLogo.png"
+              alt="Business Consultation Logo"
+              width={140}
+              height={140}
+              className="mr-2"
+            /> */}
             </div>
           </div>
           <h3 className="mt-6 text-center text-2xl font-bold">

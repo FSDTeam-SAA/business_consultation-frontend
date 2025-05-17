@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CheckIcon, CreditCard } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import { z } from "zod";
 import { useAuth } from "@/hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
@@ -104,6 +104,7 @@ export default function ConsultationPage() {
         biggest_challenge: "",
         best_time_to_call: "",
       });
+      checkoutMutation.mutate();
     },
     onError: (err) => {
       console.error("Error submitting form:", err);
@@ -208,9 +209,9 @@ export default function ConsultationPage() {
                 name={key}
                 value={(formData as any)[key]}
                 onChange={handleChange}
-                disabled={
-                  user?.videoConsultation || user?.isEmissionSubmitted === false
-                }
+                // disabled={
+                //   user?.videoConsultation || user?.isEmissionSubmitted === false
+                // }
                 placeholder={placeholder}
                 className={`w-full rounded-md ${user?.videoConsultation || user?.isEmissionSubmitted === false ? "" : "bg-white"} p-2 ${errors[key as keyof FormData] ? "border-2 border-red-300" : ""}`}
               />
@@ -225,21 +226,22 @@ export default function ConsultationPage() {
 
         <button
           type="submit"
-          disabled={
-            user?.videoConsultation || user?.isEmissionSubmitted === false
-          }
-          className={`mt-6 w-full rounded-md py-3 font-semibold text-green-500 ${
-            user?.videoConsultation || user?.isEmissionSubmitted === false
-              ? "cursor-not-allowed bg-white text-gray-500"
-              : "bg-white hover:bg-gray-100"
-          }`}
+          disabled={!user?.isEmissionSubmitted}
+          // className={`mt-6 w-full rounded-md py-3 font-semibold text-green-500 ${
+          //   user?.videoConsultation || user?.isEmissionSubmitted === false
+          //     ? "cursor-not-allowed bg-white text-gray-500"
+          //     : "bg-white hover:bg-gray-100"
+          // }`}
+          className={`mt-6 w-full ${user?.isEmissionSubmitted  ? "cursor-pointer" : "cursor-not-allowed"}  rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100`}
         >
-          {formMutation.isPending ? 'Please wait' : 'BOOK A CONSULTATION WITH PAYMENT'}
+          {formMutation.isPending
+            ? "Please wait"
+            : "BOOK A CONSULTATION WITH PAYMENT"}
         </button>
       </form>
 
-      <div className="mb-10 mt-10 flex h-[52px] items-center justify-center rounded-md bg-[#09B850]">
-        <button
+      {/* <div className="mb-10 mt-10 flex h-[52px] items-center justify-center rounded-md bg-[#09B850]"> */}
+      {/* <button
           disabled={!user?.videoConsultation}
           onClick={() => user && checkoutMutation.mutate()}
           className="text-white disabled:opacity-50"
@@ -248,8 +250,8 @@ export default function ConsultationPage() {
             <CreditCard />
             <span>Pay Now</span>
           </p>
-        </button>
-      </div>
+        </button> */}
+      {/* </div> */}
 
       <div className="mt-4 space-y-4">
         <div className="flex items-start gap-2">

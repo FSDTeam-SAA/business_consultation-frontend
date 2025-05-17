@@ -3,12 +3,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { useMutation } from "@tanstack/react-query";
 import { Check } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
 export default function Pricing() {
   const [, setIsLoading] = useState(false);
   const { user } = useAuth();
+  const router = useRouter()
 
   const checkoutMutation = useMutation({
     mutationFn: async (payment: string) => {
@@ -50,6 +52,11 @@ export default function Pricing() {
   });
 
   const handleBuyNow = (payment: string): void => {
+
+    if(!user) {
+      router.push('/login');
+      return
+    }
     setIsLoading(true);
     checkoutMutation.mutate(payment);
   };

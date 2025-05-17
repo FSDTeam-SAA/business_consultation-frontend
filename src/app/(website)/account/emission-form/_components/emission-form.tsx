@@ -28,6 +28,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -181,6 +182,7 @@ interface Props {
 export default function EmissionForm({ initianData }: Props) {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
+  const router = useRouter();
 
   const [token, setToken] = useState<string | null>(null);
   useEffect(() => {
@@ -208,7 +210,7 @@ export default function EmissionForm({ initianData }: Props) {
       ).then((res) => res.json()),
     onSuccess: (data) => {
       toast.success(data.message);
-      
+      router.push("/account/dashboard");
     },
   });
 
@@ -227,7 +229,7 @@ export default function EmissionForm({ initianData }: Props) {
       ).then((res) => res.json()),
     onSuccess: (data) => {
       toast.success(data.message || "Updated successfully");
-    
+      router.push("/account/dashboard");
     },
   });
 
@@ -1272,7 +1274,7 @@ export default function EmissionForm({ initianData }: Props) {
                         </FormLabel>
                         <FormControl>
                           <Input
-                          type="number"
+                            type="number"
                             className="py-6"
                             placeholder="Enter Number"
                             {...field}
@@ -1343,7 +1345,7 @@ export default function EmissionForm({ initianData }: Props) {
                         </FormLabel>
                         <FormControl>
                           <Input
-                          type="number"
+                            type="number"
                             className="py-6"
                             placeholder="Total amount"
                             {...field}
@@ -1365,7 +1367,7 @@ export default function EmissionForm({ initianData }: Props) {
                         </FormLabel>
                         <FormControl>
                           <Input
-                          type="number"
+                            type="number"
                             className="py-6"
                             placeholder="Total value"
                             {...field}

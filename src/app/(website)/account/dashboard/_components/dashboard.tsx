@@ -2,27 +2,27 @@
 import { Factory, Globe, Mail, MapPin, Phone } from "lucide-react";
 
 import {
-  // CartesianGrid,
+  CartesianGrid,
   Cell,
-  // Line,
-  // LineChart,
+  Line,
+  LineChart,
   Pie,
   PieChart,
   ResponsiveContainer,
   Sector,
-  // XAxis,
-  // YAxis,
+  XAxis,
+  YAxis,
 } from "recharts";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Chart,
-  // ChartContainer,
+  ChartContainer,
   ChartLegend,
   ChartLegendItem,
-  // ChartTooltip,
-  // ChartTooltipContent,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart";
 // import { CustomProgress } from "./custom-progress";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -77,33 +77,32 @@ export default function CompanyDashboard() {
     },
   });
 
-  // const { data: co2 } = useQuery({
-  //   queryKey: ["co2details"],
-  //   // enabled: token !== null, // Only run query when token is available
-  //   queryFn: async () => {
-  //     const res = await fetch(
-  //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/per-year/${user?._id}`,
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           "Content-Type": "application/json",
-  //         },
-  //       },
-  //     );
+  const { data: co2 } = useQuery({
+    queryKey: ["co2details"],
+    // enabled: token !== null, // Only run query when token is available
+    queryFn: async () => {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/emissions/by-month/${user?._id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
 
-  //     if (!res.ok) {
-  //       throw new Error("Failed to fetch companies");
-  //     }
-  //     // setCompanies(res.json())
-  //     return res.json();
-  //   },
-  // });
-
-  // const transformedCo2Data = co2?.data?.map((item: any) => ({
-  //   year: item.year,
-  //   emissions: item.totalCarbonEmissions,
-  // }));
+      if (!res.ok) {
+        throw new Error("Failed to fetch companies");
+      }
+      // setCompanies(res.json())
+      return res.json();
+    },
+  });
+  const transformedCo2Data = co2?.data?.map((item: any) => ({
+    month:item.month,
+    emissions: item.totalCO2_tonnes,
+  }));
 
   // Sample CO2 emissions data - replace with your dynamic data source
   // const emissionsData = [
@@ -151,13 +150,12 @@ export default function CompanyDashboard() {
       </g>
     );
   };
-  console.log(data?.data);
   return (
     <>
       {!data?.data ? (
-        <div>
-          <h1 className="mb-4 p-4 text-2xl font-semibold">No Data Found</h1>
-          <p className="text-center">Please enter your emission from details</p>
+        <div className="min-h-[500px] w-full flex justify-center items-center flex-col">
+          <h1 className=" p-4 text-2xl font-semibold">No Data Found</h1>
+          <p className="text-center text-gray-400">Please enter your emission form details</p>
         </div>
       ) : (
         <div className="flex w-full flex-col gap-6">
@@ -209,59 +207,59 @@ export default function CompanyDashboard() {
                   <h1 className="mb-4 text-2xl font-bold md:text-3xl">
                     {data?.data?.basic_information?.full_name || "Company Name"}
                   </h1>
-                  {data?.data?.basic_information.email && (
+                  {data?.data?.basic_information?.email && (
                     <div className="flex items-center gap-2 text-sm">
                       <Mail className="h-4 w-4" />
                       <span>
-                        {data?.data?.basic_information.email &&
-                          data?.data?.basic_information.email}
+                        {data?.data?.basic_information?.email &&
+                          data?.data?.basic_information?.email}
                       </span>
                     </div>
                   )}
 
-                  {data?.data?.basic_information.phone_number && (
+                  {data?.data?.basic_information?.phone_number && (
                     <div className="flex items-center gap-2 text-sm">
                       <Phone className="h-4 w-4" />
                       <span>
                         {" "}
-                        {data?.data?.basic_information.phone_number &&
-                          data?.data?.basic_information.phone_number}
+                        {data?.data?.basic_information?.phone_number &&
+                          data?.data?.basic_information?.phone_number}
                       </span>
                     </div>
                   )}
 
-                  {data?.data?.basic_information.company_operating_name && (
+                  {data?.data?.basic_information?.company_operating_name && (
                     <div className="flex items-center gap-2 text-sm">
                       <Factory className="h-4 w-4" />
                       <span>
-                        {data?.data?.basic_information.company_operating_name &&
-                          data?.data?.basic_information.company_operating_name}
+                        {data?.data?.basic_information?.company_operating_name &&
+                          data?.data?.basic_information?.company_operating_name}
                       </span>
                     </div>
                   )}
 
-                  {data?.data?.basic_information.headquarter_location && (
+                  {data?.data?.basic_information?.headquarter_location && (
                     <div className="flex items-center gap-2 text-sm">
                       <MapPin className="h-4 w-4" />
                       <span>
                         {" "}
-                        {data?.data?.basic_information.headquarter_location &&
-                          data?.data?.basic_information.headquarter_location}
+                        {data?.data?.basic_information?.headquarter_location &&
+                          data?.data?.basic_information?.headquarter_location}
                       </span>
                     </div>
                   )}
 
-                  {data?.data?.basic_information.website && (
+                  {data?.data?.basic_information?.website && (
                     <div className="flex items-center gap-2 text-sm">
                       <Globe className="h-4 w-4" />
                       <Link
-                        href={`${data?.data?.basic_information.website}`}
+                        href={`${data?.data?.basic_information?.website}`}
                         target="_blank"
                         className="text-sm text-blue-500 hover:underline"
                       >
                         {" "}
-                        {data?.data?.basic_information.website &&
-                          data?.data?.basic_information.website}
+                        {data?.data?.basic_information?.website &&
+                          data?.data?.basic_information?.website}
                       </Link>
                     </div>
                   )}
@@ -278,7 +276,7 @@ export default function CompanyDashboard() {
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-1">
             {/* Carbon Emission2 Percentage */}
-            {/* <Card className="h-full w-full">
+            <Card className="h-full w-full">
               <CardHeader>
                 <CardTitle className="text-center">
                   CO2 Emissions Over the Years
@@ -302,9 +300,9 @@ export default function CompanyDashboard() {
                       >
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis
-                          dataKey="year"
+                          dataKey="month"
                           label={{
-                            value: "Year",
+                            value: "month",
                             position: "insideBottom",
                             offset: -10,
                           }}
@@ -334,7 +332,7 @@ export default function CompanyDashboard() {
                   </ChartContainer>
                 </div>
               </CardContent>
-            </Card> */}
+            </Card>
 
             {/* Energy Sources Chart */}
             <Card>
@@ -348,7 +346,7 @@ export default function CompanyDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
-                        data={data?.data.carbon_footprint.energy_sources.map(
+                        data={data?.data?.carbon_footprint?.energy_sources?.map(
                           (entry: {
                             source: string;
                             usage_percentage: number;
@@ -375,7 +373,7 @@ export default function CompanyDashboard() {
                         }
                         labelLine={false}
                       >
-                        {data?.data.carbon_footprint.energy_sources.map(
+                        {data?.data?.carbon_footprint?.energy_sources?.map(
                           (entry: { color: string }, index: number) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ),
@@ -385,7 +383,7 @@ export default function CompanyDashboard() {
                   </ResponsiveContainer>
                 </Chart>
                 <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
-                  {data?.data.carbon_footprint.energy_sources.map(
+                  {data?.data?.carbon_footprint?.energy_sources?.map(
                     (
                       entry: { color: string; source: string },
                       index: number,
@@ -413,7 +411,7 @@ export default function CompanyDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
-                        data={data?.data.carbon_footprint.type_of_fuel_used_in_vehicles.map(
+                        data={data?.data?.carbon_footprint?.type_of_fuel_used_in_vehicles?.map(
                           (entry: {
                             fuel_type: string;
                             usage_percentage: number;
@@ -440,7 +438,7 @@ export default function CompanyDashboard() {
                         }
                         labelLine={false}
                       >
-                        {data?.data.carbon_footprint.type_of_fuel_used_in_vehicles.map(
+                        {data?.data?.carbon_footprint?.type_of_fuel_used_in_vehicles?.map(
                           (entry: { color: string }, index: number) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ),
@@ -450,7 +448,7 @@ export default function CompanyDashboard() {
                   </ResponsiveContainer>
                 </Chart>
                 <ChartLegend className="mt-4 grid grid-cols-2 gap-2">
-                  {data?.data.carbon_footprint.type_of_fuel_used_in_vehicles.map(
+                  {data?.data?.carbon_footprint?.type_of_fuel_used_in_vehicles?.map(
                     (
                       entry: { fuel_type: string; color: string },
                       index: number,
@@ -479,7 +477,7 @@ export default function CompanyDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
-                        data={data?.data.basic_information.business_sector.map(
+                        data={data?.data?.basic_information?.business_sector?.map(
                           (entry: {
                             sector: string;
                             carbon_emission_percentage: number;
@@ -506,7 +504,7 @@ export default function CompanyDashboard() {
                         }
                         labelLine={false}
                       >
-                        {data?.data.basic_information.business_sector.map(
+                        {data?.data?.basic_information?.business_sector?.map(
                           (entry: { color: string }, index: number) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ),
@@ -516,7 +514,7 @@ export default function CompanyDashboard() {
                   </ResponsiveContainer>
                 </Chart>
                 <ChartLegend className="mt-4 grid grid-cols-1 gap-1">
-                  {data?.data.basic_information.business_sector.map(
+                  {data?.data?.basic_information?.business_sector?.map(
                     (
                       entry: { color: string; sector: string },
                       index: number,
@@ -541,7 +539,7 @@ export default function CompanyDashboard() {
                 Volume of goods transportation tons:{" "}
                 {
                   data?.data.supply_chain_logistics
-                    .volume_of_goods_transportation_tons
+                    ?.volume_of_goods_transportation_tons
                 }
               </p>
             </div>
@@ -701,8 +699,8 @@ export default function CompanyDashboard() {
               <CardContent>
                 <p className="text-2xl font-bold">
                   {
-                    data?.data.carbon_footprint.annual_business_flight_distance
-                      .distance
+                    data?.data?.carbon_footprint?.annual_business_flight_distance
+                      ?.distance
                   }
                 </p>
               </CardContent>
@@ -806,7 +804,7 @@ export default function CompanyDashboard() {
               </CardHeader>
               <CardContent>
                 <p className="text-2xl font-bold">
-                  {data?.data.finances.total_annual_turnover}
+                  {data?.data?.finances?.total_annual_turnover}
                 </p>
               </CardContent>
             </Card>
@@ -844,7 +842,7 @@ export default function CompanyDashboard() {
                     {" "}
                     {
                       data?.data?.supply_chain_logistics
-                        .volume_of_goods_transportation_tons
+                        ?.volume_of_goods_transportation_tons
                     }
                   </p>
                 </CardContent>

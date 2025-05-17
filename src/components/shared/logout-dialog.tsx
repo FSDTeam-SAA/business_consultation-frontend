@@ -15,6 +15,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
 
 interface LogoutDialogProps {
   children?: React.ReactNode;
@@ -49,24 +51,29 @@ export function LogoutDialog({ children }: LogoutDialogProps) {
             </Button>
           </div> */}
           <div className="mb-4 flex justify-center">
-            <div className="flex items-center gap-2">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V13H17V17Z"
-                  fill="#10B981"
-                />
-              </svg>
-              <div className="flex flex-col">
-                <span className="text-sm font-medium text-[#10B981]">
-                  BUSINESS
-                </span>
-                <span className="font-semibold text-white">CONSULTATION</span>
+            <div className=" flex justify-center">
+              <div className="flex items-center">
+                <Link href="/" className="flex items-center">
+                  <Image
+                    src={"/asset/logo.png"}
+                    width={500}
+                    height={500}
+                    alt="logo"
+                    className="w-[150px]"
+                  />
+                  <p className="-ml-[30px] text-[14px] font-medium text-[#09B850]">
+                    {" "}
+                    Going 2{"  "}
+                    <span className={"text-white"}>Zero</span>
+                  </p>
+                </Link>
+                {/* <Image
+              src="/asset/fomrLogo.png"
+              alt="Business Consultation Logo"
+              width={140}
+              height={140}
+              className="mr-2"
+            /> */}
               </div>
             </div>
           </div>

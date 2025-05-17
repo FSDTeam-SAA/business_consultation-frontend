@@ -55,7 +55,7 @@ export default function LoginForm() {
               <p className="-ml-[30px] text-[14px] font-medium text-[#09B850]">
                 {" "}
                 Going 2
-                <br />
+                {"  "}
                 <span className={"text-gray-800"}>Zero</span>
               </p>
             </Link>

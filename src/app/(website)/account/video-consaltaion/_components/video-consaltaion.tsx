@@ -149,7 +149,7 @@ export default function ConsultationPage() {
     <div className="mx-auto mt-4 max-w-3xl rounded-lg border border-gray-200 p-4">
       {!user?.isEmissionSubmitted && (
         <p className="mb-5 text-center text-red-700">
-          Please Submited your Emission Form{" "}
+          Please submit your Emission Form{" "}
         </p>
       )}
       <h1 className="mb-10 text-center text-3xl font-bold">
@@ -232,7 +232,7 @@ export default function ConsultationPage() {
           //     ? "cursor-not-allowed bg-white text-gray-500"
           //     : "bg-white hover:bg-gray-100"
           // }`}
-          className={`mt-6 w-full ${user?.isEmissionSubmitted  ? "cursor-pointer" : "cursor-not-allowed"}  rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100`}
+          className={`mt-6 w-full ${user?.isEmissionSubmitted ? "cursor-pointer" : "cursor-not-allowed"} rounded-md bg-white py-3 font-semibold text-green-500 hover:bg-gray-100`}
         >
           {formMutation.isPending
             ? "Please wait"

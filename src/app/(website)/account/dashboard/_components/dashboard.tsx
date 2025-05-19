@@ -311,7 +311,7 @@ export default function CompanyDashboard() {
                         />
                         <YAxis
                           label={{
-                            value: "CO2 Emissions (in metric tons)",
+                            value: "CO2 Emissions (in kg)",
                             angle: -90,
                             position: "insideLeft",
                           }}

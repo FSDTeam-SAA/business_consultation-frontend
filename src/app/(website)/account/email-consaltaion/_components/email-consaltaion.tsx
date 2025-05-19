@@ -127,7 +127,7 @@ export default function ConsultationPage() {
     <div className="mx-auto mt-4 max-w-3xl rounded-lg border border-gray-200 p-4">
       {!user?.isEmissionSubmitted && (
         <p className="mb-5 text-center text-red-700">
-          Please Submited your Emission Form{" "}
+          Please submit your Emission Form{" "}
         </p>
       )}
       <h1 className="mb-4 text-center text-2xl font-bold">

@@ -51,7 +51,7 @@ export default function BlogPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const posts = postsResponse?.data || [];
 
-
+console.log(posts)
   // console.log(posts);
 
   function scrollToTop() {

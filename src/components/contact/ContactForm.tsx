@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Phone } from "lucide-react";
+import { Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -185,7 +185,7 @@ export default function ContactForm() {
           </div>
 
           {/* Right Side - Contact Information */}
-          <div className="flex flex-col justify-between rounded-lg bg-emerald-50 p-8 md:w-[450px]">
+          <div className="flex flex-col justify-center items-center  rounded-lg bg-emerald-50 p-8 md:w-[450px]">
             <div className="mb-12 flex flex-col items-center text-center">
               <div className="mb-4 rounded-full bg-emerald-100 p-4">
                 <Mail className="h-6 w-6 text-emerald-500" />
@@ -194,17 +194,17 @@ export default function ContactForm() {
               <p className="text-gray-700">info@going2zero.com</p>
             </div>
 
-            <div className="mx-8 my-4 border-t border-gray-400" />
+         
 
-            <div className="mb-12 flex flex-col items-center text-center">
+            {/* <div className="mb-12 flex flex-col items-center text-center">
               <div className="mb-4 rounded-full bg-emerald-100 p-4">
                 <Phone className="h-6 w-6 text-emerald-500" />
               </div>
               <h3 className="mb-2 text-xl font-semibold">Phone</h3>
               <p className="text-gray-700">(254) 125 452 587</p>
-            </div>
+            </div> */}
 
-            <div className="mx-8 my-4 border-t border-gray-400" />
+            {/* <div className="mx-8 my-4 border-t border-gray-400" /> */}
 
             {/* <div className="flex flex-col items-center text-center">
               <div className="mb-4 rounded-full bg-emerald-100 p-4">

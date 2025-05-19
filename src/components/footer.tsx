@@ -180,10 +180,10 @@ export default function Footer() {
                   <p className="font-bold">Mail:</p>
                   <p className="ml-2 text-[#999999]">info@going2zero.com</p>
                 </div>
-                <div className="flex">
+                {/* <div className="flex">
                   <p className="font-bold">Phone:</p>
                   <p className="ml-2 text-[#999999]">(+422) 145 448 458</p>
-                </div>
+                </div> */}
                 {/* <div className="flex">
                   <p className="font-bold">Fax ID:</p>
                   <p className="ml-2">(+1) 475 475 854</p>

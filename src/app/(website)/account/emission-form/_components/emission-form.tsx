@@ -1182,8 +1182,7 @@ export default function EmissionForm({ initianData }: Props) {
                           Average Distance Travelled Per Vehicle Annually
                         </FormLabel>
                         <FormDescription>
-                          Specify whether you are using miles or kilometers in
-                          your answer
+                          Give your answer in miles
                         </FormDescription>
                         <FormControl>
                           <Input
@@ -1204,8 +1203,7 @@ export default function EmissionForm({ initianData }: Props) {
                       <FormItem>
                         <FormLabel>Annual Business Flight Distance</FormLabel>
                         <FormDescription>
-                          Specify whether you are using miles or kilometers in
-                          your answer
+                          Give your answer in miles
                         </FormDescription>
                         <FormControl>
                           <Input

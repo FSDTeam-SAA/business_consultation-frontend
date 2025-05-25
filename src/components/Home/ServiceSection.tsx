@@ -33,18 +33,9 @@ export default function ServiceSection() {
         </span>
       </div>
       <div className="mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Going 2 Zero</h1>
-        <p className="text-center text-lg font-normal text-[#595959]">
-          At Going 2 Zero, we help businesses take real action toward achieving
-          net zero. Through our innovative AI-powered platform, we provide
-          businesses with the tools to measure, track, and reduce their carbon
-          footprint. Our three-step approach—emissions tracking, personalized
-          consulting, and carbon offsetting—makes sustainability simple,
-          accessible, and effective. We believe that every business, no matter
-          its size, can play a role in fighting climate change. By staying ahead
-          of green regulations and offering tailored solutions, we empower
-          companies to make meaningful progress while unlocking opportunities
-          for growth and compliance.
+        <h1 className="mb-4 text-4xl font-bold ">Welcome to Going 2 Zero</h1>
+        <p className="text-justify text-lg font-normal text-[#595959]">
+        &apos;At Going 2 Zero, our core mission is to certify businesses on their journey to net zero-providing them with a trusted, verifiable mark of their commitment to sustainability. Through our Al-powered platform, we go beyond just measurement by helping companies achieve and maintain certified net zero status. Our three-step approach-emissions tracking, personalized consulting, and carbon offsetting-equips businesses with the tools they need to take real, measurable action against climate change. We make sustainability simple, accessible, and effective. Whether you&apos;re a small startup or a large enterprise, our tailored solutions empower you to not only meet compliance standards but also unlock new opportunities for growth and leadership in the green economy!
         </p>
       </div>
 

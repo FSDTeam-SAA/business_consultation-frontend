@@ -123,7 +123,7 @@ export default function Pricing() {
               <div className="mt-4 flex items-center">
                 <div className="text-sm text-green-500">Package</div>
                 <button
-                  onClick={() => handleBuyNow("799")}
+                  onClick={() => handleBuyNow("689")}
                   className="ml-auto rounded-md bg-green-500 px-4 py-2 text-white transition-colors hover:bg-green-600"
                 >
                   Buy Plan

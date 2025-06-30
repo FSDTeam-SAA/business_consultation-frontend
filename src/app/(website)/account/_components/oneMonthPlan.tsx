@@ -29,7 +29,7 @@ const OneMonthPlan = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            amount: 799,
+            amount: 689,
             subscriptionType: "Entry_fee",
             email: email,
           }),
@@ -120,26 +120,26 @@ const OneMonthPlan = () => {
                 <hr />
               </div>
             ))}
-            <div className="mt-3 flex justify-between pt-1">
+            {/* <div className="mt-3 flex justify-between pt-1">
               <span className="text-[#09B850]">Price</span>
               <span className="text-[20px] font-semibold">$110.00</span>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
 
         <div className="mt-4 space-y-3 text-sm">
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <span>Initial Fee</span>
             <span className="text-[18px] font-medium">$689.00</span>
-          </div>
+          </div> */}
           <div className="flex justify-between">
-            <span>Monthly Fee</span>
-            <span className="text-[18px] font-medium">$110.00</span>
+            <span> Fee</span>
+            <span className="text-[18px] font-medium">$689</span>
           </div>
           <hr />
           <div className="flex justify-between font-semibold">
             <span>Total Fee</span>
-            <span className="text-[18px] font-medium">$799.00</span>
+            <span className="text-[18px] font-medium">$689</span>
           </div>
         </div>
 

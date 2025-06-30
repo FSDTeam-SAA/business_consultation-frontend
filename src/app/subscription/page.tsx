@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import AnnualPlan from "../(website)/account/_components/annualPlan";
+// import AnnualPlan from "../(website)/account/_components/annualPlan";
 import OneMonthPlan from "../(website)/account/_components/oneMonthPlan";
 
 export default function PricingPlanPage() {
@@ -11,9 +11,9 @@ export default function PricingPlanPage() {
        <div className="px-4 md:px-0 ">
         <OneMonthPlan />
       </div>
-      <div className="px-4 md:px-0">
+      {/* <div className="px-4 md:px-0">
         <AnnualPlan />
-      </div>
+      </div> */}
      </div>
 
       {/* Fixed bottom login text */}

@@ -76,10 +76,10 @@ export default function Pricing() {
         let us assist you on your journey to becoming carbon-neutral.
       </p>
 
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid gap-8 md:grid-cols-1">
         {/* Monthly Plan */}
         <div className="flex flex-col">
-          <h2 className="mb-4 text-2xl font-bold">Monthly Plan</h2>
+          {/* <h2 className="mb-4 text-2xl font-bold">Monthly Plan</h2> */}
           <div className="mt-auto flex-1 rounded-lg bg-gray-100 p-6">
             <div className="mb-4 text-lg font-medium">Feature</div>
 
@@ -106,15 +106,15 @@ export default function Pricing() {
             </div>
 
             <div className="mt-6 flex flex-col gap-2">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <div className="text-sm text-green-500">Monthly Fee</div>
                 <div className="ml-auto">
                   <span className="align-top text-xs">$</span>
                   <span className="text-2xl font-bold">110.00</span>
                 </div>
-              </div>
+              </div> */}
               <div className="flex items-center">
-                <div className="text-sm text-green-500">Initial Fee</div>
+                <div className="text-sm text-green-500">Fee Fee</div>
                 <div className="ml-auto">
                   <span className="align-top text-xs">$</span>
                   <span className="text-2xl font-bold">689.00</span>
@@ -134,7 +134,7 @@ export default function Pricing() {
         </div>
 
         {/* Annually Plan */}
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <h2 className="mb-4 text-2xl font-bold">Annually Plan</h2>
           <div className="mt-auto flex-1 rounded-lg bg-gray-100 p-6">
             <div className="mb-4 text-lg font-medium">Feature</div>
@@ -189,7 +189,7 @@ export default function Pricing() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* <h2 className="text-2xl font-bold mb-2">Sign up now</h2>

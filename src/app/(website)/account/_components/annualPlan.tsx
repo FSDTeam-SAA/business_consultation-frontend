@@ -13,6 +13,7 @@ const AnnualPlan = () => {
   const [emailError, setEmailError] = useState("");
 
   const features = [
+    "Free 2 months with purchasing the annual plan",
     "Constant new climate updates",
     "Infinite personal email consulting",
     "Custom commitment badge",
@@ -29,7 +30,7 @@ const AnnualPlan = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            amount: 1841,
+            amount: 1789,
             subscriptionType: "Entry_fee",
             email: email,
           }),
@@ -128,20 +129,27 @@ const AnnualPlan = () => {
         </Card>
 
         <div className="mt-4 space-y-3 text-sm">
-          <div className="flex justify-between">
-            <span>Initial Fee</span>
-            <span className="text-[18px] font-medium">$689.00</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Monthly Fee</span>
-            <span className="text-[18px] font-medium">$96.00*12</span>
-          </div>
-          <hr />
-          <div className="flex justify-between font-semibold">
-            <span>Total Fee</span>
-            <span className="text-[18px] font-medium">$1,841.00</span>
-          </div>
-        </div>
+  <div className="flex justify-between">
+    <span>Initial Fee</span>
+    <span className="text-[18px] font-medium">$689.00</span>
+  </div>
+
+  <div className="flex justify-between">
+    <span>Annual Subscription</span>
+    <div className="text-right">
+      <div className="text-[14px] line-through text-gray-500">$96.00 × 12 = $1,152.00</div>
+      <div className="text-[18px] font-medium">$1,100.00 (Discounted)</div>
+    </div>
+  </div>
+
+  <hr />
+
+  <div className="flex justify-between font-semibold">
+    <span>Total Fee</span>
+    <span className="text-[18px] font-medium">$1,789.00</span>
+  </div>
+</div>
+
 
         <div className="mt-5">
           <div className="flex flex-col space-y-4">

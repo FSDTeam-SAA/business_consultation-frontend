@@ -114,7 +114,7 @@ export default function Pricing() {
                 </div>
               </div> */}
               <div className="flex items-center">
-                <div className="text-sm text-green-500">Fee Fee</div>
+                <div className="text-sm text-green-500">One time fee</div>
                 <div className="ml-auto">
                   <span className="align-top text-xs">$</span>
                   <span className="text-2xl font-bold">689.00</span>

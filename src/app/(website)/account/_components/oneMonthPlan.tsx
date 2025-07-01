@@ -133,7 +133,7 @@ const OneMonthPlan = () => {
             <span className="text-[18px] font-medium">$689.00</span>
           </div> */}
           <div className="flex justify-between">
-            <span> Fee</span>
+            <span>One time fee</span>
             <span className="text-[18px] font-medium">$689</span>
           </div>
           <hr />

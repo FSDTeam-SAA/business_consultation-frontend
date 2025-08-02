@@ -7,6 +7,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
+/**
+ * Renders the pricing page with subscription plan details and handles payment processing.
+ *
+ * Displays available plan features and pricing, manages user authentication checks, and initiates the payment checkout process. Redirects unauthenticated users to the login page and provides feedback on payment success or failure.
+ */
 export default function Pricing() {
   const [, setIsLoading] = useState(false);
   const { user } = useAuth();

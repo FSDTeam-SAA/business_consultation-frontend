@@ -4,6 +4,11 @@ import Link from "next/link";
 // import AnnualPlan from "../(website)/account/_components/annualPlan";
 import OneMonthPlan from "../(website)/account/_components/oneMonthPlan";
 
+/**
+ * Renders the pricing plan selection page with available subscription options and a login prompt.
+ *
+ * Displays the one-month plan and provides a link for users who have already completed the process to navigate to the login page.
+ */
 export default function PricingPlanPage() {
   return (
     <div className="relative mt-10  min-h-screen  items-center justify-center gap-20 md:flex-row md:gap-0">
